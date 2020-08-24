@@ -300,7 +300,7 @@ class Api3Controller extends Controller
                                 'bid_status' => $bid_status,
                                 'progress' => $project_progress,
                                 'created_at' => $date->diffForHumans(),
-                                'bids'=> $bids
+                                'bids_feed'=> $bids
                             );
                             $row['project_expired']=$project_expired;
 
