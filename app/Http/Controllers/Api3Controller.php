@@ -49,7 +49,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Closure;
 
-class Api2Controller extends Controller
+class Api3Controller extends Controller
 {
 
       /* 
