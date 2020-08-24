@@ -166,7 +166,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::get('/notify/{user_id?}', 'Api2Controller@apiNotify');
 
         // for debugging and migrate to api_v3
-        Route::get('/pending_projects/{user_id?}', 'Api2Controller@apiPendingProjects');
+        Route::get('/pending_projects/{user_id?}', 'Api3Controller@apiPendingProjects');
 
     });
 
