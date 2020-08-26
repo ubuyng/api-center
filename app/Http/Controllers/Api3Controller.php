@@ -230,15 +230,7 @@ class Api3Controller extends Controller
                 ->select('projects.id as project_id', 'projects.user_id as user_id',  'projects.project_message', 'projects.created_at', 'projects.sub_category_name','projects.status', 'projects.sub_category_id','projects.address')
                 ->orderBy('projects.id', 'desc')->get();
 
-                $bids = DB::table("project_bids")
-                ->where('project_bids.cus_id', '=', $user_id)
-                ->join('projects', 'projects.id', '=', 'project_bids.project_id')
-                ->where('projects.status', '<=', 1)
-                ->select('project_bids.id as bid_id', 'project_bids.user_id as user_id',  'project_bids.bid_message', 'project_bids.bid_amount')
-                ->orderBy('project_bids.id', 'desc')->get();
-
-                $row['bids_feed']=$bids;
-
+                
 
                 if($projects->isEmpty()){
                    $set['UBUYAPI_V2'][]=array('msg' =>'No projects found','success'=>'0');
@@ -249,6 +241,8 @@ class Api3Controller extends Controller
 
                 foreach($projects as $project){
                     // counting bids in project here
+                    $bids = ProjectBid::where('project_id','=', $project->project_id)->get();
+
                     $bid_count = count($bids);
 
                      /* chek bid status */
@@ -315,7 +309,15 @@ class Api3Controller extends Controller
                         }
                    
 
-
+                        $bids = DB::table("project_bids")
+                        ->where('project_bids.cus_id', '=', $user_id)
+                        ->join('projects', 'projects.id', '=', 'project_bids.project_id')
+                        ->where('projects.status', '<=', 1)
+                        ->select('project_bids.id as bid_id', 'project_bids.user_id as user_id',  'project_bids.bid_message', 'project_bids.bid_amount')
+                        ->orderBy('project_bids.id', 'desc')->get();
+        
+                        $row['bids_feed']=$bids;
+        
                    
                     $set['UBUYAPI_V2'] = $row;
                 }                                                                                                                                                               
