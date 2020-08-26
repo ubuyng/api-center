@@ -233,6 +233,7 @@ class Api3Controller extends Controller
                 $bids = DB::table("project_bids")
                 ->where('project_bids.cus_id', '=', $user_id)
                 ->join('projects', 'projects.id', '=', 'project_bids.project_id')
+                ->where('projects.status', '<=', 1)
                 // ->select('projects.id as project_id', 'projects.user_id as user_id',  'projects.project_message', 'projects.created_at', 'projects.sub_category_name','projects.status', 'projects.sub_category_id','projects.address')
                 ->orderBy('project_bids.id', 'desc')->get();
 
