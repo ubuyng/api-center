@@ -313,7 +313,8 @@ class Api3Controller extends Controller
                         ->where('project_bids.cus_id', '=', $user_id)
                         ->join('projects', 'projects.id', '=', 'project_bids.project_id')
                         ->where('projects.status', '<=', 1)
-                        ->select('project_bids.id as bid_id', 'project_bids.user_id as user_id',  'project_bids.bid_message', 'project_bids.bid_amount')
+                        ->join('users', 'users.id', '=', 'project_bids.user_id')
+                        ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'user.image as profile_photo', 'profile_bids.bids_status')
                         ->orderBy('project_bids.id', 'desc')->get();
         
                         $row['bids_feed']=$bids;
