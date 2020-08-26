@@ -241,7 +241,7 @@ class Api3Controller extends Controller
                     // counting bids in project here
                     $bids = ProjectBid::where('project_id','=', $project->project_id)->get();
                     $bid_count = count($bids);
-                    $row['bids_feed']=$bids_feed;
+                    $row['bids_feed']=$bids;
 
                      /* chek bid status */
                      if ($bid_count == 0) {
