@@ -316,8 +316,16 @@ class Api3Controller extends Controller
                         ->join('users', 'users.id', '=', 'project_bids.user_id')
                         ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
                         ->skip(1)->first();
+
+                        $bid_2 = DB::table("project_bids")
+                        ->where('project_bids.cus_id', '=', $user_id)
+                        ->join('projects', 'projects.id', '=', 'project_bids.project_id')
+                        ->where('projects.status', '<=', 1)
+                        ->join('users', 'users.id', '=', 'project_bids.user_id')
+                        ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
+                        ->skip(2)->first();
         
-                        $row['bids_feed']=$bid_1;
+                        $row['bids_feed']=$bid_2;
         
                    
                     $set['UBUYAPI_V2'] = $row;
