@@ -243,6 +243,52 @@ class Api3Controller extends Controller
                     // counting bids in project here
                     $bids = ProjectBid::where('project_id','=', $project->project_id)->get();
 
+                    /* now we get the latest 3 bids for the data */
+
+                    $bid_1 = DB::table("project_bids")
+                    ->where('project_bids.project_id', '=', $project->project_id)
+                    ->join('users', 'users.id', '=', 'project_bids.user_id')
+                    ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
+                    ->skip(0)->first();
+
+                    $bid_2 = DB::table("project_bids")
+                    ->where('project_bids.project_id', '=', $project->project_id)
+                    ->join('users', 'users.id', '=', 'project_bids.user_id')
+                    ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
+                    ->skip(1)->first();
+
+                    $bid_3 = DB::table("project_bids")
+                    ->where('project_bids.project_id', '=', $project->project_id)
+                    ->join('users', 'users.id', '=', 'project_bids.user_id')
+                    ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
+                    ->skip(2)->first();
+
+
+                    if ($bid_1) {
+                         
+                        if ($bid_1->profile_photo) {
+                            $bidder_1_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_1->profile_photo;
+                        }else{
+                            $bidder_1_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                        }
+                    }
+                    if ($bid_2) {
+                         
+                        if ($bid_2->profile_photo) {
+                            $bidder_2_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_2->profile_photo;
+                        }else{
+                            $bidder_2_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                        }
+                    }
+                    if ($bid_3) {
+                         
+                        if ($bid_3->profile_photo) {
+                            $bidder_3_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_3->profile_photo;
+                        }else{
+                            $bidder_3_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                        }
+                    }
+
                     $bid_count = count($bids);
 
                      /* chek bid status */
@@ -302,6 +348,9 @@ class Api3Controller extends Controller
                                 'brief' => $project->project_message,
                                 'bid_status' => $bid_status,
                                 'progress' => $project_progress,
+                                'bidder_1_image' => $bidder_1_image,
+                                'bidder_2_image' => $bidder_2_image,
+                                'bidder_3_image' => $bidder_3_image,
                                 'created_at' => $date->diffForHumans(),
                             );
                             $row['project_expired']=$project_expired;
@@ -309,25 +358,6 @@ class Api3Controller extends Controller
                         }
                    
 
-                        $bid_1 = DB::table("project_bids")
-                        ->where('project_bids.cus_id', '=', $user_id)
-                        ->join('projects', 'projects.id', '=', 'project_bids.project_id')
-                        ->where('projects.status', '<=', 1)
-                        ->join('users', 'users.id', '=', 'project_bids.user_id')
-                        ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
-                        ->skip(1)->first();
-
-                        $bid_2 = DB::table("project_bids")
-                        ->where('project_bids.cus_id', '=', $user_id)
-                        ->join('projects', 'projects.id', '=', 'project_bids.project_id')
-                        ->where('projects.status', '<=', 1)
-                        ->join('users', 'users.id', '=', 'project_bids.user_id')
-                        ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
-                        ->skip(2)->first();
-        
-                        $row['bids_feed1']=$bid_1;
-                        $row['bids_feed2']=$bid_2;
-        
                    
                     $set['UBUYAPI_V2'] = $row;
                 }                                                                                                                                                               
