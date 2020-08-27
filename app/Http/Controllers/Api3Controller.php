@@ -325,7 +325,8 @@ class Api3Controller extends Controller
                         ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
                         ->skip(2)->first();
         
-                        $row['bids_feed']=$bid_2;
+                        $row['bids_feed1']=$bid_1;
+                        $row['bids_feed2']=$bid_2;
         
                    
                     $set['UBUYAPI_V2'] = $row;
