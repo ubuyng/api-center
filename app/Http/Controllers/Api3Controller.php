@@ -271,6 +271,8 @@ class Api3Controller extends Controller
                         }else{
                             $bidder_1_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
                         }
+                    }else{
+                        $bidder_1_image = null;
                     }
                     if ($bid_2) {
                          
@@ -279,6 +281,8 @@ class Api3Controller extends Controller
                         }else{
                             $bidder_2_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
                         }
+                    }else{
+                        $bidder_2_image = null;
                     }
                     if ($bid_3) {
                          
@@ -287,6 +291,8 @@ class Api3Controller extends Controller
                         }else{
                             $bidder_3_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
                         }
+                    }else{
+                        $bidder_3_image = null;
                     }
 
                     $bid_count = count($bids);
