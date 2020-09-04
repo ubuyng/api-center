@@ -361,6 +361,8 @@ class Api3Controller extends Controller
                             );
                             $row['project_expired']=$project_expired;
 
+                        }else{
+                            $row['project_expired']=null;
                         }
                    
 
