@@ -28,6 +28,7 @@ use App\ResponseItem;
 use App\UpayTransaction;
 use App\AppFeedback;
 use App\ProjectFile;
+use App\Skill;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Authenticatable;
