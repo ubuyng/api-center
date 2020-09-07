@@ -855,7 +855,7 @@ class Api3Controller extends Controller
             $sub_id = filter_input(INPUT_GET, 'sub_id', FILTER_SANITIZE_STRING);
 
         
-            $skills = Skill::where('subcategory_id', $sub_id);
+            $skills = Skill::where('subcategory_id', $sub_id)->get();
             $set['UBUYAPI_V2'] = $skills;
             header( 'Content-Type: application/json; charset=utf-8' );
             echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
