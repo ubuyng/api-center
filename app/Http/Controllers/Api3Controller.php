@@ -849,6 +849,17 @@ class Api3Controller extends Controller
             echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
             die();
         }
+    public function SubCatSkills()
+        {
+            $sub_id = filter_input(INPUT_GET, 'sub_id', FILTER_SANITIZE_STRING);
+
+        
+            $skills = Skill::where('subcategory_id', $sub_id);
+            $set['UBUYAPI_V2'] = $skills;
+            header( 'Content-Type: application/json; charset=utf-8' );
+            echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+            die();
+        }
     public function apitxRef()
     {
             $bid_id = filter_input(INPUT_GET, 'bid_id', FILTER_SANITIZE_STRING);
