@@ -17,6 +17,7 @@ use App\JobRequest;
 use App\FavoritePro;
 use App\Rating;
 use App\Category;
+use App\State;
 use App\AppHeader;
 use App\TaskTracker;
 use App\SubCategory;
@@ -845,7 +846,21 @@ class Api3Controller extends Controller
         {
         
             $category = Category::get();
+
             $set['UBUYAPI_V2'] = $category;
+            header( 'Content-Type: application/json; charset=utf-8' );
+            echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+            die();
+        }
+    public function apiCategoriesState()
+        {
+        
+            $category = Category::get();
+            $state = State::get();
+
+            $row['category'] = $category;
+            $row['state'] = $state;
+            $set['UBUYAPI_V2'] = $row;
             header( 'Content-Type: application/json; charset=utf-8' );
             echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
             die();
