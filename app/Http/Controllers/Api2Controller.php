@@ -71,7 +71,7 @@ class Api2Controller extends Controller
        
            $row['header_slide']=$header_slide;
            $row['recommend']=$recomend;
-           $category = Category::get();
+           $category = Category::where('app_debug', 1)->get();
            $row['category']=$category;
            $row['design_web']=$design;
            $row['business']=$business;
