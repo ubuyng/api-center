@@ -873,7 +873,7 @@ class Api2Controller extends Controller
         public function seachCat(){
             $id = filter_input(INPUT_GET, 'cat_id', FILTER_SANITIZE_STRING);
 
-            $Category =  SubCategory::where('category_id','=', $id)->select('id', 'name','category_id', 'description', 'image')->get();
+            $Category =  SubCategory::where('category_id','=', $id)->select('id', 'name','category_id', 'description', 'image', 'payment_type')->get();
 
 
             $set['UBUYAPI_V2'] = $Category;
