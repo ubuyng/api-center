@@ -97,13 +97,25 @@ class Api3Controller extends Controller
         $title = filter_input(INPUT_GET, 'project_title', FILTER_SANITIZE_STRING);
 
         $user = User::find($user_id)->first();
-        $draft = [
-            'user_id' => $user_id,
-            'project_title' => $title,
-            'phone_number' => $user->number,
-            'cus_name' => $user->first_name." ".$user->last_name,
-        ];
-       $draft_data = NewProject::create($draft);
+        $has_q_draft = NewProject::where('user_id', $user_id)->where('status', 0)->first();
+
+        if ($has_q_draft) {
+            $draft = [
+                'project_title' => $title,
+            ];
+            $draft_data = NewProject::update($draft);
+
+        }else{
+            $draft = [
+                'user_id' => $user_id,
+                'project_title' => $title,
+                'phone_number' => $user->number,
+                'cus_name' => $user->first_name." ".$user->last_name,
+            ];
+
+            $draft_data = NewProject::create($draft);
+        }
+        
 
        $set['UBUYAPI_V2'][]=$draft_data;
        header( 'Content-Type: application/json; charset=utf-8' );
