@@ -103,7 +103,12 @@ class Api3Controller extends Controller
             'phone_number' => $user->number,
             'cus_name' => $user->first_name." ".$user->last_name,
         ];
-        NewProject::create($draft);
+       $draft_data = NewProject::create($draft);
+
+       $set['UBUYAPI_V2'][]=$draft_data;
+       header( 'Content-Type: application/json; charset=utf-8' );
+       echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+       die();
 
        }
 
