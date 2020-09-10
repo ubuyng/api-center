@@ -103,7 +103,8 @@ class Api3Controller extends Controller
             $draft = [
                 'project_title' => $title,
             ];
-            $draft_data = NewProject::where('user_id', $user_id)->where('status', 0)->update($draft);
+            NewProject::where('user_id', $user_id)->where('status', 0)->update($draft);
+            $draft_data = $has_q_draft;
 
         }else{
             $draft = [
@@ -117,7 +118,7 @@ class Api3Controller extends Controller
         }
         
 
-       $set['UBUYAPI_V2'][]=$draft_data;
+       $set['UBUYAPI_V2'][]=$draft_data->id;
        header( 'Content-Type: application/json; charset=utf-8' );
        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
        die();
