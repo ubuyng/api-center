@@ -118,7 +118,9 @@ class Api3Controller extends Controller
         }
         
 
-       $set['UBUYAPI_V2'][]=$draft_data->id;
+        $set['UBUYAPI_V2'][]=array(
+            'project_id' =>$draft_data->id,
+            'success'=>'1');
        header( 'Content-Type: application/json; charset=utf-8' );
        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
        die();
