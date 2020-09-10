@@ -103,7 +103,7 @@ class Api3Controller extends Controller
             $draft = [
                 'project_title' => $title,
             ];
-            $draft_data = NewProject::update($draft);
+            $draft_data = NewProject::where('user_id', $user_id)->where('status', 0)->update($draft);
 
         }else{
             $draft = [
