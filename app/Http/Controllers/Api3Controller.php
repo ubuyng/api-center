@@ -29,6 +29,7 @@ use App\ResponseItem;
 use App\UpayTransaction;
 use App\AppFeedback;
 use App\ProjectFile;
+use App\NewProject;
 use App\Skill;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -88,6 +89,22 @@ class Api3Controller extends Controller
            // header( 'Content-Type: application/json; charset=utf-8' );
            echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
            die();
+       }
+
+       /* this is a debugger to save draft tasks */
+       public function SaveDraftDebug(){
+        $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
+        $title = filter_input(INPUT_GET, 'project_title', FILTER_SANITIZE_STRING);
+
+        $user = User::find($user_id)->first();
+        $draft = [
+            'user_id' => $user_id,
+            'project_title' => $title,
+            'phone_number' => $user->number,
+            'cus_name' => $user->first_name." ".$user->last_name,
+        ];
+        NewProject::create($draft);
+
        }
 
         public function apiUpdateProfile(){
