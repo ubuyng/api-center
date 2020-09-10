@@ -23,6 +23,7 @@ class NewProject extends Model
         'pro_id',
         'pro_name',
         'cus_name',
+        'project_title',
         'project_message',
         'phone_number',
         'zip_code',
