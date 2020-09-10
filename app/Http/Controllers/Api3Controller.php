@@ -94,7 +94,7 @@ class Api3Controller extends Controller
        /* this is a debugger to save draft tasks */
        public function SaveDraftDebug(){
         $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
-     echo   $title = filter_input(INPUT_GET, 'project_title', FILTER_SANITIZE_STRING);
+        $title = filter_input(INPUT_GET, 'project_title', FILTER_SANITIZE_STRING);
 
         $user = User::find($user_id)->first();
         $draft = [
