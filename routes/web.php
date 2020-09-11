@@ -170,7 +170,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::get('/pending_projects/{user_id?}', 'Api3Controller@apiPendingProjects');
         Route::get('/skills/{sub_id?}', 'Api3Controller@SubCatSkills');
         Route::get('/savedraft/qtask/{user_id?}/{project_title?}/{skill_id?}', 'Api3Controller@SaveDraftDebug');
-        Route::get('/deleteDraft/{project_id?}/{skill_id?}', 'Api3Controller@deleteProjectSkill');
+        Route::get('/deleteDraft/{project_id?}/{skill_title?}', 'Api3Controller@deleteProjectSkill');
 
     });
 

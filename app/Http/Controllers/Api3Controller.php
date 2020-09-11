@@ -167,12 +167,12 @@ class Api3Controller extends Controller
        }
        public function deleteProjectSkill(){
             $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
-            $skill_id = filter_input(INPUT_GET, 'skill_id', FILTER_SANITIZE_STRING);
+            $skill_title = filter_input(INPUT_GET, 'skill_title', FILTER_SANITIZE_STRING);
 
-          ProjectSkill::where('project_id', $project_id)->where('skill_id', $skill_id)->delete();
+          ProjectSkill::where('project_id', $project_id)->where('skill_title', $skill_title)->delete();
             
             $set['UBUYAPI_V2'][]=array(
-                'skill_id' =>$skill_id,
+                'skill_id' =>$skill_title,
                 'success'=>'1');
         header( 'Content-Type: application/json; charset=utf-8' );
         echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
