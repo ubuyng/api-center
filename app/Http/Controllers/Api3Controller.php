@@ -169,7 +169,7 @@ class Api3Controller extends Controller
             $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
             $skill_id = filter_input(INPUT_GET, 'skill_id', FILTER_SANITIZE_STRING);
 
-          Skill::where('project_id', $project_id)->where('skill_id', $skill_id)->delete();
+          ProjectSkill::where('project_id', $project_id)->where('skill_id', $skill_id)->delete();
             
             $set['UBUYAPI_V2'][]=array(
                 'skill_id' =>$skill_id,
