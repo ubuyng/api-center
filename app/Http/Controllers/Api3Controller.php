@@ -94,75 +94,89 @@ class Api3Controller extends Controller
 
        /* this is a debugger to save draft tasks */
        public function SaveDraftDebug(){
-        $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
-        $qtitle = filter_input(INPUT_GET, 'project_title', FILTER_SANITIZE_STRING);
-        $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
-        $skill_id = filter_input(INPUT_GET, 'skill_id', FILTER_SANITIZE_STRING);
+            $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
+            $qtitle = filter_input(INPUT_GET, 'project_title', FILTER_SANITIZE_STRING);
+            $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
+            $skill_id = filter_input(INPUT_GET, 'skill_id', FILTER_SANITIZE_STRING);
 
-        $skill = Skill::where('id', $skill_id)->first();
+            $skill = Skill::where('id', $skill_id)->first();
 
-        if ($qtitle) {
-           $title = $qtitle;
-        }else{
-            $title = $skill->skill_title." draft task";
-        }
+            if ($qtitle) {
+            $title = $qtitle;
+            }else{
+                $title = $skill->skill_title." draft task";
+            }
 
-        $user = User::find($user_id)->first();
-        $has_q_draft = NewProject::where('user_id', $user_id)->where('status', 0)->first();
+            $user = User::find($user_id)->first();
+            $has_q_draft = NewProject::where('user_id', $user_id)->where('status', 0)->first();
 
-        if ($has_q_draft) {
-            $draft = [
-                'project_title' => $title,
-            ];
+            if ($has_q_draft) {
+                $draft = [
+                    'project_title' => $title,
+                ];
 
-           
-            NewProject::where('user_id', $user_id)->where('status', 0)->update($draft);
+            
+                NewProject::where('user_id', $user_id)->where('status', 0)->update($draft);
 
-            $skillData = [
-                'project_id' => $has_q_draft->id,
-                'skill_id' => $skill->id,
-                'skill_title' => $skill->skill_title,
-            ];
+                $skillData = [
+                    'project_id' => $has_q_draft->id,
+                    'skill_id' => $skill->id,
+                    'skill_title' => $skill->skill_title,
+                ];
 
-            $check_skill = ProjectSkill::where('project_id', $has_q_draft->id)->where('skill_id', $skill->id)->first();
+                $check_skill = ProjectSkill::where('project_id', $has_q_draft->id)->where('skill_id', $skill->id)->first();
 
-            if (!$check_skill) {
-                ProjectSkill::create($skillData);
+                if (!$check_skill) {
+                    ProjectSkill::create($skillData);
+                }
+                
+
+                $draft_data = $has_q_draft;
+
+            }else{
+                $draft = [
+                    'user_id' => $user_id,
+                    'project_title' => $title,
+                    'phone_number' => $user->number,
+                    'cus_name' => $user->first_name." ".$user->last_name,
+                ];
+
+                $draft_data = NewProject::create($draft);
+
+                $skillData = [
+                    'project_id' => $draft_data->id,
+                    'skill_id' => $skill->id,
+                    'skill_title' => $skill->skill_title,
+                ];
+                $check_skill = ProjectSkill::where('project_id', $draft_data->id)->where('skill_id', $skill->id)->first();
+
+                if (!$check_skill) {
+                    ProjectSkill::create($skillData);
+                }
             }
             
+            
 
-            $draft_data = $has_q_draft;
+            $set['UBUYAPI_V2'][]=array(
+                'project_id' =>$draft_data->id,
+                'success'=>'1');
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
 
-        }else{
-            $draft = [
-                'user_id' => $user_id,
-                'project_title' => $title,
-                'phone_number' => $user->number,
-                'cus_name' => $user->first_name." ".$user->last_name,
-            ];
+       }
+       public function deleteProjectSkill(){
+            $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
+            $skill_id = filter_input(INPUT_GET, 'skill_id', FILTER_SANITIZE_STRING);
 
-            $draft_data = NewProject::create($draft);
-
-            $skillData = [
-                'project_id' => $draft_data->id,
-                'skill_id' => $skill->id,
-                'skill_title' => $skill->skill_title,
-            ];
-            $check_skill = ProjectSkill::where('project_id', $draft_data->id)->where('skill_id', $skill->id)->first();
-
-            if (!$check_skill) {
-                ProjectSkill::create($skillData);
-            }
-        }
-        
-        
-
-        $set['UBUYAPI_V2'][]=array(
-            'project_id' =>$draft_data->id,
-            'success'=>'1');
-       header( 'Content-Type: application/json; charset=utf-8' );
-       echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
-       die();
+          Skill::where('project_id', $project_id)->where('skill_id', $skill_id)->delete();
+            
+            $set['UBUYAPI_V2'][]=array(
+                'skill_id' =>$skill_id,
+                'success'=>'1');
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
 
        }
 
