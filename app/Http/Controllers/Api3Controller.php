@@ -31,6 +31,7 @@ use App\AppFeedback;
 use App\ProjectFile;
 use App\NewProject;
 use App\Skill;
+use App\ProjectSkill;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -94,16 +95,36 @@ class Api3Controller extends Controller
        /* this is a debugger to save draft tasks */
        public function SaveDraftDebug(){
         $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
-        $title = filter_input(INPUT_GET, 'project_title', FILTER_SANITIZE_STRING);
+        $qtitle = filter_input(INPUT_GET, 'project_title', FILTER_SANITIZE_STRING);
+        $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
+        $skill_title = filter_input(INPUT_GET, 'skill_title', FILTER_SANITIZE_STRING);
+        $skill_id = filter_input(INPUT_GET, 'skill_id', FILTER_SANITIZE_STRING);
+
+        if ($qtitle) {
+           $title = $qtitle;
+        }else{
+            $title = $skill_title." draft task";
+        }
 
         $user = User::find($user_id)->first();
         $has_q_draft = NewProject::where('user_id', $user_id)->where('status', 0)->first();
+        $skill = Skill::where('id', $skill_id)->first();
 
         if ($has_q_draft) {
             $draft = [
                 'project_title' => $title,
             ];
+
+           
             NewProject::where('user_id', $user_id)->where('status', 0)->update($draft);
+
+            $skillData = [
+                'project_id' => $has_q_draft->id,
+                'skill_id' => $skill->id,
+                'skill_title' => $skill->skill_title,
+            ];
+            ProjectSkill::create($skillData);
+
             $draft_data = $has_q_draft;
 
         }else{
@@ -115,7 +136,15 @@ class Api3Controller extends Controller
             ];
 
             $draft_data = NewProject::create($draft);
+
+            $skillData = [
+                'project_id' => $draft_data->id,
+                'skill_id' => $skill->id,
+                'skill_title' => $skill->skill_title,
+            ];
+            ProjectSkill::create($skillData);
         }
+        
         
 
         $set['UBUYAPI_V2'][]=array(
