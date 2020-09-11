@@ -148,7 +148,7 @@ class Api3Controller extends Controller
                 'skill_id' => $skill->id,
                 'skill_title' => $skill->skill_title,
             ];
-            $check_skill = ProjectSkill::where('project_id', $has_q_draft->id)->where('skill_id', $skill->id)->first();
+            $check_skill = ProjectSkill::where('project_id', $draft_data->id)->where('skill_id', $skill->id)->first();
 
             if (!$check_skill) {
                 ProjectSkill::create($skillData);
