@@ -97,18 +97,18 @@ class Api3Controller extends Controller
         $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
         $qtitle = filter_input(INPUT_GET, 'project_title', FILTER_SANITIZE_STRING);
         $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
-        $skill_title = filter_input(INPUT_GET, 'skill_title', FILTER_SANITIZE_STRING);
         $skill_id = filter_input(INPUT_GET, 'skill_id', FILTER_SANITIZE_STRING);
+
+        $skill = Skill::where('id', $skill_id)->first();
 
         if ($qtitle) {
            $title = $qtitle;
         }else{
-            $title = $skill_title." draft task";
+            $title = $skill->skill_title." draft task";
         }
 
         $user = User::find($user_id)->first();
         $has_q_draft = NewProject::where('user_id', $user_id)->where('status', 0)->first();
-        $skill = Skill::where('id', $skill_id)->first();
 
         if ($has_q_draft) {
             $draft = [
