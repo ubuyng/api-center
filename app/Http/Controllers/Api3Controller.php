@@ -167,18 +167,53 @@ class Api3Controller extends Controller
        }
        public function debugSave(Request $request)
        {
+           /* our variables to store */
            $user_id = $request->user_id;
+        //    get user data
+           $user = User::find($user_id)->first();
+    
            $project_id = $request->project_id;
+           $task_title = $request->task_title;
            $des = $request->des;
            $budget = $request->budget;
            $cat_id = $request->cat_id;
+    
            $sub_id = $request->sub_id;
-            
+        //    get sub category data
+        $subcat = SubCategory::where('id', $sub_id)->first();
 
-           $user = User::find($user_id)->first();
+           $user_name = $user->first_name." ".$user->last_name;
+           $user_number = $user->number;
+           $pay_type = $subcat->payment_type;
+
            if($project_id){
+            $project_data = [
+                'user_id' => $user_id,
+                'project_title' => $task_title,
+                'sub_category_id' => $sub_id,
+                'phone_number' => $user_number,
+                'cus_name' => $user_name,
+                'project_message' => $des,
+                'upay_type' => $pay_type,
+            ];
 
+            
+            NewProject::where('user_id', $user_id)->where('status', 0)->update($project_data);
            }else{
+
+            $project_data = [
+                'user_id' => $user_id,
+                'project_title' => $task_title,
+                'sub_category_id' => $sub_id,
+                'phone_number' => $user_number,
+                'cus_name' => $user_name,
+                'project_message' => $des,
+                'upay_type' => $pay_type,
+            ];
+
+            $project_response_data = NewProject::create($project_data);
+
+            $project_id = $project_response_data->id;
 
            }
 
