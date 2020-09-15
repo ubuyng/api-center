@@ -167,12 +167,31 @@ class Api3Controller extends Controller
        }
        public function debugSave(Request $request)
        {
+           $user_id = $request->user_id;
+           $project_id = $request->project_id;
+           $des = $request->des;
+           $budget = $request->budget;
            $cat_id = $request->cat_id;
+           $sub_id = $request->sub_id;
             
+
+           $user = User::find($user_id)->first();
+           if($project_id){
+
+           }else{
+
+           }
+
+
            $set['UBUYAPI_V2'][]=array(
+            'user_id' =>$user_id,
+            'project_id' =>$project_id,
+            'des' =>$des,
+            'budget' =>$budget,
             'cat_id' =>$cat_id,
+            'sub_id' =>$sub_id,
             'success'=>'1');
-            
+
                 header( 'Content-Type: application/json; charset=utf-8' );
                 echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
                 die();
