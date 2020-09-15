@@ -165,6 +165,19 @@ class Api3Controller extends Controller
         die();
 
        }
+       public function debugSave(Request $request)
+       {
+           $cat_id = $request->cat_id;
+            
+           $set['UBUYAPI_V2'][]=array(
+            'cat_id' =>$cat_id,
+            'success'=>'1');
+            
+                header( 'Content-Type: application/json; charset=utf-8' );
+                echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+                die();
+
+       }
        public function deleteProjectSkill(){
             $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
             $skill_title = filter_input(INPUT_GET, 'skill_title', FILTER_SANITIZE_STRING);
