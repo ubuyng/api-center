@@ -186,7 +186,9 @@ class Api3Controller extends Controller
            $user_number = $user->number;
            $pay_type = $subcat->payment_type;
 
-           if($project_id){
+            $has_q_draft = NewProject::where('user_id', $user_id)->where('status', 0)->first();
+            
+           if($has_q_draft){
             $project_data = [
                 'user_id' => $user_id,
                 'project_title' => $task_title,
