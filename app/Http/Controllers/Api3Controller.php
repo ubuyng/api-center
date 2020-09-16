@@ -277,7 +277,7 @@ class Api3Controller extends Controller
         
         
         $projectSkill = ProjectSkill::where('project_id', $project_id)->get();
-        $row['project'] = $project;
+        // $row['project'] = $project;
         $row['project_skill'] = $projectSkill;
         $row['project_bids'] = $projectBid;
         
