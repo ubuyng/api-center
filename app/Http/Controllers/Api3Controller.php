@@ -253,7 +253,7 @@ class Api3Controller extends Controller
        public function singleProjectSB(){
         $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
 
-        $project = NewProject::where('id', $project_id)->first();
+        $projectBid = ProjectBid::where('id', $project_id)->first();
         $projectSkill = ProjectSkill::where('project_id', $project_id)->get();
 
         $row['project_skill'] = $projectSkill;
