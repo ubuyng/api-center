@@ -250,6 +250,23 @@ class Api3Controller extends Controller
 
        }
 
+       public function singleProjectSB(){
+        $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
+
+        $project = NewProject::where('id', $project_id)->first();
+        $projectSkill = ProjectSkill::where('project_id', $project_id)->get();
+
+        $row['project_skill'] = $projectSkill;
+        $row['project_bids'] = $project;
+        $set['UBUYAPI_V2'][]=$row;
+            
+            header( 'Content-Type: application/json; charset=utf-8' );
+            echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+            die();
+       }
+
+
+
         public function apiUpdateProfile(){
             
             if (isset($_GET['user_id'])  && isset($_GET['first_name'])  && isset($_GET['last_name']) && isset($_GET['email'])
