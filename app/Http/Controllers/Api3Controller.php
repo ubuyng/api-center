@@ -182,7 +182,7 @@ class Api3Controller extends Controller
            $project_data = [
             'user_id' => $user_id,
             'project_title' => $task_title,
-            'sub_category_id' => $sub_id,
+            'des' => $des,
             'budget' => $budget,
             'cat_id' => $cat_id,
             'sub_id' => $sub_id,
