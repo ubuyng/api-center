@@ -19,6 +19,7 @@ use App\Rating;
 use App\Category;
 use App\State;
 use App\AppHeader;
+use App\NewProjectBid;
 use App\TaskTracker;
 use App\SubCategory;
 use App\Conversation;
@@ -257,23 +258,29 @@ class Api3Controller extends Controller
         if($version_ == 0){
 
             $project = Project::where('id', $project_id)->first();
-            $row['project'] = $project;
+            if($project){
 
+                $projectBid = ProjectBid::where('project_id', $project_id)->get();
+            }
+            
         }elseif($version_ == 1){
-
+            
             $project = NewProject::where('id', $project_id)->first();
-            $row['project'] = $project;
+            if($project){
 
+                $projectBid = NewProjectBid::where('project_id', $project_id)->get();
+            }
+            
+            
         }
-
-        if($project){
-
-            $projectBid = ProjectBid::where('project_id', $project_id)->get();
-            $projectSkill = ProjectSkill::where('project_id', $project_id)->get();
-        }
-
+        
+        
+        
+        $projectSkill = ProjectSkill::where('project_id', $project_id)->get();
+        $row['project'] = $project;
         $row['project_skill'] = $projectSkill;
         $row['project_bids'] = $projectBid;
+        
         $set['UBUYAPI_V2'][]=$row;
             
             header( 'Content-Type: application/json; charset=utf-8' );
