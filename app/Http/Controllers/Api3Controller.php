@@ -281,7 +281,7 @@ class Api3Controller extends Controller
         $row['project_skill'] = $projectSkill;
         $row['project_bids'] = $projectBid;
         
-        $set['UBUYAPI_V2'][]=$row;
+        $set['UBUYAPI_V2']=$row;
             
             header( 'Content-Type: application/json; charset=utf-8' );
             echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
