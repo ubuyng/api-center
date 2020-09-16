@@ -172,7 +172,7 @@ class Api3Controller extends Controller
         //    get user data
            $user = User::find($user_id)->first();
     
-           $project_id = $request->project_id;
+        //    $project_id = $request->project_id;
            $task_title = $request->task_title;
            $des = $request->des;
            $budget = $request->budget;

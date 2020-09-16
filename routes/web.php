@@ -17,6 +17,10 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout' );
 
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::get('/debug-sentry', function () {
+    throw new Exception('My first Sentry error!');
+});
+
 // customers api calls starts here
 Route::group(['prefix' => 'api_v1'], function() {
     /*
