@@ -188,22 +188,38 @@ class Api3Controller extends Controller
 
             $has_q_draft = NewProject::where('user_id', $user_id)->where('status', 0)->first();
             
-           if($has_q_draft){
-            $project_data = [
-                'user_id' => $user_id,
-                'project_title' => $task_title,
-                'sub_category_id' => $sub_id,
-                'phone_number' => $user_number,
-                'cus_name' => $user_name,
-                'project_message' => $des,
-                'upay_type' => $pay_type,
-            ];
+        //    if($has_q_draft){
+        //     $project_data = [
+        //         'user_id' => $user_id,
+        //         'project_title' => $task_title,
+        //         'sub_category_id' => $sub_id,
+        //         'phone_number' => $user_number,
+        //         'cus_name' => $user_name,
+        //         'project_message' => $des,
+        //         'upay_type' => $pay_type,
+        //     ];
 
             
-            NewProject::where('user_id', $user_id)->where('status', 0)->update($project_data);
-           }else{
+        //     NewProject::where('user_id', $user_id)->where('status', 0)->update($project_data);
+        //    }else{
 
-            $project_data = [
+        //     $project_data = [
+        //         'user_id' => $user_id,
+        //         'project_title' => $task_title,
+        //         'sub_category_id' => $sub_id,
+        //         'phone_number' => $user_number,
+        //         'cus_name' => $user_name,
+        //         'project_message' => $des,
+        //         'upay_type' => $pay_type,
+        //     ];
+
+        //     $project_response_data = NewProject::create($project_data);
+
+        //     $project_id = $project_response_data->id;
+
+        //    }
+
+         $project_data = [
                 'user_id' => $user_id,
                 'project_title' => $task_title,
                 'sub_category_id' => $sub_id,
@@ -213,21 +229,8 @@ class Api3Controller extends Controller
                 'upay_type' => $pay_type,
             ];
 
-            $project_response_data = NewProject::create($project_data);
 
-            $project_id = $project_response_data->id;
-
-           }
-
-
-           $set['UBUYAPI_V2'][]=array(
-            'user_id' =>$user_id,
-            'project_id' =>$project_id,
-            'des' =>$des,
-            'budget' =>$budget,
-            'cat_id' =>$cat_id,
-            'sub_id' =>$sub_id,
-            'success'=>'1');
+           $set['UBUYAPI_V2'][]=$project_data;
 
                 header( 'Content-Type: application/json; charset=utf-8' );
                 echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
