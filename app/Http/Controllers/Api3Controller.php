@@ -199,7 +199,8 @@ class Api3Controller extends Controller
                 'upay_type' => $pay_type,
             ];
 
-            
+            $project_id = $has_q_draft->id;
+
             NewProject::where('user_id', $user_id)->where('status', 0)->update($project_data);
            }else{
 
