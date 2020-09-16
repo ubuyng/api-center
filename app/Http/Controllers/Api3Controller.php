@@ -177,6 +177,7 @@ class Api3Controller extends Controller
            $des = $request->des;
            $budget = $request->budget;
            $cat_id = $request->cat_id;
+              $sub_id = $request->sub_id;
     
            $project_data = [
             'user_id' => $user_id,
@@ -186,7 +187,6 @@ class Api3Controller extends Controller
             'cat_id' => $cat_id,
             'sub_id' => $sub_id,
         ];
-        //    $sub_id = $request->sub_id;
         // //    get sub category data
         // $subcat = SubCategory::where('id', $sub_id)->first();
 
