@@ -257,7 +257,7 @@ class Api3Controller extends Controller
         $projectSkill = ProjectSkill::where('project_id', $project_id)->get();
 
         $row['project_skill'] = $projectSkill;
-        $row['project_bids'] = $project;
+        $row['project_bids'] = $projectBid;
         $set['UBUYAPI_V2'][]=$row;
             
             header( 'Content-Type: application/json; charset=utf-8' );
