@@ -453,13 +453,13 @@ class Api3Controller extends Controller
                     ->select('new_project_bids.id as bid_id', 'new_project_bids.user_id as pro_id',  'new_project_bids.bid_message', 'new_project_bids.bid_amount', 'users.image as profile_photo', 'new_project_bids.bid_status', 'new_project_bids.project_id')
                     ->skip(0)->first();
 
-                    $bid_2 = DB::table("new_new_project_bids")
+                    $bid_2 = DB::table("new_project_bids")
                     ->where('new_project_bids.project_id', '=', $project->project_id)
                     ->join('users', 'users.id', '=', 'new_project_bids.user_id')
                     ->select('new_project_bids.id as bid_id', 'new_project_bids.user_id as pro_id',  'new_project_bids.bid_message', 'new_project_bids.bid_amount', 'users.image as profile_photo', 'new_project_bids.bid_status', 'new_project_bids.project_id')
                     ->skip(1)->first();
 
-                    $bid_3 = DB::table("new_new_project_bids")
+                    $bid_3 = DB::table("new_project_bids")
                     ->where('new_project_bids.project_id', '=', $project->project_id)
                     ->join('users', 'users.id', '=', 'new_project_bids.user_id')
                     ->select('new_project_bids.id as bid_id', 'new_project_bids.user_id as pro_id',  'new_project_bids.bid_message', 'new_project_bids.bid_amount', 'users.image as profile_photo', 'new_project_bids.bid_status', 'new_project_bids.project_id')
