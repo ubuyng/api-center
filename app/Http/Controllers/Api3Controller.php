@@ -546,7 +546,7 @@ class Api3Controller extends Controller
                 
                         // converting all data to json format
                        if ($project_progress == 2) {
-                            $project_expired[]=array(
+                            $project_pending[]=array(
                                 'project_id' => $project->project_id,
                                 'sub_category_id' => $project->sub_category_id,
                                 'user_id' => $project->user_id,
@@ -561,10 +561,10 @@ class Api3Controller extends Controller
                                 'bidder_3_image' => $bidder_3_image,
                                 'created_at' => $date->diffForHumans(),
                             );
-                            $row['project_expired']=$project_expired;
+                            $row['project_pending']=$project_pending;
 
                         }else{
-                            $row['project_expired']=null;
+                            $row['project_pending']=null;
                         }
                    
 
