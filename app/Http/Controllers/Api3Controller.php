@@ -428,9 +428,9 @@ class Api3Controller extends Controller
                 // $projects = $user->projectsSubCat->get();
 
                 $projects = DB::table("new_projects")
-                ->where('projects.user_id', '=', $user_id)
-                ->select('projects.id as project_id', 'projects.user_id as user_id',  'projects.project_message', 'projects.created_at', 'projects.sub_category_name','projects.status', 'projects.sub_category_id','projects.address')
-                ->orderBy('projects.id', 'desc')->get();
+                ->where('new_projects.user_id', '=', $user_id)
+                ->select('new_projects.id as project_id', 'new_projects.user_id as user_id',  'new_projects.project_message', 'new_projects.created_at', 'new_projects.sub_category_name','new_projects.status', 'new_projects.sub_category_id','new_projects.address')
+                ->orderBy('new_projects.id', 'desc')->get();
 
                 
 
@@ -448,21 +448,21 @@ class Api3Controller extends Controller
                     /* now we get the latest 3 bids for the data */
 
                     $bid_1 = DB::table("new_project_bids")
-                    ->where('project_bids.project_id', '=', $project->project_id)
-                    ->join('users', 'users.id', '=', 'project_bids.user_id')
-                    ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
+                    ->where('new_project_bids.project_id', '=', $project->project_id)
+                    ->join('users', 'users.id', '=', 'new_project_bids.user_id')
+                    ->select('new_project_bids.id as bid_id', 'new_project_bids.user_id as pro_id',  'new_project_bids.bid_message', 'new_project_bids.bid_amount', 'users.image as profile_photo', 'new_project_bids.bid_status', 'new_project_bids.project_id')
                     ->skip(0)->first();
 
-                    $bid_2 = DB::table("new_project_bids")
-                    ->where('project_bids.project_id', '=', $project->project_id)
-                    ->join('users', 'users.id', '=', 'project_bids.user_id')
-                    ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
+                    $bid_2 = DB::table("new_new_project_bids")
+                    ->where('new_project_bids.project_id', '=', $project->project_id)
+                    ->join('users', 'users.id', '=', 'new_project_bids.user_id')
+                    ->select('new_project_bids.id as bid_id', 'new_project_bids.user_id as pro_id',  'new_project_bids.bid_message', 'new_project_bids.bid_amount', 'users.image as profile_photo', 'new_project_bids.bid_status', 'new_project_bids.project_id')
                     ->skip(1)->first();
 
-                    $bid_3 = DB::table("new_project_bids")
-                    ->where('project_bids.project_id', '=', $project->project_id)
-                    ->join('users', 'users.id', '=', 'project_bids.user_id')
-                    ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
+                    $bid_3 = DB::table("new_new_project_bids")
+                    ->where('new_project_bids.project_id', '=', $project->project_id)
+                    ->join('users', 'users.id', '=', 'new_project_bids.user_id')
+                    ->select('new_project_bids.id as bid_id', 'new_project_bids.user_id as pro_id',  'new_project_bids.bid_message', 'new_project_bids.bid_amount', 'users.image as profile_photo', 'new_project_bids.bid_status', 'new_project_bids.project_id')
                     ->skip(2)->first();
 
 
