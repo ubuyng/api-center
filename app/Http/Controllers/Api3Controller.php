@@ -535,7 +535,6 @@ class Api3Controller extends Controller
                             'bid_count' => $bid_count,
                             'brief' => $project->project_message,
                             'bid_status' => $bid_status,
-                            'progress' => $project_progress,
                             'bidder_1_image' => $bidder_1_image,
                             'bidder_2_image' => $bidder_2_image,
                             'bidder_3_image' => $bidder_3_image,
