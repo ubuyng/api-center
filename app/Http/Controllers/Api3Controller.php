@@ -516,8 +516,50 @@ class Api3Controller extends Controller
                         $bid_status = 3;
                     }
 
-                    /* checking project status */
+                    /* now we get the top 4 skills*/
                    
+                    $skill_1 = DB::table("project_skills")
+                    ->where('project_skills.project_id', '=', $project->project_id)
+                    ->select('project_skills.skill_title')
+                    ->skip(0)->first();
+                    $skill_2 = DB::table("project_skills")
+                    ->where('project_skills.project_id', '=', $project->project_id)
+                    ->select('project_skills.skill_title')
+                    ->skip(1)->first();
+                    $skill_3 = DB::table("project_skills")
+                    ->where('project_skills.project_id', '=', $project->project_id)
+                    ->select('project_skills.skill_title')
+                    ->skip(2)->first();
+                    $skill_4 = DB::table("project_skills")
+                    ->where('project_skills.project_id', '=', $project->project_id)
+                    ->select('project_skills.skill_title')
+                    ->skip(3)->first();
+
+
+                    if ($skill_1) {
+                         
+                        $project_skill_1 = $skill_1->skill_title;
+                    }else{
+                        $project_skill_1 = null;
+                    }
+                    if ($skill_2) {
+                         
+                        $project_skill_2 = $skill_2->skill_title;
+                    }else{
+                        $project_skill_2 = null;
+                    }
+                    if ($skill_3) {
+                         
+                        $project_skill_3 = $skill_3->skill_title;
+                    }else{
+                        $project_skill_3 = null;
+                    }
+                    if ($skill_4) {
+                         
+                        $project_skill_4 = $skill_4->skill_title;
+                    }else{
+                        $project_skill_4 = null;
+                    }
                    
 
                     // using carbon to make date readable
@@ -532,10 +574,15 @@ class Api3Controller extends Controller
                             'address' => $project->address,
                             'bid_count' => $bid_count,
                             'brief' => $project->project_message,
+                            'budget' => $project->budget,
                             'bid_status' => $bid_status,
                             'bidder_1_image' => $bidder_1_image,
                             'bidder_2_image' => $bidder_2_image,
                             'bidder_3_image' => $bidder_3_image,
+                            'project_skill_1' => $project_skill_1,
+                            'project_skill_2' => $project_skill_2,
+                            'project_skill_3' => $project_skill_3,
+                            'project_skill_4' => $project_skill_4,
                             'created_at' => $date->diffForHumans(),
                         );
                         $row['v3_project_pending']=$v3_project_pending;
