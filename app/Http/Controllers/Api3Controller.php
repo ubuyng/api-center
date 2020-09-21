@@ -430,7 +430,7 @@ class Api3Controller extends Controller
                 $v3_projects = DB::table("new_projects") 
                 ->where('new_projects.user_id', '=', $user_id)
                 ->where('new_projects.status', '=', 1)
-                ->select('new_projects.id as project_id', 'new_projects.user_id as user_id',  'new_projects.project_message', 'new_projects.created_at', 'new_projects.sub_category_name','new_projects.status', 'new_projects.sub_category_id','new_projects.address')
+                ->select('new_projects.id as project_id', 'new_projects.user_id as user_id',  'new_projects.project_message', 'new_projects.created_at', 'new_projects.sub_category_name','new_projects.status', 'new_projects.sub_category_id','new_projects.address', 'new_projects.budget')
                 ->orderBy('new_projects.id', 'desc')->get();
                 
                 /* 
