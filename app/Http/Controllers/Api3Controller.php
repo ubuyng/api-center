@@ -519,54 +519,29 @@ class Api3Controller extends Controller
                     }
 
                     /* checking project status */
-                    // check if the project is older than 30 days
-                    $mainDate = new \DateTime($project->created_at);
-                    $now = new \DateTime();
-                    if($mainDate->diff($now)->days > 30 && $project->status != 3) {
-                        // expired and not completed
-                        $project_progress = 2;
-                    }elseif($mainDate->diff($now)->days > 30 && $project->status == 3){
-                        // expired and completed
-                        $project_progress = 1;
-                    }elseif ($project->status == 3) {
-                        // completed
-                        $project_progress = 1;
-                    }elseif ($mainDate->diff($now)->days < 30 && $project->status == 3) {
-                        // not expired and completed
-                        $project_progress = 1;
-                    }elseif ($mainDate->diff($now)->days < 30 && $project->status != 3) {
-                        // not expired and not completed
-                        $project_progress = 0;
-                    }else {
-                        $project_progress = 0;
-                    }
+                   
                    
 
                     // using carbon to make date readable
                         $date = Carbon::parse($project->created_at); // now date is a carbon instance
                 
                         // converting all data to json format
-                       if ($project_progress == 2) {
-                            $project_pending[]=array(
-                                'project_id' => $project->project_id,
-                                'sub_category_id' => $project->sub_category_id,
-                                'user_id' => $project->user_id,
-                                'sub_category_name' => $project->sub_category_name,
-                                'address' => $project->address,
-                                'bid_count' => $bid_count,
-                                'brief' => $project->project_message,
-                                'bid_status' => $bid_status,
-                                'progress' => $project_progress,
-                                'bidder_1_image' => $bidder_1_image,
-                                'bidder_2_image' => $bidder_2_image,
-                                'bidder_3_image' => $bidder_3_image,
-                                'created_at' => $date->diffForHumans(),
-                            );
-                            $row['project_pending']=$project_pending;
-
-                        }else{
-                            $row['project_pending']=null;
-                        }
+                        $project_pending[]=array(
+                            'project_id' => $project->project_id,
+                            'sub_category_id' => $project->sub_category_id,
+                            'user_id' => $project->user_id,
+                            'sub_category_name' => $project->sub_category_name,
+                            'address' => $project->address,
+                            'bid_count' => $bid_count,
+                            'brief' => $project->project_message,
+                            'bid_status' => $bid_status,
+                            'progress' => $project_progress,
+                            'bidder_1_image' => $bidder_1_image,
+                            'bidder_2_image' => $bidder_2_image,
+                            'bidder_3_image' => $bidder_3_image,
+                            'created_at' => $date->diffForHumans(),
+                        );
+                        $row['project_pending']=$project_pending;
                    
 
                    
