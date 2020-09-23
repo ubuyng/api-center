@@ -2125,7 +2125,7 @@ public function apiStoreMessage()
 
                     /* now we declare the row data for the pros services api*/
                     $services = DB::table("services")
-                    ->where('services.user_id', '=', $user_id)
+                    ->where('services.user_id', '=', $user->id)
                     ->join('sub_categories', 'sub_categories.id', '=', 'services.id')
                     ->select('sub_categories.name', 'sub_categories.image', 'sub_categories.id as id')->get();
 
@@ -2133,14 +2133,14 @@ public function apiStoreMessage()
 
                     /* now we declare the row data for the pros reviews api*/
                     $ratings = DB::table("ratings")
-                    ->where('ratings.pro_id', '=', $user_id)
+                    ->where('ratings.pro_id', '=', $user->id)
                     ->join('users', 'users.id', '=', 'ratings.cus_id')
                     ->select('ratings.comment', 'ratings.rate_title', 'ratings.id as id', 'ratings.cus_name', 'users.image')->get();
 
                     $row['pro_ratings'][] = $ratings;
 
                     /* now we declare the row data for the pros portfolio api*/
-                    $portfolios = DB::table("pro_galleries")->where('pro_galleries.user_id', '=', $user_id)->get();
+                    $portfolios = DB::table("pro_galleries")->where('pro_galleries.user_id', '=', $user->id)->get();
 
                     foreach ($portfolios as $portfolio) {
                         $comment_count = DB::table('gallery_comments')->where('feed_id', '=', $protfolio->id)->count();
