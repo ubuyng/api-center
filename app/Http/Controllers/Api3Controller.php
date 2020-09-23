@@ -2117,9 +2117,9 @@ public function apiStoreMessage()
                         'pro_name' =>  $profile->business_name,
                         'pro_city' => $profile->pro_city,
                         'task_done' => $task_done,
-                        'email_check' => $email_check,
-                        'number_check' => $number_check,
-                        'id_check' => $id_check,
+                        'badge_email' => $email_check,
+                        'badge_number' => $number_check,
+                        'badge_id' => $id_check,
                         'pro_joined' => $date->diffForHumans(),
                     ); 
 
@@ -2131,9 +2131,9 @@ public function apiStoreMessage()
 
                     foreach ($services as $service) {
                         $row['pro_services'][] = array(
-                            'id' => $service->id,
-                            'name' => $service->name,
-                            'image' => 'https://ubuy.ng/uploads/backend/'.$service->image,
+                            'service_id' => $service->id,
+                            'service_name' => $service->name,
+                            'service_image' => 'https://ubuy.ng/uploads/backend/'.$service->image,
                         );
                     }
                     
@@ -2154,7 +2154,7 @@ public function apiStoreMessage()
                         $likes_count = DB::table('gallery_likes')->where('feed_id', '=', $portfolio->id)->count();
                         
                         $row['pro_portfolio'][] = array(
-                            'id' => $portfolio->id,
+                            'portfolio_id' => $portfolio->id,
                             'portfolio_title' => $portfolio->title,
                             'portfolio_file' => 'https://ubuy.ng/uploads/images/galleries/'.$portfolio->file,
                             'portfolio_likes' => $likes_count,
