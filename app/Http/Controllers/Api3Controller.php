@@ -2129,7 +2129,14 @@ public function apiStoreMessage()
                     ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_category_id')
                     ->select('sub_categories.name', 'sub_categories.image', 'sub_categories.id as id')->get();
 
-                    $row['pro_services'][] = $services;
+                    foreach ($services as $service) {
+                        $row['pro_services'][] = array(
+                            'id' => $service->id,
+                            'name' => $service->name,
+                            'image' => 'https://ubuy.ng/uploads/backend/'.$service->image,
+                        );
+                    }
+                    
 
                     /* now we declare the row data for the pros reviews api*/
                     $ratings = DB::table("ratings")
