@@ -584,6 +584,7 @@ class Api3Controller extends Controller
                             'project_skill_2' => $project_skill_2,
                             'project_skill_3' => $project_skill_3,
                             'project_skill_4' => $project_skill_4,
+                            'p_version' => 1,
                             'created_at' => $date->diffForHumans(),
                         );
                         $row['v3_project_pending']=$v3_project_pending;
@@ -734,6 +735,7 @@ class Api3Controller extends Controller
                             'bidder_1_image' => $bidder_1_image,
                             'bidder_2_image' => $bidder_2_image,
                             'bidder_3_image' => $bidder_3_image,
+                            'p_version' => 0,
                             'created_at' => $date->diffForHumans(),
                          );
                          $row['v2_project_pending']=$v2_project_pending;
