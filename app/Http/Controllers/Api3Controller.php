@@ -2126,7 +2126,7 @@ public function apiStoreMessage()
                     /* now we declare the row data for the pros services api*/
                     $services = DB::table("services")
                     ->where('services.user_id', '=', $user->id)
-                    ->join('sub_categories', 'sub_categories.id', '=', 'services.id')
+                    ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_category_id')
                     ->select('sub_categories.name', 'sub_categories.image', 'sub_categories.id as id')->get();
 
                     $row['pro_services'][] = $services;
