@@ -2081,7 +2081,7 @@ public function apiStoreMessage()
                      ->where('bid_status', '=', 2)
                      ->count();
 
-                     $task_done = $task_done__v2 + $task_done_v3;
+                     $task_done = $task_done__v2 + $task_done__v3;
                      $joined_Date = $date = Carbon::parse($user->created_at); // now date is a carbon instance
                      /* here we check the verification of the pro */
                      $email_checker = $user->email_verify_code;
