@@ -2142,18 +2142,18 @@ public function apiStoreMessage()
                     /* now we declare the row data for the pros portfolio api*/
                     $portfolios = DB::table("pro_galleries")->where('pro_galleries.user_id', '=', $user_id)->get();
 
-                    // foreach ($portfolios as $portfolio) {
-                    //     $comment_count = DB::table('gallery_comments')->where('feed_id', '=', $protfolio->id)->count();
-                    //     $likes_count = DB::table('gallery_likes')->where('feed_id', '=', $protfolio->id)->count();
+                    foreach ($portfolios as $portfolio) {
+                        $comment_count = DB::table('gallery_comments')->where('feed_id', '=', $protfolio->id)->count();
+                        $likes_count = DB::table('gallery_likes')->where('feed_id', '=', $protfolio->id)->count();
                         
-                    //     $row['pro_portfolio'][] = array(
-                    //         'id' => $portfolio->id,
-                    //         'portfolio_title' => $portfolio->title,
-                    //         'portfolio_file' => 'https://ubuy.ng/uploads/images/galleries/'.$portfolio->file,
-                    //         'portfolio_likes' => $likes_count,
-                    //         'portfolio_comments' => $comment_count,
-                    //     );
-                    // }
+                        $row['pro_portfolio'][] = array(
+                            'id' => $portfolio->id,
+                            'portfolio_title' => $portfolio->title,
+                            'portfolio_file' => 'https://ubuy.ng/uploads/images/galleries/'.$portfolio->file,
+                            'portfolio_likes' => $likes_count,
+                            'portfolio_comments' => $comment_count,
+                        );
+                    }
 
                     $set['UBUYAPI_V2'] = $row;
                     
@@ -2165,7 +2165,10 @@ public function apiStoreMessage()
                 $set['UBUYAPI_V2'][]=array('msg' =>'This profile does not have a valid profile registered','success'=>'0');
         
              }
-        }
+        }else {
+            $set['UBUYAPI_V2'][]=array('msg' =>'Terror getting bid please \n check your querry','success'=>'0');
+    
+         }
 
    
 
