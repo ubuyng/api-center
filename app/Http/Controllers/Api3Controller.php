@@ -2120,7 +2120,7 @@ public function apiStoreMessage()
                         'email_check' => $email_check,
                         'number_check' => $number_check,
                         'id_check' => $id_check,
-                        'pro_joined' => $ate->diffForHumans(),
+                        'pro_joined' => $date->diffForHumans(),
                     ); 
 
                     /* now we declare the row data for the pros services api*/
