@@ -2043,50 +2043,131 @@ public function apiStoreMessage()
    }
 
 
-   public function proBidProfile()
+   public function BidProfile()
    {
-    $id = filter_input(INPUT_GET, 'pro_id', FILTER_SANITIZE_STRING);
+    $bid_id = filter_input(INPUT_GET, 'bid_id', FILTER_SANITIZE_STRING);
+    $version_ = filter_input(INPUT_GET, 'version_', FILTER_SANITIZE_STRING);
 
-        $user = User::find($id);
-    if ($user) {
-        $profile = Profile::where('user_id',$user->id)->first();
+    if($version_ == 0){
 
-        $profile_image = null;
+        $bid = ProjectBid::where('id', $bid_id)->first();
+    }elseif($version_ == 1){
+        
+        $bid = NewProjectBid::where('id', $bid_id)->first();
+    }
 
-        if ($profile != null) {
-              
+        if ($bid) {
+            $user = User::find($bid->user_id);
+            if ($user) {
+                $profile = Profile::where('user_id',$user->id)->first();
+        
+                $profile_image = null;
+        
+                if ($profile != null) {
+                      
+        
+        
+                    if ($profile_image == null) {
+                        // check if the pro has a user image instead
+                        $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
+                        if($profile_image == null)  {
+                            $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                        }
+                    }
+                    $task_done__v2 = ProjectBid::where('user_id', $user->id)
+                     ->where('bid_status', '=', 2)
+                     ->count();
+                    $task_done__v3 = NewProjectBid::where('user_id', $user->id)
+                     ->where('bid_status', '=', 2)
+                     ->count();
 
+                     $task_done = $task_done__v2 + $task_done_v3;
+                     $joined_Date = $date = Carbon::parse($user->created_at); // now date is a carbon instance
+                     /* here we check the verification of the pro */
+                     $email_checker = $user->email_verify_code;
+                     $number_checker =  $user->number_verify_code;
+                     $id_checker = $user->verify_confirm;
+                     
+                    //  declare email status
+                     if ($email_checker) {
+                         $email_check = 1;
+                     }else{
+                         $email_check = 0;
+                     }
 
-            if ($profile_image == null) {
-                // check if the pro has a user image instead
-                $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
-                if($profile_image == null)  {
-                    $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-                }
-            }
-            $task_done = ProjectBid::where('user_id', $user->id)
-             ->where('bid_status', '=', 2)
-             ->count();
+                    //  declare number status
+                     if ($number_checker) {
+                         $number_check = 1;
+                     }else{
+                         $number_check = 0;
+                     }
 
-            // sending final data to the api
-            
-            $set['UBUYAPI_V2'][]=array(
+                    //  declare id status
+                     if ($id_checker == 2) {
+                         $id_check = 1;
+                     }else{
+                         $id_check = 0;
+                     }
+
+                    /* now we declare the row data for the pros profile api */
+                    $row['pro_profile'][]=array(
+                                
+                        'pro_id' =>  $user->id,
+                        'pro_image' => $profile_image,
+                        'pro_name' =>  $profile->business_name,
+                        'pro_city' => $profile->pro_city,
+                        'task_done' => $task_done,
+                        'email_check' => $email_check,
+                        'number_check' => $number_check,
+                        'id_check' => $id_check,
+                        'pro_joined' => $ate->diffForHumans(),
+                    ); 
+
+                    /* now we declare the row data for the pros services api*/
+                    $services = DB::table("services")
+                    ->where('services.user_id', '=', $user_id)
+                    ->join('sub_categories', 'sub_categories.id', '=', 'services.id')
+                    ->select('sub_categories.name', 'sub_categories.image', 'sub_categories.id as id')->get();
+
+                    $row['pro_services'][] = $services;
+
+                    /* now we declare the row data for the pros reviews api*/
+                    $ratings = DB::table("ratings")
+                    ->where('ratings.pro_id', '=', $user_id)
+                    ->join('users', 'users.id', '=', 'ratings.cus_id')
+                    ->select('ratings.comment', 'ratings.rate_title', 'ratings.id as id', 'ratings.cus_name', 'users.image')->get();
+
+                    $row['pro_ratings'][] = $ratings;
+
+                    /* now we declare the row data for the pros portfolio api*/
+                    $portfolios = DB::table("pro_galleries")->where('pro_galleries.user_id', '=', $user_id)->get();
+
+                    foreach ($portfolios as $portfolio) {
+                        $comment_count = DB::table('gallery_comments')->where('feed_id', '=', $protfolio->id)->count();
+                        $likes_count = DB::table('gallery_likes')->where('feed_id', '=', $protfolio->id)->count();
                         
-                'pro_id' =>  $user->id,
-                'pro_image' => $profile_image,
-                'pro_name' =>  $profile->business_name,
-                'pro_city' => $profile->pro_city,
-                'task_done' => $task_done,
-            ); 
-            
-            }else {
-                $set['UBUYAPI_V2'][]=array('msg' =>'This is a customer account or this pro has not setup a business profile','success'=>'0');
+                        $row['pro_portfolio'][] = array(
+                            'id' => $portfolio->id,
+                            'portfolio_title' => $portfolio->title,
+                            'portfolio_file' => 'https://ubuy.ng/uploads/images/galleries/'.$portfolio->file,
+                            'portfolio_likes' => $likes_count,
+                            'portfolio_comments' => $comment_count,
+                        );
+                    }
 
+                    $set['UBUYAPI_V2'] = $row;
+                    
+                    }else {
+                        $set['UBUYAPI_V2'][]=array('msg' =>'This is a customer account or this pro has not setup a business profile','success'=>'0');
+        
+                }
+             }else {
+                $set['UBUYAPI_V2'][]=array('msg' =>'This profile does not have a valid profile registered','success'=>'0');
+        
+             }
         }
-     }else {
-        $set['UBUYAPI_V2'][]=array('msg' =>'This profile does not have a valid profile registered','success'=>'0');
 
-     }
+   
 
      header( 'Content-Type: application/json; charset=utf-8' );
      echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));

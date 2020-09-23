@@ -177,6 +177,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::get('/deleteDraft/{project_id?}/{skill_title?}', 'Api3Controller@deleteProjectSkill');
         Route::Post('/post/debug/task', 'Api3Controller@debugSave');
         Route::get('/single/project/v3/{project_id?}/{version_?}', 'Api3Controller@singleProjectSB');
+        Route::get('/single/bid/profile/{bid_id?}/{version_?}', 'Api3Controller@BidProfile');
     });
 
     Route::group(['prefix' => 'auth'], function() {
