@@ -2143,8 +2143,8 @@ public function apiStoreMessage()
                     $portfolios = DB::table("pro_galleries")->where('pro_galleries.user_id', '=', $user->id)->get();
 
                     foreach ($portfolios as $portfolio) {
-                        $comment_count = DB::table('gallery_comments')->where('feed_id', '=', $protfolio->id)->count();
-                        $likes_count = DB::table('gallery_likes')->where('feed_id', '=', $protfolio->id)->count();
+                        $comment_count = DB::table('gallery_comments')->where('feed_id', '=', $portfolio->id)->count();
+                        $likes_count = DB::table('gallery_likes')->where('feed_id', '=', $portfolio->id)->count();
                         
                         $row['pro_portfolio'][] = array(
                             'id' => $portfolio->id,
