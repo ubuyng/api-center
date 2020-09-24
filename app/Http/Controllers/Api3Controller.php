@@ -2141,12 +2141,12 @@ public function apiStoreMessage()
                     
 
                     /* now we declare the row data for the pros reviews api*/
-                    $ratings = DB::table("ratings")
-                    ->where('ratings.pro_id', '=', $user->id)
-                    ->join('users', 'users.id', '=', 'ratings.cus_id')
-                    ->select('ratings.comment', 'ratings.rate_title', 'ratings.id as id', 'ratings.cus_name', 'users.image')->get();
+                    // $ratings = DB::table("ratings")
+                    // ->where('ratings.pro_id', '=', $user->id)
+                    // ->join('users', 'users.id', '=', 'ratings.cus_id')
+                    // ->select('ratings.comment', 'ratings.rate_title', 'ratings.id as id', 'ratings.cus_name', 'users.image')->get();
 
-                    $row['pro_ratings'][] = $ratings;
+                    // $row['pro_ratings'][] = $ratings;
 
                     /* now we declare the row data for the pros portfolio api*/
                     $portfolios = DB::table("pro_galleries")->where('pro_galleries.user_id', '=', $user->id)->get();
