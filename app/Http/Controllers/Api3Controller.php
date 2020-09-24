@@ -279,7 +279,32 @@ class Api3Controller extends Controller
         $projectSkill = ProjectSkill::where('project_id', $project_id)->get();
         // $row['project'] = $project;
         $row['project_skill'] = $projectSkill;
-        $row['project_bids'] = $projectBid;
+
+        /* loop for bids */
+        foreach($projectBid as $bid){
+            $bidder = User::where('id',$bid->user_id)->first();
+
+            $date = Carbon::parse($bid->created_at); // now date is a carbon instance
+
+            if ($bidder->image) {
+                $bidder_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bidder->image;
+            }else{
+                $bidder_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+            }
+
+            $row['project_bids'][] = array(
+                'bid_id' => $bid->id,
+                'pro_id' => $bidder->id,
+                'bid_message' => $bid->bid_message,
+                'bid_amount' => $bid->bid_amount,
+                'bid_status' => $bid->status,
+                'bid_date' => $date->diffForHuman(),
+                'pro_name' => $bidder->first_name.' '.$bidder->last_name,
+                'profile_photo' => $bidder_image,
+                'version_' => $bid->version_,
+            );
+
+        }
         
         $set['UBUYAPI_V2']=$row;
             
