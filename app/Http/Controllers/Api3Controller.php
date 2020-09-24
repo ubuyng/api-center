@@ -298,9 +298,11 @@ class Api3Controller extends Controller
                 'bid_message' => $bid->bid_message,
                 'bid_amount' => $bid->bid_amount,
                 'bid_status' => $bid->status,
+                'project_id' => $bid->project_id,
                 'created_at' => $date->diffForHumans(),
                 'pro_name' => $bidder->first_name.' '.$bidder->last_name,
                 'profile_photo' => $bidder_image,
+                'bid_status' => $bid->bid_status,
                 'version_' => $bid->version_,
             );
 
