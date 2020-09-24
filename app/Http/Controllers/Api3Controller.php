@@ -302,7 +302,9 @@ class Api3Controller extends Controller
                 'created_at' => $date->diffForHumans(),
                 'pro_name' => $bidder->first_name.' '.$bidder->last_name,
                 'profile_photo' => $bidder_image,
-                'bid_status' => $bid->bid_status,
+                'material_fee' => $bid->material_fee,
+                'service_fee' => $bid->service_fee,
+                'bid_type' => $bid->bid_type,
                 'version_' => $bid->version_,
             );
 
