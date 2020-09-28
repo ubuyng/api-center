@@ -2158,6 +2158,7 @@ public function apiStoreMessage()
                         'badge_email' => $email_check,
                         'badge_number' => $number_check,
                         'badge_id' => $id_check,
+                        'user_verified' => $user_verified,
                         'pro_joined' => $date->diffForHumans(),
                     ); 
 
