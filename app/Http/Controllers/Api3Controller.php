@@ -2140,6 +2140,13 @@ public function apiStoreMessage()
                          $id_check = 0;
                      }
 
+                    //  check if all the 
+                    if($id_checker && $number_checker && $email_checker){
+                        $user_verified = 1;
+                    }else{
+                        $user_verified = 0;
+                    }
+
                     /* now we declare the row data for the pros profile api */
                     $row['pro_profile'][]=array(
                                 
@@ -2204,7 +2211,7 @@ public function apiStoreMessage()
         
              }
         }else {
-            $set['UBUYAPI_V2'][]=array('msg' =>'Terror getting bid please \n check your querry','success'=>'0');
+            $set['UBUYAPI_V2'][]=array('msg' =>'Error getting bid please \n check your querry','success'=>'0');
     
          }
 
