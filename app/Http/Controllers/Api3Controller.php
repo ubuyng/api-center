@@ -841,31 +841,31 @@ class Api3Controller extends Controller
                     // // using carbon to make date readable
                         $started_date = Carbon::parse($project->started_at); // now date is a carbon instance
                         $duration = '+'.$selected_pro->bid_duration.' days';
-                        $d_date =   Carbon::parse(date('Y-m-d', strtotime($duration, strtotime($project->started_at))));
+                        $deadline_date =   Carbon::parse(date('Y-m-d', strtotime($duration, strtotime($project->started_at))));
 
-                    echo $d_date->diffForHumans();
                 
                         // converting all data to json format
-                    //     $v3_project_pending[]=array(
-                    //         'project_id' => $project->id,
-                    //         'sub_category_id' => $project->sub_category_id,
-                    //         'user_id' => $project->user_id,
-                    //         'sub_category_name' => $project->sub_category_name,
-                    //         'project_title' => $project->project_title,
-                    //         'address' => $project->address,
-                    //         'brief' => $project->project_message,
-                    //         'task_amount' => $project->task_amount,
-                    //         'bid_status' => $bid_status,
-                    //         'selected_pro_image' => $selected_pro_image,
-                    //         'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
-                    //         'p_version' => 1,
-                    //         'created_at' => $date->diffForHumans(),
-                    //     );
-                    //     $row['v3_project_pending']=$v3_project_pending;
+                        $v3_project_pending[]=array(
+                            'project_id' => $project->id,
+                            'sub_category_id' => $project->sub_category_id,
+                            'user_id' => $project->user_id,
+                            'sub_category_name' => $project->sub_category_name,
+                            'project_title' => $project->project_title,
+                            'address' => $project->address,
+                            'brief' => $project->project_message,
+                            'task_amount' => $selected_pro->bid_amount,
+                            'task_status' => $project->status,
+                            'selected_pro_image' => $selected_pro_image,
+                            'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
+                            'p_version' => 1,
+                            'started_at' => $started_date->diffForHumans(),
+                            'deadline_at' => $deadline_date->diffForHumans(),
+                        );
+                        $row['v3_project_pending']=$v3_project_pending;
                    
 
                    
-                    // $set['UBUYAPI_V2'] = $row;
+                    $set['UBUYAPI_V2'] = $row;
                 }                                                                                                                                                               
             } elseif($v3_projects->isEmpty()){
                 $v3_checker = null;
@@ -1026,9 +1026,9 @@ class Api3Controller extends Controller
 
         }
         
-        // header( 'Content-Type: application/json; charset=utf-8' );
-        // echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
-        // die();
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
     }
 }
 // bids api
