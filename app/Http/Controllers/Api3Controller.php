@@ -816,7 +816,7 @@ class Api3Controller extends Controller
                     /* now we get the latest 3 bids for the data */
 
                     $selected_pro = DB::table("new_project_bids")
-                    ->where('new_project_bids.project_id', '=', $project-id)
+                    ->where('new_project_bids.project_id', '=', $project->id)
                     ->where('new_project_bids.bid_status', '=', 2)
                     ->join('users', 'users.id', '=', 'new_project_bids.user_id')
                     ->select('new_project_bids.id as bid_id', 'new_project_bids.user_id as pro_id',  'new_project_bids.bid_message', 'new_project_bids.bid_duration', 'new_project_bids.bid_amount', 'users.image as profile_photo', 'users.first_name', 'users.last_name', 'new_project_bids.bid_status', 'new_project_bids.project_id')
@@ -839,11 +839,11 @@ class Api3Controller extends Controller
 
 
                     // // using carbon to make date readable
-                    //     $started_date = Carbon::parse($project->started_at); // now date is a carbon instance
-                    //     $duration = '+'.$selected_pro->bid_duration.' days';
-                    //  echo   $d_date =  date('Y-m-d', strtotime($duration, strtotime($started_date)));
+                        $started_date = Carbon::parse($project->started_at); // now date is a carbon instance
+                        $duration = '+'.$selected_pro->bid_duration.' days';
+                     echo   $d_date =  date('Y-m-d', strtotime($duration, strtotime($started_date)));
 
-                    echo $project->id;
+                    // echo $project->id;
                 
                         // converting all data to json format
                         $v3_project_pending[]=array(
