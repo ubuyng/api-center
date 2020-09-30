@@ -846,27 +846,26 @@ class Api3Controller extends Controller
                     // echo $project->id;
                 
                         // converting all data to json format
-                        $v3_project_pending[]=array(
-                            'project_id' => $project->id,
-                            'sub_category_id' => $project->sub_category_id,
-                            'user_id' => $project->user_id,
-                            'sub_category_name' => $project->sub_category_name,
-                            'project_title' => $project->project_title,
-                            'address' => $project->address,
-                            'bid_count' => $bid_count,
-                            'brief' => $project->project_message,
-                            'task_amount' => $project->task_amount,
-                            'bid_status' => $bid_status,
-                            'selected_pro_image' => $selected_pro_image,
-                            'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
-                            'p_version' => 1,
-                            'created_at' => $date->diffForHumans(),
-                        );
-                        $row['v3_project_pending']=$v3_project_pending;
+                    //     $v3_project_pending[]=array(
+                    //         'project_id' => $project->id,
+                    //         'sub_category_id' => $project->sub_category_id,
+                    //         'user_id' => $project->user_id,
+                    //         'sub_category_name' => $project->sub_category_name,
+                    //         'project_title' => $project->project_title,
+                    //         'address' => $project->address,
+                    //         'brief' => $project->project_message,
+                    //         'task_amount' => $project->task_amount,
+                    //         'bid_status' => $bid_status,
+                    //         'selected_pro_image' => $selected_pro_image,
+                    //         'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
+                    //         'p_version' => 1,
+                    //         'created_at' => $date->diffForHumans(),
+                    //     );
+                    //     $row['v3_project_pending']=$v3_project_pending;
                    
 
                    
-                    $set['UBUYAPI_V2'] = $row;
+                    // $set['UBUYAPI_V2'] = $row;
                 }                                                                                                                                                               
             } elseif($v3_projects->isEmpty()){
                 $v3_checker = null;
