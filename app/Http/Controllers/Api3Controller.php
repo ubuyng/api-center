@@ -877,151 +877,82 @@ class Api3Controller extends Controller
              }
 
 
-            //  $v2_projects = DB::table("projects")
-            //  ->where('projects.user_id', '=', $user_id)
-            //  ->where('projects.status', '=', 2)
-            //  ->select('projects.id as project_id', 'projects.user_id as user_id',  'projects.project_message', 'projects.created_at', 'projects.sub_category_name','projects.status', 'projects.sub_category_id','projects.address')
-            //  ->orderBy('projects.id', 'desc')->get();
+             $v2_projects = DB::table("projects")
+             ->where('projects.user_id', '=', $user_id)
+             ->where('projects.status', '=', 2)
+             ->orderBy('projects.id', 'desc')->get();
 
-            //  if($v2_projects->isEmpty()){
-            //      $v2_checker = null;
-            //     $set['UBUYAPI_V2'][]=array('msg' =>'No v2 projects found','success'=>'0');
-
-
-            //  }
-        //  else if($v2_projects){
-
-        //     $v2_checker = true;
-        //      foreach($v2_projects as $project){
-        //          // counting bids in project here
-        //          $bids = ProjectBid::where('project_id','=', $project->project_id)->get();
-
-        //          /* now we get the latest 3 bids for the data */
-
-        //          $bid_1 = DB::table("project_bids")
-        //          ->where('project_bids.project_id', '=', $project->project_id)
-        //          ->join('users', 'users.id', '=', 'project_bids.user_id')
-        //          ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
-        //          ->skip(0)->first();
-
-        //          $bid_2 = DB::table("project_bids")
-        //          ->where('project_bids.project_id', '=', $project->project_id)
-        //          ->join('users', 'users.id', '=', 'project_bids.user_id')
-        //          ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
-        //          ->skip(1)->first();
-
-        //          $bid_3 = DB::table("project_bids")
-        //          ->where('project_bids.project_id', '=', $project->project_id)
-        //          ->join('users', 'users.id', '=', 'project_bids.user_id')
-        //          ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
-        //          ->skip(2)->first();
+             if($v2_projects->isEmpty()){
+                 $v2_checker = null;
+                $set['UBUYAPI_V2'][]=array('msg' =>'No v2 projects found','success'=>'0');
 
 
-        //          if ($bid_1) {
-                      
-        //              if ($bid_1->profile_photo) {
-        //                  $bidder_1_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_1->profile_photo;
-        //              }else{
-        //                  $bidder_1_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-        //              }
-        //          }else{
-        //              $bidder_1_image = null;
-        //          }
-        //          if ($bid_2) {
-                      
-        //              if ($bid_2->profile_photo) {
-        //                  $bidder_2_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_2->profile_photo;
-        //              }else{
-        //                  $bidder_2_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-        //              }
-        //          }else{
-        //              $bidder_2_image = null;
-        //          }
-        //          if ($bid_3) {
-                      
-        //              if ($bid_3->profile_photo) {
-        //                  $bidder_3_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_3->profile_photo;
-        //              }else{
-        //                  $bidder_3_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-        //              }
-        //          }else{
-        //              $bidder_3_image = null;
-        //          }
+             }
+         else if($v2_projects){
+
+            $v2_checker = true;
+             foreach($v2_projects as $project){
+
+                  /* now we get the latest 3 bids for the data */
+
+                  $selected_pro = DB::table("project_bids")
+                  ->where('project_bids.project_id', '=', $project->id)
+                  ->where('project_bids.bid_status', '=', 2)
+                  ->join('users', 'users.id', '=', 'project_bids.user_id')
+                  ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_duration', 'project_bids.bid_amount', 'users.image as profile_photo', 'users.first_name', 'users.last_name', 'project_bids.bid_status', 'project_bids.project_id')
+                  ->first();
+
+              
 
 
-        //          $bid_count = count($bids);
+                  if ($selected_pro) {
+                       
+                      if ($selected_pro->profile_photo) {
+                          $selected_pro_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$selected_pro->profile_photo;
+                      }else{
+                          $selected_pro_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                      }
+                  }else{
+                      $selected_pro_image = null;
+                  }
+                  
 
-        //           /* chek bid status */
-        //           if ($bid_count == 0) {
-        //              //  awaiting bids
-        //              $bid_status = 0;
-        //          }elseif ($bid_count >= 1 && $project->status == 2) {
-        //              // selected pro
-        //              $bid_status = 4;
-        //          }elseif ($bid_count >= 1 && $project->status != 3) {
-        //              // receiving bids
-        //              $bid_status = 1;
-        //          }elseif ($bid_count >= 1 && $project->status == 3) {
-        //              // completed project
-        //              $bid_status = 2;
-        //          }elseif ($bid_count >= 0 && $project->status == 4) {
-        //              // paused project
-        //              $bid_status = 3;
-        //          }
 
-        //          /* checking project status */
-        //          // check if the project is older than 30 days
-        //          $mainDate = new \DateTime($project->created_at);
-        //          $now = new \DateTime();
-        //          if($mainDate->diff($now)->days > 30 && $project->status != 3) {
-        //              // expired and not completed
-        //              $project_progress = 2;
-        //          }elseif($mainDate->diff($now)->days > 30 && $project->status == 3){
-        //              // expired and completed
-        //              $project_progress = 1;
-        //          }elseif ($project->status == 3) {
-        //              // completed
-        //              $project_progress = 1;
-        //          }elseif ($mainDate->diff($now)->days < 30 && $project->status == 3) {
-        //              // not expired and completed
-        //              $project_progress = 1;
-        //          }elseif ($mainDate->diff($now)->days < 30 && $project->status != 3) {
-        //              // not expired and not completed
-        //              $project_progress = 0;
-        //          }else {
-        //              $project_progress = 0;
-        //          }
-                
+                  // // using carbon to make date readable
+                      $started_date = Carbon::parse($project->started_at); // now date is a carbon instance
+                      $duration = '+'.$selected_pro->bid_duration.' days';
+                      $deadline_date =   Carbon::parse(date('Y-m-d', strtotime($duration, strtotime($project->started_at))));
 
-        //          // using carbon to make date readable
-        //              $date = Carbon::parse($project->created_at); // now date is a carbon instance
+
+                 // using carbon to make date readable
+                     $date = Carbon::parse($project->created_at); // now date is a carbon instance
              
-        //              // converting all data to json format
-        //              if ($project_progress == 0) {
-        //                 $v2_project_pending[]=array(
-        //                     'project_id' => $project->project_id,
-        //                     'sub_category_id' => $project->sub_category_id,
-        //                     'user_id' => $project->user_id,
-        //                     'sub_category_name' => $project->sub_category_name,
-        //                     'address' => $project->address,
-        //                     'bid_count' => $bid_count,
-        //                     'brief' => $project->project_message,
-        //                     'bid_status' => $bid_status,
-        //                     'bidder_1_image' => $bidder_1_image,
-        //                     'bidder_2_image' => $bidder_2_image,
-        //                     'bidder_3_image' => $bidder_3_image,
-        //                     'p_version' => 0,
-        //                     'created_at' => $date->diffForHumans(),
-        //                  );
-        //                  $row['v2_project_pending']=$v2_project_pending;
-        //              }
+                     // converting all data to json format
+                     if ($project_progress == 0) {
+                        $v2_project_pending[]=array(
+                            'project_id' => $project->id,
+                            'sub_category_id' => $project->sub_category_id,
+                            'user_id' => $project->user_id,
+                            'sub_category_name' => $project->sub_category_name,
+                            'address' => $project->address,
+                            'brief' => $project->project_message,
+                            'task_amount' => $selected_pro->bid_amount,
+                            'task_status' => $project->status,
+                            'selected_pro_image' => $selected_pro_image,
+                            'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
+                            'p_version' => 0,
+                            'started_at' => $started_date->diffForHumans(),
+                            'deadline_at' => $deadline_date->diffForHumans(),
+                         );
+                         $row['v2_project_pending']=$v2_project_pending;
+                     }
                 
 
 
                 
-        //          $set['UBUYAPI_V2'] = $row;
-        //      }                                                                                                                                                               
-        //  } 
+                 $set['UBUYAPI_V2'] = $row;
+             }                                                                                                                                                               
+         } 
 
 
         }
