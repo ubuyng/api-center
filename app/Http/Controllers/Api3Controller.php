@@ -912,40 +912,45 @@ class Api3Controller extends Controller
                       }else{
                           $selected_pro_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
                       }
+
+
+
+                      
+                  // // using carbon to make date readable
+                  $started_date = Carbon::parse($project->started_at); // now date is a carbon instance
+                  $duration = '+'.$selected_pro->bid_duration.' days';
+                  $deadline_date =   Carbon::parse(date('Y-m-d', strtotime($duration, strtotime($project->started_at))));
+
+
+             // using carbon to make date readable
+                 $date = Carbon::parse($project->created_at); // now date is a carbon instance
+         
+                 // converting all data to json format
+                 if ($project_progress == 0) {
+                    $v2_project_pending[]=array(
+                        'project_id' => $project->id,
+                        'sub_category_id' => $project->sub_category_id,
+                        'user_id' => $project->user_id,
+                        'sub_category_name' => $project->sub_category_name,
+                        'address' => $project->address,
+                        'brief' => $project->project_message,
+                        'task_amount' => $selected_pro->bid_amount,
+                        'task_status' => $project->status,
+                        'selected_pro_image' => $selected_pro_image,
+                        'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
+                        'p_version' => 0,
+                        'started_at' => $started_date->diffForHumans(),
+                        'deadline_at' => $deadline_date->diffForHumans(),
+                     );
+                     $row['v2_project_pending']=$v2_project_pending;
+                 }
+                 
                   }else{
                       $selected_pro_image = null;
                   }
                   
 
 
-                  // // using carbon to make date readable
-                      $started_date = Carbon::parse($project->started_at); // now date is a carbon instance
-                      $duration = '+'.$selected_pro->bid_duration.' days';
-                      $deadline_date =   Carbon::parse(date('Y-m-d', strtotime($duration, strtotime($project->started_at))));
-
-
-                 // using carbon to make date readable
-                     $date = Carbon::parse($project->created_at); // now date is a carbon instance
-             
-                     // converting all data to json format
-                     if ($project_progress == 0) {
-                        $v2_project_pending[]=array(
-                            'project_id' => $project->id,
-                            'sub_category_id' => $project->sub_category_id,
-                            'user_id' => $project->user_id,
-                            'sub_category_name' => $project->sub_category_name,
-                            'address' => $project->address,
-                            'brief' => $project->project_message,
-                            'task_amount' => $selected_pro->bid_amount,
-                            'task_status' => $project->status,
-                            'selected_pro_image' => $selected_pro_image,
-                            'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
-                            'p_version' => 0,
-                            'started_at' => $started_date->diffForHumans(),
-                            'deadline_at' => $deadline_date->diffForHumans(),
-                         );
-                         $row['v2_project_pending']=$v2_project_pending;
-                     }
                 
 
 
