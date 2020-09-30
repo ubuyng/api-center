@@ -172,6 +172,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         // for debugging and migrate to api_v3
         Route::get('/post/cats_state', 'Api3Controller@apiCategoriesState');
         Route::get('/pending_projects/{user_id?}', 'Api3Controller@apiPendingProjects');
+        Route::get('/inprogress_projects/{user_id?}', 'Api3Controller@apInProgressProjects');
         Route::get('/skills/{sub_id?}', 'Api3Controller@SubCatSkills');
         Route::get('/savedraft/qtask/{user_id?}/{project_title?}/{skill_id?}', 'Api3Controller@SaveDraftDebug');
         Route::get('/deleteDraft/{project_id?}/{skill_title?}', 'Api3Controller@deleteProjectSkill');
