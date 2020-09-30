@@ -799,11 +799,11 @@ class Api3Controller extends Controller
                 }else if($user){
                 // $projects = $user->projectsSubCat->get();
 
-                $v3_projects = DB::table("new_projects") 
+            dd($v3_projects = DB::table("new_projects") 
                 ->where('new_projects.user_id', '=', $user_id)
                 ->where('new_projects.status', '=', 2)
                 ->select('new_projects.id as project_id', 'new_projects.user_id as user_id',  'new_projects.project_message', 'new_projects.created_at', 'new_projects.sub_category_name','new_projects.status', 'new_projects.sub_category_id','new_projects.address', 'new_projects.budget', 'new_projects.project_title')
-                ->orderBy('new_projects.id', 'desc')->get();
+                ->orderBy('new_projects.id', 'desc')->get());
                 
                 /* 
                 here we check if v3 projects are on db and display them else 
