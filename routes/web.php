@@ -182,7 +182,7 @@ Route::group(['prefix' => 'api_v2'], function() {
 
         Route::group(['prefix' => 'safetytoolkit'], function () {
             Route::get('project/{project_id?}/{bid_id?}', 'Api3Controller@SingleProjectSafety');
-            Route::get('project/sendalert/{project_id?}/{bid_id?}', 'Api3Controller@AlertProjectSafety');
+            Route::get('task/sendalert/{project_id?}/{bid_id?}', 'Api3Controller@AlertProjectSafety');
         });
     });
 

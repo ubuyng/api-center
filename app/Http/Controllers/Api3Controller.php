@@ -1000,6 +1000,7 @@ public function AlertProjectSafety()
 
     $toolkit = SafetyLog::where('project_id', $project_id)->where('bid_id', $bid_id)->first();
 
+    /* TODO:: here we send a responds to slack */
     if ($toolkit) {
         $date = date('m/d/Y h:i:s a', time());
 
