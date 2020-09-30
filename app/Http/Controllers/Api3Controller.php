@@ -971,6 +971,7 @@ class Api3Controller extends Controller
 * This would have all callbacks for the safety toolkit which includes all reports and logs
 *
 */
+// get a single project toolkit
         public function SingleProjectSafety()
         {
             $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
@@ -988,8 +989,39 @@ class Api3Controller extends Controller
             echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
             die();
 
-            // ProjectSkill::create($skillData);
         }
+
+//  send an alert to the server
+
+public function AlertProjectSafety()
+{
+    $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
+    $bid_id = filter_input(INPUT_GET, 'bid_id', FILTER_SANITIZE_STRING);
+
+    $toolkit = SafetyLog::where('project_id', $project_id)->where('bid_id', $bid_id)->first();
+
+    if ($toolkit) {
+        $date = date('m/d/Y h:i:s a', time());
+
+        $toolkit->update(['cus_alert_at' => $date]);
+
+        $set['UBUYAPI_V2'][]=array(
+            'msg' =>'An Alert has been sent to Ubuy.',
+             'success'=>'0'
+            );
+    }else{
+        $set['UBUYAPI_V2'][]=array(
+            'msg' =>'Safety toolkit is not activated in this task',
+             'success'=>'0'
+            );
+    }
+
+    header( 'Content-Type: application/json; charset=utf-8' );
+    echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+    die();
+
+}
+
 
 /* Safety ends here */
 // bids api
