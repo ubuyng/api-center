@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SafetyLogs extends Model
+class SafetyLog extends Model
 {
     protected $guarded = [];
     public $timestamps = false;

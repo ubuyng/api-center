@@ -33,7 +33,7 @@ use App\ProjectFile;
 use App\NewProject;
 use App\Skill;
 use App\ProjectSkill;
-use App\SafetyLogs;
+use App\SafetyLog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Authenticatable;
