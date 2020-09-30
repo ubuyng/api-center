@@ -1023,6 +1023,37 @@ public function AlertProjectSafety()
 
 }
 
+/* send an alert when the user calls 112 */
+public function CallAlertProjectSafety()
+{
+    $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
+    $bid_id = filter_input(INPUT_GET, 'bid_id', FILTER_SANITIZE_STRING);
+
+    $toolkit = SafetyLog::where('project_id', $project_id)->where('bid_id', $bid_id)->first();
+
+    /* TODO:: here we send a responds to slack */
+    if ($toolkit) {
+        $date = date('m/d/Y h:i:s a', time());
+
+        $toolkit->update(['cus_911_at' => $date]);
+
+        $set['UBUYAPI_V2'][]=array(
+            'msg' =>'An Alert has been sent to Ubuy.',
+             'success'=>'0'
+            );
+    }else{
+        $set['UBUYAPI_V2'][]=array(
+            'msg' =>'Safety toolkit is not activated in this task',
+             'success'=>'0'
+            );
+    }
+
+    header( 'Content-Type: application/json; charset=utf-8' );
+    echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+    die();
+
+}
+
 
 /* Safety ends here */
 // bids api

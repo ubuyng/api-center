@@ -181,8 +181,9 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::get('/single/bid/profile/{bid_id?}/{version_?}', 'Api3Controller@BidProfile');
 
         Route::group(['prefix' => 'safetytoolkit'], function () {
-            Route::get('project/{project_id?}/{bid_id?}', 'Api3Controller@SingleProjectSafety');
-            Route::get('task/sendalert/{project_id?}/{bid_id?}', 'Api3Controller@AlertProjectSafety');
+            Route::get('project/save/{project_id?}/{bid_id?}', 'Api3Controller@SingleProjectSafety');
+            Route::get('project/sendalert/{project_id?}/{bid_id?}', 'Api3Controller@AlertProjectSafety');
+            Route::get('project/sendCallalert/{project_id?}/{bid_id?}', 'Api3Controller@CallAlertProjectSafety');
         });
     });
 
