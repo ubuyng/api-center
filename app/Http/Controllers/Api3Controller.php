@@ -33,6 +33,7 @@ use App\ProjectFile;
 use App\NewProject;
 use App\Skill;
 use App\ProjectSkill;
+use App\SafetyLogs;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -962,8 +963,35 @@ class Api3Controller extends Controller
         header( 'Content-Type: application/json; charset=utf-8' );
         echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
         die();
-    }
+        }
 }
+
+/* Here we start the api for safety toolkit 
+*
+* This would have all callbacks for the safety toolkit which includes all reports and logs
+*
+*/
+        public function SingleProjectSafety()
+        {
+            $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
+            $bid_id = filter_input(INPUT_GET, 'bid_id', FILTER_SANITIZE_STRING);
+
+            $toolkit = SafetyLog::where('project_id', $project_id)->where('bid_id', $bid_id)->first();
+
+            if ($toolkit) {
+                $set['UBUYAPI_V2'] = $toolkit;
+            }else{
+                $set['UBUYAPI_V2'][]=array('msg' =>'Safety toolkit is not activated in this task', 'success'=>'0');
+            }
+
+            header( 'Content-Type: application/json; charset=utf-8' );
+            echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+            die();
+
+            // ProjectSkill::create($skillData);
+        }
+
+/* Safety ends here */
 // bids api
     public function apiProjectBids()
         {
