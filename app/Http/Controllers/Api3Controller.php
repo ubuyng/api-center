@@ -841,11 +841,12 @@ class Api3Controller extends Controller
                     
 
 
-                    // using carbon to make date readable
-                        $started_date = Carbon::parse($project->started_at); // now date is a carbon instance
-                        $duration = '+'.$selected_pro->bid_duration.' days';
-                     echo   $d_date =  date('Y-m-d', strtotime($duration, strtotime($started_date)));
+                    // // using carbon to make date readable
+                    //     $started_date = Carbon::parse($project->started_at); // now date is a carbon instance
+                    //     $duration = '+'.$selected_pro->bid_duration.' days';
+                    //  echo   $d_date =  date('Y-m-d', strtotime($duration, strtotime($started_date)));
 
+                    echo $project->id;
                 
                         // converting all data to json format
                         $v3_project_pending[]=array(
