@@ -1074,14 +1074,14 @@ public function CallAlertProjectSafety()
 
         $has_disputes = Dispute::where('disputed_by', $user_id)->where('project_id', $project_id)->where('status', 0)->first();
         
-        if(!$has_disputes){
+        if($has_disputes != null){
 
             $project = NewProject::where('id', $project_id)->first();
             $task_ref = $project->unique_ref_id;
             $pro_id = $project->pro_id;
             $disputed_by = $user_id;
 
-            $dispute = [
+            $data = [
                 'project_ref_id' => $task_ref,
                 'project_id' => $project_id,
                 'cus_id' => $user_id,
@@ -1092,7 +1092,9 @@ public function CallAlertProjectSafety()
                 'category_id' => $cat_id,
             ];
 
-            Dispute::create($dispute);
+         $dispute =    Dispute::create($data);
+
+            $set['UBUYAPI_V2'][]= $dispute;
 
         }else{
             $set['UBUYAPI_V2'][]=array(
