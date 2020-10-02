@@ -34,6 +34,7 @@ use App\NewProject;
 use App\Skill;
 use App\ProjectSkill;
 use App\SafetyLog;
+use App\Dispute;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -1056,6 +1057,85 @@ public function CallAlertProjectSafety()
 
 
 /* Safety ends here */
+
+    /* HERE WE START WORKING  ON DISPUT RESOLUTION
+    *
+    * THIS WOULD HANDLE ALL RESPONDS
+    *
+    */
+
+    public function DisputeAddRecord(){
+
+        $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
+        $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
+        $bid_id = filter_input(INPUT_GET, 'bid_id', FILTER_SANITIZE_STRING);
+        $description = filter_input(INPUT_GET, 'description', FILTER_SANITIZE_STRING);
+        $cat_id = filter_input(INPUT_GET, 'cat_id', FILTER_SANITIZE_STRING);
+
+        $has_disputes = Dispute::where('disputed_by', $user_id)->where('project_id', $project_id)->where('status', 0)->first();
+        
+        if(!$has_disputes){
+
+            $project = NewProject::where('id', $project_id)->first();
+            $task_ref = $project->unique_ref_id;
+            $pro_id = $project->pro_id;
+            $disputed_by = $user_id;
+
+            $dispute = [
+                'project_ref_id' => $task_ref,
+                'project_id' => $project_id,
+                'cus_id' => $user_id,
+                'bid_id' => $bid_id,
+                'pro_id' => $pro_id,
+                'description' => $description,
+                'category_id' => $category_id,
+            ];
+
+            Dispute::create($dispute);
+
+        }else{
+            $set['UBUYAPI_V2'][]=array(
+                'msg' => "You've opened a previous dispute for this task.",
+                 'success'=>'0'
+                );
+        }
+
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+    
+    }
+
+    public function DisputeUnResolved(){
+
+        $disputes = Dispute::where('disputed_by', $user_id)->where('status', 0)->get();
+        
+        if($disputes){
+            foreach($disputes as $dispute){
+                $date = Carbon::parse($dispute->created_at); // now date is a carbon instance
+                $set['UBUYAPI_V2'][] = array(
+                    'id' => $disputes->id,
+                    'dispute_des' => $disputes->description,
+                    'dispute_cat' => $disputes->cat,
+                    'dispute_task' => $disputes->cat,
+                    'dispute_date' => $date->diffForHumans(),
+                   
+                );
+            }
+        }else{
+            $set['UBUYAPI_V2'][]=array(
+                'msg' =>'No Disputes found',
+                 'success'=>'0'
+                );
+        }
+
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+    
+    }
+
+/* disputes ends here */
 // bids api
     public function apiProjectBids()
         {

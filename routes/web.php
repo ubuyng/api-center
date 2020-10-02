@@ -185,6 +185,10 @@ Route::group(['prefix' => 'api_v2'], function() {
             Route::get('project/send_alert/{project_id?}/{bid_id?}', 'Api3Controller@AlertProjectSafety');
             Route::get('project/send_callalert/{project_id?}/{bid_id?}', 'Api3Controller@CallAlertProjectSafety');
         });
+        Route::group(['prefix' => 'disputes'], function () {
+            Route::get('log/save/{project_id?}/{bid_id?}/{user_id?}/{description?}/{cat_id}', 'Api3Controller@DisputeAddRecord');
+           
+        });
     });
 
     Route::group(['prefix' => 'auth'], function() {
