@@ -1088,6 +1088,7 @@ public function CallAlertProjectSafety()
                 'bid_id' => $bid_id,
                 'pro_id' => $pro_id,
                 'description' => $description,
+                'disputed_by' => $disputed_by,
                 'category_id' => $cat_id,
             ];
 
