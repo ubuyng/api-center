@@ -1074,34 +1074,33 @@ public function CallAlertProjectSafety()
 
         $has_disputes = Dispute::where('disputed_by', $user_id)->where('project_id', $project_id)->where('status', 0)->first();
         
-        $dispute_checker = $has_disputes->id;
-        if(!$dispute_checker){
+        if($has_disputes){
 
-            $project = NewProject::where('id', $project_id)->first();
-            $task_ref = $project->unique_ref_id;
-            $pro_id = $project->pro_id;
-            $disputed_by = $user_id;
-
-            $data = [
-                'project_ref_id' => $task_ref,
-                'project_id' => $project_id,
-                'cus_id' => $user_id,
-                'bid_id' => $bid_id,
-                'pro_id' => $pro_id,
-                'description' => $description,
-                'disputed_by' => $disputed_by,
-                'category_id' => $cat_id,
-            ];
-
-         $dispute =    Dispute::create($data);
-
-            $set['UBUYAPI_V2'][]= $dispute;
-
-        }else{
             $set['UBUYAPI_V2'][]=array(
                 'msg' => "You've opened a previous dispute for this task.",
                  'success'=>'0'
-                );
+                );     
+        }else{
+              $project = NewProject::where('id', $project_id)->first();
+                $task_ref = $project->unique_ref_id;
+                $pro_id = $project->pro_id;
+                $disputed_by = $user_id;
+    
+                $data = [
+                    'project_ref_id' => $task_ref,
+                    'project_id' => $project_id,
+                    'cus_id' => $user_id,
+                    'bid_id' => $bid_id,
+                    'pro_id' => $pro_id,
+                    'description' => $description,
+                    'disputed_by' => $disputed_by,
+                    'category_id' => $cat_id,
+                ];
+    
+             $dispute =    Dispute::create($data);
+    
+                $set['UBUYAPI_V2'][]= $dispute;
+    
         }
 
         header( 'Content-Type: application/json; charset=utf-8' );
