@@ -1074,7 +1074,7 @@ public function CallAlertProjectSafety()
 
         $has_disputes = Dispute::where('disputed_by', $user_id)->where('project_id', $project_id)->where('status', 0)->first();
         
-        if($has_disputes != null){
+        if($has_disputes == null){
 
             $project = NewProject::where('id', $project_id)->first();
             $task_ref = $project->unique_ref_id;
