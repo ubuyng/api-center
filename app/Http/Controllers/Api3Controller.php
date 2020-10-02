@@ -1088,7 +1088,7 @@ public function CallAlertProjectSafety()
                 'bid_id' => $bid_id,
                 'pro_id' => $pro_id,
                 'description' => $description,
-                'category_id' => $category_id,
+                'category_id' => $cat_id,
             ];
 
             Dispute::create($dispute);
