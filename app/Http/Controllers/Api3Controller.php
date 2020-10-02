@@ -1092,7 +1092,7 @@ public function CallAlertProjectSafety()
                 'category_id' => $cat_id,
             ];
 
-            Dispute::save($data);
+            Dispute::create($data);
             $checker = Dispute::where('disputed_by', $user_id)->where('project_id', $project_id)->where('status', 0)->first();    
 
             $set['UBUYAPI_V2'][]= "test";
