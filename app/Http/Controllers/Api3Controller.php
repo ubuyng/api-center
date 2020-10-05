@@ -1154,8 +1154,9 @@ public function CallAlertProjectSafety()
       if ($request->hasFile('file')){
           $image = $request->file('file');
           $file = $request->file('file');
-
-          $valid_extensions = ['jpg','jpeg','png',];
+          
+          $valid_extensions = ['jpg','jpeg','png', 'gif', 'docx', 'pdf', 'txt', 'doc', 'xls', 'xlsx', 'ppt', 'pptx', 'xml', 'zip'];
+          $files_extensions = ['docx', 'pdf', 'txt', 'doc', 'xls', 'xlsx', 'ppt', 'pptx', 'xml', 'zip'];
           $image_extensions = ['jpg','jpeg','png'];
           $doc_extensions = ['docx','doc'];
           $pdf_extensions = ['pdf'];
