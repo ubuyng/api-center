@@ -1113,6 +1113,42 @@ public function CallAlertProjectSafety()
     
     }
 
+    public function DisputeCatTask(){
+        $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
+
+        $cats = DisputeCategory::get();
+
+        foreach($cats as $cat){
+            $row['categories'] = array(
+                'id' => $cat->id,
+                'name' => $cat->name,
+            );
+        }
+                    Route::get('/get/dispute/cat/{user_id?}', 'Api3Controller@DisputeCatTask');
+        $projects = NewProject::where('user_id', $user_id)->get();
+
+        if($projects){
+            
+        foreach($projects as $project){
+            $row['projects'] = array(
+                'project_id' => $project->id,
+                'project_title' => $project->project_title,
+            );
+        }
+        }else{
+            $row['projeccts'] = array(
+                'msg' => 'No projects found',
+                'success' => 0,
+            );
+        }
+
+        $set['UBUYAPI_V2'] = $row;
+
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+    }
+
     public function DisputeUnResolved(){
 
         $disputes = Dispute::where('disputed_by', $user_id)->where('status', 0)->get();
