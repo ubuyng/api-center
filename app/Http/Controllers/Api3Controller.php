@@ -1092,8 +1092,8 @@ public function CallAlertProjectSafety()
                 'category_id' => $cat_id,
             ];
 
-            Dispute::create($data);
-            $checker = Dispute::where('disputed_by', $user_id)->where('project_id', $project_id)->where('status', 0)->first();    
+         $dispute =   Dispute::create($data);
+               
 
             $set['UBUYAPI_V2'][]= "test";
   
@@ -1140,6 +1140,149 @@ public function CallAlertProjectSafety()
         die();
     
     }
+
+    
+  public function saveDisputeFile (Request $request)
+  {
+    $project_id = $request->project_id;
+    $user_id = $request->user_id;
+    $dispute_id = $request->dispute_id;
+    
+
+      $thumbnail = null;
+      if ($request->hasFile('file')){
+          $image = $request->file('file');
+          $file = $request->file('file');
+
+          $valid_extensions = ['jpg','jpeg','png',];
+          $image_extensions = ['jpg','jpeg','png'];
+          $doc_extensions = ['docx','doc'];
+          $pdf_extensions = ['pdf'];
+          $excel_extensions = ['xls', 'xlsx'];
+          $ppt_extensions = ['ppt', 'pptx',];
+          $zip_extensions = ['zip',];
+          $other_extensions = ['xml', 'txt'];
+           /* @TODO: check if the item is an image */
+
+           if (in_array(strtolower($image->getClientOriginalExtension()), $image_extensions)) {
+
+            if ( ! in_array(strtolower($image->getClientOriginalExtension()), $valid_extensions) ){
+                return redirect()->back()->withInput($request->input())->with('error', "'jpg','jpeg','png', 'gif', 'docx', 'pdf', 'txt', 'doc', 'xls', 'xlsx', 'ppt', 'pptx', 'xml', 'zip' files is allowed") ;
+            }
+            $file_base_name = str_replace('.'.$image->getClientOriginalExtension(), '', $image->getClientOriginalName());
+            if (in_array(strtolower($image->getClientOriginalExtension()), $image_extensions)) {
+                 $resized_thumb = Image::make($image)->resize(512, 512)->stream();
+            }else {
+              $resized_thumb = '512';
+            }
+  
+          //   echo   $resized_thumb;
+            $thumbnail = strtolower(str_slug($file_base_name)).'.' . $image->getClientOriginalExtension();
+  
+            $thumbnailPath = '/uploads/project_files/'.$project_id.'/'.$thumbnail;
+  
+            try{
+              if (in_array(strtolower($image->getClientOriginalExtension()), $image_extensions)) {
+                Storage::disk('public')->put($thumbnailPath, $resized_thumb->__toString());
+              }else{
+                  Storage::disk('public')->put($thumbnailPath, $resized_thumb);
+  
+              }
+            } catch (\Exception $e){
+              echo $e->getMessage();
+                return redirect()->back()->withInput($request->input())->with('error', $e->getMessage()) ;
+            }
+        }
+      elseif(in_array(strtolower($file->getClientOriginalExtension()), $files_extensions)) {
+  
+          if ( ! in_array(strtolower($file->getClientOriginalExtension()), $files_extensions) ){
+              return redirect()->back()->withInput($request->input())->with('error', "'docx', 'pdf', 'txt', 'doc', 'xls', 'xlsx', 'ppt', 'pptx', 'xml', 'zip' files is allowed") ;
+          }
+          $file_base_name = str_replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName());
+  
+           //   echo   $resized_thumb;
+           $main_file = strtolower(str_slug($file_base_name)).'.' . $file->getClientOriginalExtension();
+  
+           $filePath = 'public/project_files/'.$project_id.'/'.$main_file;
+  
+           try{
+             if (in_array(strtolower($file->getClientOriginalExtension()), $files_extensions)) {
+              Storage::disk('public')->put($filePath, file_get_contents($file));
+              
+              
+              //  Storage::disk('public')->put($filePath, $resized_thumb->__toString());
+          }else{
+              Storage::disk('public')->put($filePath, file_get_contents($file));
+  
+             }
+           } catch (\Exception $e){
+             echo $e->getMessage();
+               return redirect()->back()->withInput($request->input())->with('error', $e->getMessage()) ;
+           }
+  
+      }
+      }
+  
+        /* @TODO: file check ends here */
+
+      if (in_array(strtolower($image->getClientOriginalExtension()), $image_extensions)) {
+        $file_type = 'Image';
+        }
+        elseif (in_array(strtolower($image->getClientOriginalExtension()), $doc_extensions)) {
+            $file_type = 'Doc';
+        }
+        elseif (in_array(strtolower($image->getClientOriginalExtension()), $pdf_extensions)) {
+            $file_type = 'Pdf';
+        }
+        elseif (in_array(strtolower($image->getClientOriginalExtension()), $excel_extensions)) {
+            $file_type = 'Excel';
+        }
+        elseif (in_array(strtolower($image->getClientOriginalExtension()), $zip_extensions)) {
+            $file_type = 'Zip';
+        }
+        elseif(in_array(strtolower($image->getClientOriginalExtension()), $other_extensions)) {
+            $file_type = 'Others';
+        } 
+        
+    if (!$project->project_name) {
+        $project_name = $project->sub_category_name;
+    } else {
+        $project_name = $project->project_title;
+    }
+    
+    
+      $data = [
+        'project_id' => $project_id,
+        'user_id' => $user_id,
+        'dispute_id' => $dispute_id,
+        'file' => $file,
+    ];
+   
+   
+
+   $file_data = DisputeFile::create($data);
+
+    if ($file_data) {
+        $set['UBUYAPI_V2'][]=array(
+                        
+            'msg' =>  'File sent',
+            'success' =>  1,
+            
+        );
+    } else {
+        $set['UBUYAPI_V2'][]=array(
+                        
+            'msg' =>  'upload failed',
+            'success' =>  0,
+        );
+    }
+    
+    header( 'Content-Type: application/json; charset=utf-8' );
+    echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+    die();
+}
+  // Save dispute files
+
 
 /* disputes ends here */
 // bids api
