@@ -35,6 +35,7 @@ use App\Skill;
 use App\ProjectSkill;
 use App\SafetyLog;
 use App\Dispute;
+use App\DisputeFile;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Authenticatable;
