@@ -1255,7 +1255,7 @@ public function CallAlertProjectSafety()
         'project_id' => $project_id,
         'user_id' => $user_id,
         'dispute_id' => $dispute_id,
-        'file' => $file,
+        'file' => $main_file,
     ];
    
    
