@@ -1180,7 +1180,7 @@ public function CallAlertProjectSafety()
           //   echo   $resized_thumb;
             $main_file = strtolower(str_slug($file_base_name)).'.' . $image->getClientOriginalExtension();
   
-            $thumbnailPath = '/uploads/project_files/'.$project_id.'/'.$main_file;
+            $thumbnailPath = '/public/uploads/project_files/'.$project_id.'/'.$main_file;
   
             try{
               if (in_array(strtolower($image->getClientOriginalExtension()), $image_extensions)) {
@@ -1204,7 +1204,7 @@ public function CallAlertProjectSafety()
            //   echo   $resized_thumb;
            $main_file = strtolower(str_slug($file_base_name)).'.' . $file->getClientOriginalExtension();
   
-           $filePath = 'public/project_files/'.$project_id.'/'.$main_file;
+           $filePath = '/public/uploads/project_files/'.$project_id.'/'.$main_file;
   
            try{
              if (in_array(strtolower($file->getClientOriginalExtension()), $files_extensions)) {
