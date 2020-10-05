@@ -1120,18 +1120,21 @@ public function CallAlertProjectSafety()
         $cats = DisputeCategory::get();
 
         foreach($cats as $cat){
-            $row['categories'] = array(
+            $row['categories'][] = array(
                 'id' => $cat->id,
                 'name' => $cat->name,
             );
         }
-        DisputeCategory::get();
+
+
+
+    
         $projects = NewProject::where('user_id', $user_id)->get();
 
         if($projects){
             
         foreach($projects as $project){
-            $row['projects'] = array(
+            $row['projects'][] = array(
                 'project_id' => $project->id,
                 'project_title' => $project->project_title,
             );
