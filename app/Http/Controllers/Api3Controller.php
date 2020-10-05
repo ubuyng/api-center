@@ -1244,11 +1244,7 @@ public function CallAlertProjectSafety()
             $file_type = 'Others';
         } 
         
-    if (!$project->project_name) {
-        $project_name = $project->sub_category_name;
-    } else {
-        $project_name = $project->project_title;
-    }
+  
     
     
       $data = [
