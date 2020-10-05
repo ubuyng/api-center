@@ -1125,7 +1125,7 @@ public function CallAlertProjectSafety()
                 'name' => $cat->name,
             );
         }
-                    Route::get('/get/dispute/cat/{user_id?}', 'Api3Controller@DisputeCatTask');
+        DisputeCategory::get();
         $projects = NewProject::where('user_id', $user_id)->get();
 
         if($projects){
