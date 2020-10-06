@@ -1066,13 +1066,13 @@ public function CallAlertProjectSafety()
     *
     */
 
-    public function DisputeAddRecord(){
+    public function DisputeAddRecord(Request $request){
 
-        $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
-        $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
-        $bid_id = filter_input(INPUT_GET, 'bid_id', FILTER_SANITIZE_STRING);
-        $description = filter_input(INPUT_GET, 'description', FILTER_SANITIZE_STRING);
-        $cat_id = filter_input(INPUT_GET, 'cat_id', FILTER_SANITIZE_STRING);
+        $user_id = $request->user_id;
+        $project_id = $request->project_id;
+        $project_id = $request->project_ref;
+        $description = $request->details;
+        $cat_id = $request->cat_id;
 
         $has_disputes = Dispute::where('disputed_by', $user_id)->where('project_id', $project_id)->where('status', 0)->first();
         
@@ -1120,7 +1120,7 @@ public function CallAlertProjectSafety()
         $cats = DisputeCategory::get();
 
         foreach($cats as $cat){
-            $row['categories'][] = array(
+            $row['category'][] = array(
                 'id' => $cat->id,
                 'name' => $cat->name,
             );
@@ -1137,10 +1137,11 @@ public function CallAlertProjectSafety()
             $row['projects'][] = array(
                 'project_id' => $project->id,
                 'project_title' => $project->project_title,
+                'project_ref' => $project->unique_ref_id,
             );
         }
         }else{
-            $row['projeccts'] = array(
+            $row['project'] = array(
                 'msg' => 'No projects found',
                 'success' => 0,
             );
