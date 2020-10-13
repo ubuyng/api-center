@@ -188,6 +188,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::group(['prefix' => 'disputes'], function () {
             Route::post('/log/save', 'Api3Controller@DisputeAddRecord');
                     Route::get('/post/cats_state', 'Api3Controller@apiCategoriesState');
+                    // Route::get('/post/dispute', 'Api3Controller@apiCategoriesState');
                     Route::post('/save/dispute/file', 'Api3Controller@saveDisputeFile');
                     Route::get('/get/cat/{user_id?}', 'Api3Controller@DisputeCatTask');
 

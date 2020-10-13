@@ -1070,7 +1070,7 @@ public function CallAlertProjectSafety()
 
         $user_id = $request->user_id;
         $project_id = $request->project_id;
-        $project_id = $request->project_ref;
+        $project_ref = $request->project_ref;
         $description = $request->details;
         $cat_id = $request->cat_id;
 
@@ -1079,12 +1079,11 @@ public function CallAlertProjectSafety()
         if(!$has_disputes){
 
             $project = NewProject::where('id', $project_id)->first();
-            $task_ref = $project->unique_ref_id;
             $pro_id = $project->pro_id;
             $disputed_by = $user_id;
 
             $data = [
-                'project_ref_id' => $task_ref,
+                'project_ref_id' => $project_ref,
                 'project_id' => $project_id,
                 'cus_id' => $user_id,
                 'bid_id' => $bid_id,
