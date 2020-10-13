@@ -1079,6 +1079,8 @@ public function CallAlertProjectSafety()
         if(!$has_disputes){
 
             $project = NewProject::where('id', $project_id)->first();
+            $bid = NewProjectBid::where('project_id', $project->id)->where('user_id', $project->pro_id)->first();
+            $bid_id = $bid->id;
             $pro_id = $project->pro_id;
             $disputed_by = $user_id;
 
