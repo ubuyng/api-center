@@ -1165,7 +1165,6 @@ public function CallAlertProjectSafety()
                 $date = Carbon::parse($dispute->created_at); // now date is a carbon instance
                         $project = NewProject::where('id', $dispute->project_id)->first();
                         $cat = DisputeCategory::where('id', $dispute->category_id)->first();
-
                 $row["open_disputes"][] = array(
                     'id' =>          $dispute->id,
                     'dispute_des' => $dispute->description,
