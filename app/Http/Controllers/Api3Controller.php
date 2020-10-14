@@ -1171,6 +1171,7 @@ public function CallAlertProjectSafety()
                     'dispute_cat' => $dispute->cat,
                     'dispute_task'=> $project->project_title,
                     'dispute_ref' => $dispute->project_ref_id,
+                    'dispute_ref' => $dispute->status,
                     'dispute_date'=> $date->diffForHumans(),
                    
                 );
