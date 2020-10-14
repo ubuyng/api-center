@@ -1162,11 +1162,14 @@ public function CallAlertProjectSafety()
         if($disputes){
             foreach($disputes as $dispute){
                 $date = Carbon::parse($dispute->created_at); // now date is a carbon instance
-                $set['UBUYAPI_V2'][] = array(
+                        $project = NewProject::where('id', $dispute->project_id)->first();
+
+                $row["open_disputes"][] = array(
                     'id' => $disputes->id,
                     'dispute_des' => $disputes->description,
                     'dispute_cat' => $disputes->cat,
-                    'dispute_task' => $disputes->cat,
+                    'dispute_task' => $project->project_title,
+                    'dispute_ref' => $disputes->project_ref_id,
                     'dispute_date' => $date->diffForHumans(),
                    
                 );
@@ -1174,10 +1177,11 @@ public function CallAlertProjectSafety()
         }else{
             $set['UBUYAPI_V2'][]=array(
                 'msg' =>'No Disputes found',
-                 'success'=>'0'
-                );
+                'success'=>'0'
+            );
         }
-
+        
+        $set['UBUYAPI_V2'] = $row;
         header( 'Content-Type: application/json; charset=utf-8' );
         echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
         die();
