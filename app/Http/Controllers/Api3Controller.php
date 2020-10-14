@@ -1165,12 +1165,12 @@ public function CallAlertProjectSafety()
                         $project = NewProject::where('id', $dispute->project_id)->first();
 
                 $row["open_disputes"][] = array(
-                    'id' => $disputes->id,
+                    'id' =>          $disputes->id,
                     'dispute_des' => $disputes->description,
                     'dispute_cat' => $disputes->cat,
-                    'dispute_task' => $project->project_title,
+                    'dispute_task'=> $project->project_title,
                     'dispute_ref' => $disputes->project_ref_id,
-                    'dispute_date' => $date->diffForHumans(),
+                    'dispute_date'=> $date->diffForHumans(),
                    
                 );
             }
