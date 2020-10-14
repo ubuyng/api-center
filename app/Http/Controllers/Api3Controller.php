@@ -1156,6 +1156,7 @@ public function CallAlertProjectSafety()
     }
 
     public function DisputeUnResolved(){
+        $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
 
         $disputes = Dispute::where('disputed_by', $user_id)->where('status', 0)->get();
         
