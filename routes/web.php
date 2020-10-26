@@ -184,6 +184,9 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::Post('/post/cancel/task', 'Api3Controller@CancelTask');
         Route::Post('/post/complete/task', 'Api3Controller@CompleteTask');
 
+        /* rating api starts now */
+        Route::Post('/post/pro/rating', 'Api3Controller@RatePro');
+
         /* getting pros lists */
         Route::get('/invite/pros/project/{project_id?}/{version_?}', 'Api3Controller@apiInvitePros');
 

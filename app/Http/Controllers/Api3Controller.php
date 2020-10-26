@@ -2251,6 +2251,50 @@ public function CallAlertProjectSafety()
         die();
     }
 
+    /* here we start rating the pros */
+
+    public function RatePro(Request $request)
+    {
+
+        $project_id = $request->project_id;
+        $cus_id = $request->user_id;
+        $pro_id = $request->pro_id;
+        $rating = $request->rating;
+        $comment = $request->comment;
+
+        if ($rating != null) {
+
+            $rateData = [
+                'project_id' => $project_id,
+                'cus_id' => $cus_id,
+                'pro_id' => $pro_id,
+                'rating' => $rating,
+                'comment' => $comment,
+              
+            ];
+
+            $rating_checker = Rating::where('project_id', $project_id)->where('pro_id', $pro_id)->first();
+
+            if (!$rating_checker) {
+                ProjectSkill::create($rateData);
+                $set['UBUYAPI_V2'][]=array(
+                    'msg' =>'Rating Successful',
+                    'success'=>'1');
+            }
+        } else{
+            $set['UBUYAPI_V2'][]=array(
+                'msg' =>'Please add a comment',
+                'success'=>'0');
+        }
+        
+       
+
+       
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+    }
+
 /* HERE WE START WORKING  ON CREATING A LIST FOR PROS
     *
     * THIS WOULD HANDLE ALL RESPONDS FOR PROS LIST
