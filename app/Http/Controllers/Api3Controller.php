@@ -2234,7 +2234,7 @@ public function CallAlertProjectSafety()
 
         // maths now
         $lat = $project->lat;
-        $lon = $project->lon;
+        $lon = $project->lng;
         $distance = 150;
 
       if ($sub->payment_type == 0) {
