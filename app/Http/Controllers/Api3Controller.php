@@ -1440,28 +1440,22 @@ class Api3Controller extends Controller
              // using carbon to make date readable
                  $date = Carbon::parse($project->created_at); // now date is a carbon instance
          
-                 // converting all data to json format
-                 if ($project_progress == 2) {
-                    $v2_project_pending[]=array(
-                        'project_id' => $project->project_id,
-                        'sub_category_id' => $project->sub_category_id,
-                        'user_id' => $project->user_id,
-                        'sub_category_name' => $project->sub_category_name,
-                        'address' => $project->address,
-                        'bid_count' => $bid_count,
-                        'brief' => $project->project_message,
-                        'bid_status' => $bid_status,
-                        'bidder_1_image' => $bidder_1_image,
-                        'bidder_2_image' => $bidder_2_image,
-                        'bidder_3_image' => $bidder_3_image,
-                        'p_version' => 0,
-                        'created_at' => $date->diffForHumans(),
-                     );
-                     $row['v2_project_pending']=$v2_project_pending;
-                 }
-            
-
-
+                 $v2_project_pending[]=array(
+                    'project_id' => $project->project_id,
+                    'sub_category_id' => $project->sub_category_id,
+                    'user_id' => $project->user_id,
+                    'sub_category_name' => $project->sub_category_name,
+                    'address' => $project->address,
+                    'bid_count' => $bid_count,
+                    'brief' => $project->project_message,
+                    'bid_status' => $bid_status,
+                    'bidder_1_image' => $bidder_1_image,
+                    'bidder_2_image' => $bidder_2_image,
+                    'bidder_3_image' => $bidder_3_image,
+                    'p_version' => 0,
+                    'created_at' => $date->diffForHumans(),
+                 );
+                 $row['v2_project_pending']=$v2_project_pending;
             
              
          }                                                                                                                                                               
