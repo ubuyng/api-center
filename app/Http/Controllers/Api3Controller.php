@@ -2256,17 +2256,12 @@ public function CallAlertProjectSafety()
            
 
 
+            if ($user->image) {
+                $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
+            }else{
 
-            if ($pro->profile_photo == null) {
-
-                if ($user->image) {
-                    $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
-                }else{
-
-                    $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-                }
+                $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
             }
-
             dd($profile_image);
         }
         
