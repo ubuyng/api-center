@@ -2241,9 +2241,9 @@ public function CallAlertProjectSafety()
 
         $created_at = Carbon::today()->toDateTimeString();
         $status = 5;
-        // $project->update(['created_at' => $status]);
-        // $project->update(['status' => $status]);
-        dd($created_at);
+        $project->update(['created_at' => $created_at]);
+        $project->update(['status' => $status]);
+        dd($project);
     }
 
     public function CompleteTask(Request $request)
