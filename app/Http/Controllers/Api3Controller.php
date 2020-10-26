@@ -2243,7 +2243,12 @@ public function CallAlertProjectSafety()
         $status = 2;
         $project->update(['created_at' => $created_at]);
         $project->update(['status' => $status]);
-        dd($project);
+
+        
+        $set['UBUYAPI_V2'] = $project;
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
     }
 
     public function CompleteTask(Request $request)
