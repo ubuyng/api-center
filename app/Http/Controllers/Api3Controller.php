@@ -2239,7 +2239,7 @@ public function CallAlertProjectSafety()
             $project = Project::where('id', $project_id)->first();
         }
 
-        $created_at = new \DateTime();
+        $created_at = Carbon::today()->toDateTimeString();
         $status = 2;
         $project->update(['created_at' => $status]);
         $project->update(['status' => $status]);
