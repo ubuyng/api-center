@@ -2227,7 +2227,31 @@ public function CallAlertProjectSafety()
             $project = NewProject::where('id', $project_id)->first();
         }
 
-        dd($project);
+
+        // get the sub category the project belongs to
+        
+        $sub = SubCategory::where('id', $project->sub_category_id)->first();
+
+        // maths now
+        $lat = $project->lat;
+        $lon = $project->lon;
+        $distance = 150;
+
+        $pros = DB::table("services")
+            ->where('services.sub_category_id', '=', $sub->id)
+            ->join('profiles', function ($join) use ($lat, $lon, $distance) {
+                      $join->on('profiles.user_id', '=', 'services.user_id')
+                            ->whereRaw( DB::raw("3959 * acos(cos(radians(" . $lat . ")) 
+            * cos(radians(profiles.lat)) 
+            * cos(radians(profiles.lng) - radians(" . $lon . ")) 
+            + sin(radians(" .$lat. ")) 
+            * sin(radians(profiles.lat))) < $distance "));
+                        })->select('profiles.user_id as id', 'profiles.business_name')
+                        ->orderBy('profiles.id', 'desc')->get()->take(6);
+    
+            dd($pros);
+
+        // maths ends
 
     }
 
