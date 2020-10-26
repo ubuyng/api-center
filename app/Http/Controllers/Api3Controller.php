@@ -1048,17 +1048,17 @@ class Api3Controller extends Controller
                    
 
                    
-                    $set['UBUYAPI_V2'] = $row;
                 }                                                                                                                                                               
             } elseif($v3_projects->isEmpty()){
                 $v3_checker = null;
-                $set['UBUYAPI_V2'][]=array(
+                $row['v3_project_completed'][]=array(
                     'msg' =>'No v3 projects found',
                     'success'=>'0'
                 );
 
              }
 
+             /* starting v2 completed tasks */
 
              $v2_projects = DB::table("projects")
              ->where('projects.user_id', '=', $user_id)
@@ -1067,76 +1067,69 @@ class Api3Controller extends Controller
 
              if($v2_projects->isEmpty()){
                  $v2_checker = null;
-                $set['UBUYAPI_V2'][]=array('msg' =>'No v2 projects found','success'=>'0');
+                $row['v2_project_completed'][]=array('msg' =>'No v2 projects found','success'=>'0');
 
 
              }
-         else if($v2_projects){
+            else if($v2_projects){
 
-            $v2_checker = true;
-             foreach($v2_projects as $project){
+                $v2_checker = true;
+                foreach($v2_projects as $project){
 
-                  /* now we get the latest 3 bids for the data */
+                    /* now we get the latest 3 bids for the data */
 
-                  $selected_pro = DB::table("project_bids")
-                  ->where('project_bids.project_id', '=', $project->id)
-                  ->where('project_bids.bid_status', '=', 3)
-                  ->join('users', 'users.id', '=', 'project_bids.user_id')
-                  ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_duration', 'project_bids.bid_amount', 'users.image as profile_photo', 'users.first_name', 'users.last_name', 'project_bids.bid_status', 'project_bids.project_id')
-                  ->first();
-
-              
-
-
-                  if ($selected_pro) {
-                       
-                      if ($selected_pro->profile_photo) {
-                          $selected_pro_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$selected_pro->profile_photo;
-                      }else{
-                          $selected_pro_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-                      }
-
-
-
-                      
-                  // // using carbon to make date readable
-                  $started_date = Carbon::parse($project->started_at); // now date is a carbon instance
-                  $duration = '+'.$selected_pro->bid_duration.' days';
-                  $deadline_date =   Carbon::parse(date('Y-m-d', strtotime($duration, strtotime($project->started_at))));
-
-
-             // using carbon to make date readable
-                 $date = Carbon::parse($project->created_at); // now date is a carbon instance
-         
-                 $v2_project_completed[]=array(
-                    'project_id' => $project->id,
-                    'sub_category_id' => $project->sub_category_id,
-                    'user_id' => $project->user_id,
-                    'sub_category_name' => $project->sub_category_name,
-                    'address' => $project->address,
-                    'brief' => $project->project_message,
-                    'task_amount' => $selected_pro->bid_amount,
-                    'task_status' => $project->status,
-                    'selected_pro_image' => $selected_pro_image,
-                    'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
-                    'p_version' => 0,
-                    'started_at' => $started_date->diffForHumans(),
-                    'deadline_at' => $deadline_date->diffForHumans(),
-                 );
-                 $row['v2_project_completed']=$v2_project_completed;
-
-                  }else{
-                      $selected_pro_image = null;
-                  }
-                  
-
+                    $selected_pro = DB::table("project_bids")
+                    ->where('project_bids.project_id', '=', $project->id)
+                    ->where('project_bids.bid_status', '=', 3)
+                    ->join('users', 'users.id', '=', 'project_bids.user_id')
+                    ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_duration', 'project_bids.bid_amount', 'users.image as profile_photo', 'users.first_name', 'users.last_name', 'project_bids.bid_status', 'project_bids.project_id')
+                    ->first();
 
                 
 
 
-                
-                 $set['UBUYAPI_V2'] = $row;
-             }                                                                                                                                                               
+                    if ($selected_pro) {
+                        
+                        if ($selected_pro->profile_photo) {
+                            $selected_pro_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$selected_pro->profile_photo;
+                        }else{
+                            $selected_pro_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                        }
+                    }
+
+
+
+                        
+                    // // using carbon to make date readable
+                    $started_date = Carbon::parse($project->started_at); // now date is a carbon instance
+                    $duration = '+'.$selected_pro->bid_duration.' days';
+                    $deadline_date =   Carbon::parse(date('Y-m-d', strtotime($duration, strtotime($project->started_at))));
+
+
+                    // using carbon to make date readable
+                    $date = Carbon::parse($project->created_at); // now date is a carbon instance
+            
+                    $v2_project_completed[]=array(
+                        'project_id' => $project->id,
+                        'sub_category_id' => $project->sub_category_id,
+                        'user_id' => $project->user_id,
+                        'sub_category_name' => $project->sub_category_name,
+                        'address' => $project->address,
+                        'brief' => $project->project_message,
+                        'task_amount' => $selected_pro->bid_amount,
+                        'task_status' => $project->status,
+                        'selected_pro_image' => $selected_pro_image,
+                        'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
+                        'p_version' => 0,
+                        'started_at' => $started_date->diffForHumans(),
+                        'deadline_at' => $deadline_date->diffForHumans(),
+                    );
+                    $row['v2_project_completed']=$v2_project_completed;
+
+                }
+            
+                    $set['UBUYAPI_V2'] = $row;
+            }                                                                                                                                                               
          } 
 
 
@@ -1146,7 +1139,7 @@ class Api3Controller extends Controller
         echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
         die();
         }
-}
+
 
 /* Here we start the api for safety toolkit 
 *
