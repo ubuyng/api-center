@@ -2212,8 +2212,14 @@ public function CallAlertProjectSafety()
 
         $project_id = $request->project_id;
         $user_id = $request->user_id;
+        $version_ = $request->version_;
 
-        $project = Project::find($project_id);
+        if ($version_ == 0) {
+            $project = Project::find($project_id);
+        } elseif($version_ == 1) {
+            $project = NewProject::find($project_id);
+        }
+        
         $status = 4;
         $project->update(['status' => $status]);
 
