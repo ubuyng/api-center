@@ -2272,6 +2272,7 @@ public function CallAlertProjectSafety()
                 'rating' => $rating,
                 'comment' => $comment,
                 'project_name' => $project->project_title,
+                'cus_name' => $project->cus_name,
               
             ];
 
