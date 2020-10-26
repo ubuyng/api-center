@@ -898,12 +898,12 @@ class Api3Controller extends Controller
 
                             /* now we get the latest 3 bids for the data */
 
-                            dd($selected_pro = DB::table("project_bids")
+                            $selected_pro = DB::table("project_bids")
                             ->where('project_bids.project_id', '=', $project->id)
                             ->where('project_bids.user_id', '=', $project->pro_id)
                             ->join('users', 'users.id', '=', 'project_bids.user_id')
                             ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_duration', 'project_bids.bid_amount', 'users.image as profile_photo', 'users.first_name', 'users.last_name', 'project_bids.bid_status', 'project_bids.project_id')
-                            ->first());
+                            ->first();
 
                         
 
