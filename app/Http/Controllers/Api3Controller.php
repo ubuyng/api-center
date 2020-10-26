@@ -276,7 +276,7 @@ class Api3Controller extends Controller
 
             $project_id = $has_project->id;
 
-            NewProject::where('user_id', $user_id)->where('status', 0)->update($project_data);
+            NewProject::where('d', $project_id)->update($project_data);
 
             $set['UBUYAPI_V2'][]=array(
                 'user_id' =>$user_id,
