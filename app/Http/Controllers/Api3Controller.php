@@ -1335,11 +1335,11 @@ class Api3Controller extends Controller
          }
 
 
-         dd($v2_projects = DB::table("projects")
+         $v2_projects = DB::table("projects")
          ->where('projects.user_id', '=', $user_id)
          ->where('projects.status', '=', 4)
          ->select('projects.id as project_id', 'projects.user_id as user_id',  'projects.project_message', 'projects.created_at', 'projects.sub_category_name','projects.status', 'projects.sub_category_id','projects.address')
-         ->orderBy('projects.id', 'desc')->get());
+         ->orderBy('projects.id', 'desc')->get();
 
          if($v2_projects->isEmpty()){
              $v2_checker = null;
