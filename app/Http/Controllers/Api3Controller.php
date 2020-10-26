@@ -2207,6 +2207,22 @@ public function CallAlertProjectSafety()
         }
     }
 
+    public function CancelTask(Request $request)
+    {
+
+        $project_id = $request->project_id;
+        $user_id = $request->user_id;
+
+        $project = Project::find($project_id);
+        $status = 4;
+        $project->update(['status' => $status]);
+
+        $set['UBUYAPI_V2'] = $project;
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+    }
+
 /* HERE WE START WORKING  ON CREATING A LIST FOR PROS
     *
     * THIS WOULD HANDLE ALL RESPONDS FOR PROS LIST
