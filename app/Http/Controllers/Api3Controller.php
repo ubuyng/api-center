@@ -240,6 +240,67 @@ class Api3Controller extends Controller
                 die();
 
        }
+       public function saveEdit(Request $request)
+       {
+           /* our variables to store */
+           $user_id = $request->user_id;
+        //    get user data
+           $user = User::find($user_id)->first();
+    
+           $task_title = $request->task_title;
+           $des = $request->des;
+           $budget = $request->budget;
+           $cat_id = $request->cat_id;
+           $project_id = $request->project_id;
+    
+           $sub_id = $request->sub_id;
+        //    get sub category data
+        $subcat = SubCategory::where('id', $sub_id)->first();
+
+           $user_name = $user->first_name." ".$user->last_name;
+           $user_number = $user->number;
+           $pay_type = $subcat->payment_type;
+
+            $has_project = NewProject::where('id', $project_id)->first();
+            
+           if($has_project){
+            $project_data = [
+                'user_id' => $user_id,
+                'project_title' => $task_title,
+                'sub_category_id' => $sub_id,
+                'phone_number' => $user_number,
+                'cus_name' => $user_name,
+                'project_message' => $des,
+                'upay_type' => $pay_type,
+            ];
+
+            $project_id = $has_project->id;
+
+            NewProject::where('user_id', $user_id)->where('status', 0)->update($project_data);
+
+            $set['UBUYAPI_V2'][]=array(
+                'user_id' =>$user_id,
+                'project_id' =>$project_id,
+                'des' =>$des,
+                'budget' =>$budget,
+                'cat_id' =>$cat_id,
+                'sub_id' =>$sub_id,
+                'success'=>'1');
+           }else{
+               $set['UBUYAPI_V2'][]= array(
+                'msg' => "Error updating user please fill all forms"
+               );
+           }
+
+
+          
+
+                header( 'Content-Type: application/json; charset=utf-8' );
+                echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+                die();
+
+       }
+
        public function deleteProjectSkill(){
             $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
             $skill_title = filter_input(INPUT_GET, 'skill_title', FILTER_SANITIZE_STRING);
