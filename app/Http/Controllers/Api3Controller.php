@@ -2276,7 +2276,8 @@ public function CallAlertProjectSafety()
             $rating_checker = Rating::where('project_id', $project_id)->where('pro_id', $pro_id)->first();
 
             if (!$rating_checker) {
-                ProjectSkill::create($rateData);
+                Rating::create($rateData);
+                
                 $set['UBUYAPI_V2'][]=array(
                     'msg' =>'Rating Successful',
                     'success'=>'1');
