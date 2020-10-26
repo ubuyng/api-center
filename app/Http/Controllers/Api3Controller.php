@@ -2235,7 +2235,7 @@ public function CallAlertProjectSafety()
         // maths now
         $lat = $project->lat;
         $lon = $project->lng;
-        $distance = 10;
+        $distance = 200;
 
       if ($sub->payment_type == 0) {
         $pros = DB::table("services")
