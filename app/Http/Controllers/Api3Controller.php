@@ -1102,7 +1102,12 @@ class Api3Controller extends Controller
                         
                     // // using carbon to make date readable
                     $started_date = Carbon::parse($project->started_at); // now date is a carbon instance
-                    $duration = '+'.$selected_pro->bid_duration.' days';
+                    if ($selected_pro->bid_duration == null) {
+                        $duration = '+ 0 days';
+                    }else{
+
+                        $duration = '+'.$selected_pro->bid_duration.' days';
+                    }
                     $deadline_date =   Carbon::parse(date('Y-m-d', strtotime($duration, strtotime($project->started_at))));
 
 
