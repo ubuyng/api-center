@@ -1138,12 +1138,357 @@ class Api3Controller extends Controller
          } 
 
 
+            }
+            
+            header( 'Content-Type: application/json; charset=utf-8' );
+            echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+            die();
         }
+ 
         
-        header( 'Content-Type: application/json; charset=utf-8' );
-        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
-        die();
-        }
+    public function apiArchivedProjects()
+    {
+    
+        if (isset($_GET['user_id'])) {
+            $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
+
+            $user = Auth::loginUsingId($user_id);
+
+            if (!$user) {
+                $set['UBUYAPI_V2'][]=array('msg' =>'Account not found','success'=>'0');
+            }else if($user){
+            // $projects = $user->projectsSubCat->get();
+
+            $v3_projects = DB::table("new_projects") 
+            ->where('new_projects.user_id', '=', $user_id)
+            ->where('new_projects.status', '=', 4)
+            ->select('new_projects.id as project_id', 'new_projects.user_id as user_id',  'new_projects.project_message', 'new_projects.created_at', 'new_projects.sub_category_name','new_projects.status', 'new_projects.sub_category_id','new_projects.address', 'new_projects.budget', 'new_projects.project_title')
+            ->orderBy('new_projects.id', 'desc')->get();
+            
+            /* 
+            here we check if v3 projects are on db and display them else 
+            we set v4_checker to null
+             */
+
+         if($v3_projects){
+            $v3_checker = null;
+            foreach($v3_projects as $project){
+                // counting bids in project here
+                $bids = NewProjectBid::where('project_id','=', $project->project_id)->get();
+
+                /* now we get the latest 3 bids for the data */
+
+                $bid_1 = DB::table("new_project_bids")
+                ->where('new_project_bids.project_id', '=', $project->project_id)
+                ->join('users', 'users.id', '=', 'new_project_bids.user_id')
+                ->select('new_project_bids.id as bid_id', 'new_project_bids.user_id as pro_id',  'new_project_bids.bid_message', 'new_project_bids.bid_amount', 'users.image as profile_photo', 'new_project_bids.bid_status', 'new_project_bids.project_id')
+                ->skip(0)->first();
+
+                $bid_2 = DB::table("new_project_bids")
+                ->where('new_project_bids.project_id', '=', $project->project_id)
+                ->join('users', 'users.id', '=', 'new_project_bids.user_id')
+                ->select('new_project_bids.id as bid_id', 'new_project_bids.user_id as pro_id',  'new_project_bids.bid_message', 'new_project_bids.bid_amount', 'users.image as profile_photo', 'new_project_bids.bid_status', 'new_project_bids.project_id')
+                ->skip(1)->first();
+
+                $bid_3 = DB::table("new_project_bids")
+                ->where('new_project_bids.project_id', '=', $project->project_id)
+                ->join('users', 'users.id', '=', 'new_project_bids.user_id')
+                ->select('new_project_bids.id as bid_id', 'new_project_bids.user_id as pro_id',  'new_project_bids.bid_message', 'new_project_bids.bid_amount', 'users.image as profile_photo', 'new_project_bids.bid_status', 'new_project_bids.project_id')
+                ->skip(2)->first();
+
+
+                if ($bid_1) {
+                     
+                    if ($bid_1->profile_photo) {
+                        $bidder_1_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_1->profile_photo;
+                    }else{
+                        $bidder_1_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                    }
+                }else{
+                    $bidder_1_image = null;
+                }
+                if ($bid_2) {
+                     
+                    if ($bid_2->profile_photo) {
+                        $bidder_2_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_2->profile_photo;
+                    }else{
+                        $bidder_2_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                    }
+                }else{
+                    $bidder_2_image = null;
+                }
+                if ($bid_3) {
+                     
+                    if ($bid_3->profile_photo) {
+                        $bidder_3_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_3->profile_photo;
+                    }else{
+                        $bidder_3_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                    }
+                }else{
+                    $bidder_3_image = null;
+                }
+
+                $bid_count = count($bids);
+
+                 /* chek bid status */
+                 if ($bid_count == 0) {
+                    //  awaiting bids
+                    $bid_status = 0;
+                }elseif ($bid_count >= 1 && $project->status == 2) {
+                    // selected pro
+                    $bid_status = 4;
+                }elseif ($bid_count >= 1 && $project->status != 3) {
+                    // receiving bids
+                    $bid_status = 1;
+                }elseif ($bid_count >= 1 && $project->status == 3) {
+                    // completed project
+                    $bid_status = 2;
+                }elseif ($bid_count >= 0 && $project->status == 4) {
+                    // paused project
+                    $bid_status = 3;
+                }
+
+                /* now we get the top 4 skills*/
+               
+                $skill_1 = DB::table("project_skills")
+                ->where('project_skills.project_id', '=', $project->project_id)
+                ->select('project_skills.skill_title')
+                ->skip(0)->first();
+                $skill_2 = DB::table("project_skills")
+                ->where('project_skills.project_id', '=', $project->project_id)
+                ->select('project_skills.skill_title')
+                ->skip(1)->first();
+                $skill_3 = DB::table("project_skills")
+                ->where('project_skills.project_id', '=', $project->project_id)
+                ->select('project_skills.skill_title')
+                ->skip(2)->first();
+                $skill_4 = DB::table("project_skills")
+                ->where('project_skills.project_id', '=', $project->project_id)
+                ->select('project_skills.skill_title')
+                ->skip(3)->first();
+
+
+                if ($skill_1) {
+                     
+                    $project_skill_1 = $skill_1->skill_title;
+                }else{
+                    $project_skill_1 = null;
+                }
+                if ($skill_2) {
+                     
+                    $project_skill_2 = $skill_2->skill_title;
+                }else{
+                    $project_skill_2 = null;
+                }
+                if ($skill_3) {
+                     
+                    $project_skill_3 = $skill_3->skill_title;
+                }else{
+                    $project_skill_3 = null;
+                }
+                if ($skill_4) {
+                     
+                    $project_skill_4 = $skill_4->skill_title;
+                }else{
+                    $project_skill_4 = null;
+                }
+               
+
+                // using carbon to make date readable
+                    $date = Carbon::parse($project->created_at); // now date is a carbon instance
+            
+                    // converting all data to json format
+                    $v3_project_pending[]=array(
+                        'project_id' => $project->project_id,
+                        'sub_category_id' => $project->sub_category_id,
+                        'user_id' => $project->user_id,
+                        'sub_category_name' => $project->sub_category_name,
+                        'project_title' => $project->project_title,
+                        'address' => $project->address,
+                        'bid_count' => $bid_count,
+                        'brief' => $project->project_message,
+                        'budget' => $project->budget,
+                        'bid_status' => $bid_status,
+                        'bidder_1_image' => $bidder_1_image,
+                        'bidder_2_image' => $bidder_2_image,
+                        'bidder_3_image' => $bidder_3_image,
+                        'project_skill_1' => $project_skill_1,
+                        'project_skill_2' => $project_skill_2,
+                        'project_skill_3' => $project_skill_3,
+                        'project_skill_4' => $project_skill_4,
+                        'p_version' => 1,
+                        'created_at' => $date->diffForHumans(),
+                    );
+                    $row['v3_project_pending']=$v3_project_pending;
+               
+
+               
+                $set['UBUYAPI_V2'] = $row;
+            }                                                                                                                                                               
+        } elseif($v3_projects->isEmpty()){
+            $v3_checker = null;
+            $set['UBUYAPI_V2'][]=array(
+                'msg' =>'No v3 projects found',
+                'success'=>'0'
+            );
+
+         }
+
+
+         $v2_projects = DB::table("projects")
+         ->where('projects.user_id', '=', $user_id)
+         ->where('projects.status', '=', 4)
+         ->select('projects.id as project_id', 'projects.user_id as user_id',  'projects.project_message', 'projects.created_at', 'projects.sub_category_name','projects.status', 'projects.sub_category_id','projects.address')
+         ->orderBy('projects.id', 'desc')->get();
+
+         if($v2_projects->isEmpty()){
+             $v2_checker = null;
+            $set['UBUYAPI_V2'][]=array('msg' =>'No v2 projects found','success'=>'0');
+
+
+         }
+     else if($v2_projects){
+
+        $v2_checker = true;
+         foreach($v2_projects as $project){
+             // counting bids in project here
+             $bids = ProjectBid::where('project_id','=', $project->project_id)->get();
+
+             /* now we get the latest 3 bids for the data */
+
+             $bid_1 = DB::table("project_bids")
+             ->where('project_bids.project_id', '=', $project->project_id)
+             ->join('users', 'users.id', '=', 'project_bids.user_id')
+             ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
+             ->skip(0)->first();
+
+             $bid_2 = DB::table("project_bids")
+             ->where('project_bids.project_id', '=', $project->project_id)
+             ->join('users', 'users.id', '=', 'project_bids.user_id')
+             ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
+             ->skip(1)->first();
+
+             $bid_3 = DB::table("project_bids")
+             ->where('project_bids.project_id', '=', $project->project_id)
+             ->join('users', 'users.id', '=', 'project_bids.user_id')
+             ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
+             ->skip(2)->first();
+
+
+             if ($bid_1) {
+                  
+                 if ($bid_1->profile_photo) {
+                     $bidder_1_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_1->profile_photo;
+                 }else{
+                     $bidder_1_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                 }
+             }else{
+                 $bidder_1_image = null;
+             }
+             if ($bid_2) {
+                  
+                 if ($bid_2->profile_photo) {
+                     $bidder_2_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_2->profile_photo;
+                 }else{
+                     $bidder_2_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                 }
+             }else{
+                 $bidder_2_image = null;
+             }
+             if ($bid_3) {
+                  
+                 if ($bid_3->profile_photo) {
+                     $bidder_3_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_3->profile_photo;
+                 }else{
+                     $bidder_3_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                 }
+             }else{
+                 $bidder_3_image = null;
+             }
+
+
+             $bid_count = count($bids);
+
+              /* chek bid status */
+              if ($bid_count == 0) {
+                 //  awaiting bids
+                 $bid_status = 0;
+             }elseif ($bid_count >= 1 && $project->status == 2) {
+                 // selected pro
+                 $bid_status = 4;
+             }elseif ($bid_count >= 1 && $project->status != 3) {
+                 // receiving bids
+                 $bid_status = 1;
+             }elseif ($bid_count >= 1 && $project->status == 3) {
+                 // completed project
+                 $bid_status = 2;
+             }elseif ($bid_count >= 0 && $project->status == 4) {
+                 // paused project
+                 $bid_status = 3;
+             }
+
+             /* checking project status */
+             // check if the project is older than 30 days
+             $mainDate = new \DateTime($project->created_at);
+             $now = new \DateTime();
+             if($mainDate->diff($now)->days > 30 && $project->status != 3) {
+                 // expired and not completed
+                 $project_progress = 2;
+             }elseif($mainDate->diff($now)->days > 30 && $project->status == 3){
+                 // expired and completed
+                 $project_progress = 1;
+             }elseif ($project->status == 3) {
+                 // completed
+                 $project_progress = 1;
+             }elseif ($mainDate->diff($now)->days < 30 && $project->status == 3) {
+                 // not expired and completed
+                 $project_progress = 1;
+             }elseif ($mainDate->diff($now)->days < 30 && $project->status != 3) {
+                 // not expired and not completed
+                 $project_progress = 0;
+             }else {
+                 $project_progress = 0;
+             }
+            
+
+             // using carbon to make date readable
+                 $date = Carbon::parse($project->created_at); // now date is a carbon instance
+         
+                 // converting all data to json format
+                 if ($project_progress == 0) {
+                    $v2_project_pending[]=array(
+                        'project_id' => $project->project_id,
+                        'sub_category_id' => $project->sub_category_id,
+                        'user_id' => $project->user_id,
+                        'sub_category_name' => $project->sub_category_name,
+                        'address' => $project->address,
+                        'bid_count' => $bid_count,
+                        'brief' => $project->project_message,
+                        'bid_status' => $bid_status,
+                        'bidder_1_image' => $bidder_1_image,
+                        'bidder_2_image' => $bidder_2_image,
+                        'bidder_3_image' => $bidder_3_image,
+                        'p_version' => 0,
+                        'created_at' => $date->diffForHumans(),
+                     );
+                     $row['v2_project_pending']=$v2_project_pending;
+                 }
+            
+
+
+            
+             
+         }                                                                                                                                                               
+     } 
+
+
+    }
+    $set['UBUYAPI_V2'] = $row;
+    header( 'Content-Type: application/json; charset=utf-8' );
+    echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+    die();
+}
+}
 
 
 /* Here we start the api for safety toolkit 
