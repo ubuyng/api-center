@@ -2240,7 +2240,10 @@ public function CallAlertProjectSafety()
         }
 
         $created_at = new \DateTime();
+        $status = 2;
         $project->update(['created_at' => $status]);
+        $project->update(['status' => $status]);
+        dd($project);
     }
 
     public function CompleteTask(Request $request)
