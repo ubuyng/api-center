@@ -1434,20 +1434,6 @@ class Api3Controller extends Controller
              if($mainDate->diff($now)->days > 30 && $project->status != 3) {
                  // expired and not completed
                  $project_progress = 2;
-             }elseif($mainDate->diff($now)->days > 30 && $project->status == 3){
-                 // expired and completed
-                 $project_progress = 1;
-             }elseif ($project->status == 3) {
-                 // completed
-                 $project_progress = 1;
-             }elseif ($mainDate->diff($now)->days < 30 && $project->status == 3) {
-                 // not expired and completed
-                 $project_progress = 1;
-             }elseif ($mainDate->diff($now)->days < 30 && $project->status != 3) {
-                 // not expired and not completed
-                 $project_progress = 0;
-             }else {
-                 $project_progress = 0;
              }
             
 
@@ -1455,7 +1441,7 @@ class Api3Controller extends Controller
                  $date = Carbon::parse($project->created_at); // now date is a carbon instance
          
                  // converting all data to json format
-                 if ($project_progress == 0) {
+                 if ($project_progress == 2) {
                     $v2_project_pending[]=array(
                         'project_id' => $project->project_id,
                         'sub_category_id' => $project->sub_category_id,
