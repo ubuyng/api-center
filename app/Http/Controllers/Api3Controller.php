@@ -2235,7 +2235,7 @@ public function CallAlertProjectSafety()
         // maths now
         $lat = $project->lat;
         $lon = $project->lng;
-        $distance = 150;
+        $distance = 10;
 
       if ($sub->payment_type == 0) {
         $pros = DB::table("services")
@@ -2251,7 +2251,14 @@ public function CallAlertProjectSafety()
                     ->orderBy('profiles.id', 'desc')->get()->take(6);
 
         dd($pros);
-
+        
+        // if ($profile_image == null) {
+        //     // check if the pro has a user image instead
+        //     $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
+        //     if($profile_image == null)  {
+        //         $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+        //     }
+        // }
       }
         // maths ends
 
