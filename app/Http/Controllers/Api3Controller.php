@@ -2229,6 +2229,20 @@ public function CallAlertProjectSafety()
         die();
     }
 
+    public function reopenProject(){
+        $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
+        $version_ = filter_input(INPUT_GET, 'version_', FILTER_SANITIZE_STRING);
+
+        if ($version_ == 0) {
+            $project = Project::where('id', $project_id)->first();
+        }elseif($version_ == 1){
+            $project = Project::where('id', $project_id)->first();
+        }
+
+        $created_at = new \DateTime();
+        $project->update(['created_at' => $status]);
+    }
+
     public function CompleteTask(Request $request)
     {
 
