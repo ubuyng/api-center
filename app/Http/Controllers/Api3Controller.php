@@ -2247,18 +2247,24 @@ public function CallAlertProjectSafety()
         * cos(radians(profiles.lng) - radians(" . $lon . ")) 
         + sin(radians(" .$lat. ")) 
         * sin(radians(profiles.lat))) < $distance "));
-                    })->select('profiles.user_id as id', 'profiles.business_name')
-                    ->orderBy('profiles.id', 'desc')->get()->take(6);
+                    })->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
+                    ->orderBy('profiles.id', 'desc')->get();
 
-        dd($pros);
+        foreach ($pros as $pro) {
+            // getting the pro user details
+            $user = User::where('id', $pro->id)->first();
+           
+            if ($pro->profile_photo != null) {
+                // check if the pro has a user image instead
+                $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->profile_photo;
+            }else{
+                $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+            }
+
+            dd($profile_image);
+        }
         
-        // if ($profile_image == null) {
-        //     // check if the pro has a user image instead
-        //     $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
-        //     if($profile_image == null)  {
-        //         $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-        //     }
-        // }
+        
       }
         // maths ends
 
