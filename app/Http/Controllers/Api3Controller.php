@@ -2254,11 +2254,17 @@ public function CallAlertProjectSafety()
             // getting the pro user details
             $user = User::where('id', $pro->id)->first();
            
-            if ($pro->profile_photo != null) {
-                // check if the pro has a user image instead
-                $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->profile_photo;
-            }else{
-                $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+
+
+
+            if ($pro->profile_photo == null) {
+
+                if ($user->image) {
+                    $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->profile_photo;
+                }else{
+
+                    $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                }
             }
 
             dd($profile_image);
