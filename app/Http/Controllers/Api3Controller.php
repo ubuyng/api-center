@@ -880,10 +880,10 @@ class Api3Controller extends Controller
                 }
 
 
-               dd( $v2_projects = DB::table("projects")
+               $v2_projects = DB::table("projects")
                 ->where('projects.user_id', '=', $user_id)
                 ->where('projects.status', '=', 2)
-                ->orderBy('projects.id', 'desc')->get());
+                ->orderBy('projects.id', 'desc')->get();
 
 
                 if($v2_projects->isEmpty()){
