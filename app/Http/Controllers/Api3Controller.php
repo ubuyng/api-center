@@ -2263,6 +2263,7 @@ public function CallAlertProjectSafety()
         $comment = $request->comment;
 
         if ($rating != null) {
+            $project = NewProject::where('id', $project_id)->first();
 
             $rateData = [
                 'project_id' => $project_id,
@@ -2270,6 +2271,7 @@ public function CallAlertProjectSafety()
                 'pro_id' => $pro_id,
                 'rating' => $rating,
                 'comment' => $comment,
+                'project_name' => $project->project_title,
               
             ];
 
@@ -2277,7 +2279,7 @@ public function CallAlertProjectSafety()
 
             if (!$rating_checker) {
                 Rating::create($rateData);
-                
+
                 $set['UBUYAPI_V2'][]=array(
                     'msg' =>'Rating Successful',
                     'success'=>'1');
