@@ -181,6 +181,8 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::Post('/post/debug/task', 'Api3Controller@debugSave');
         Route::get('/single/project/v3/{project_id?}/{version_?}', 'Api3Controller@singleProjectSB');
         Route::get('/single/bid/profile/{bid_id?}/{version_?}', 'Api3Controller@BidProfile');
+        /* getting pros lists */
+        Route::get('/invite/pros/project/{project_id?}/{version_?}', 'Api3Controller@apiInvitePros');
 
         Route::group(['prefix' => 'safetytoolkit'], function () {
             Route::get('project/save/{project_id?}/{bid_id?}', 'Api3Controller@SingleProjectSafety');

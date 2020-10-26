@@ -1456,12 +1456,12 @@ class Api3Controller extends Controller
      } 
 
 
-    }
-    $set['UBUYAPI_V2'] = $row;
-    header( 'Content-Type: application/json; charset=utf-8' );
-    echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
-    die();
-}
+        }
+        $set['UBUYAPI_V2'] = $row;
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+     }
 }
 
 
@@ -2206,6 +2206,33 @@ public function CallAlertProjectSafety()
 
         }
     }
+
+/* HERE WE START WORKING  ON CREATING A LIST FOR PROS
+    *
+    * THIS WOULD HANDLE ALL RESPONDS FOR PROS LIST
+    *
+    */
+
+    public function apiInvitePros(){
+        $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
+        $version_ = filter_input(INPUT_GET, 'version_', FILTER_SANITIZE_STRING);
+
+        // check the versions and make api calls
+        if ($version_ == 0) {
+            
+            // check if the project exists
+            $project = Project::where('id', $project_id)->first();
+            
+        }elseif ($version_ == 1) {
+            $project = NewProject::where('id', $project_id)->first();
+        }
+
+        dd($project);
+
+    }
+
+    /* PROS LIST API ENDS HERE */
+
     public function chattest()
     {
         $id = 898;
