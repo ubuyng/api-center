@@ -1701,6 +1701,8 @@ class Api3Controller extends Controller
 
                 foreach($subs as $sub){
                     $pros = DB::table("ratings")
+                    ->join('services', 'services.user_id', '=', 'ratings.pro_id')
+                    ->where('services.sub_category_id', '=', $sub->id)
                     ->join('users', 'users.id', '=', 'ratings.pro_id')
                     ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
                     ->orderBy('users.id', 'desc')->get();
