@@ -448,6 +448,44 @@ class Api3Controller extends Controller
        }
 
 
+       public function completedProject(){
+            $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
+            $version_ = filter_input(INPUT_GET, 'version_', FILTER_SANITIZE_STRING);
+
+            if($version_ == 0){
+                $project == Project::where('id', $project_id)->first();
+            }elseif($version_ == 1){
+                $project == NewProject::where('id', $project_id)->first();
+            }
+
+           
+
+            if($project){
+                $pro = User::where('id', $project->pro_id)->first();
+                if ($pro->image) {
+                    $pro_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$pro->image;
+                }else{
+                    $pro_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                }
+
+
+                $set['UBUYAPI_V2'][]=array(
+                    'full_name' => $pro->first_name.' '.$pro->last_name,
+                    'image' => $pro_image,
+                    'success'=>'1'
+                );
+            }else{
+                $set['UBUYAPI_V2'][]=array(
+                    'msg' =>'Sorry, project not found',
+                    'success'=>'0'
+                );
+            }
+
+            header( 'Content-Type: application/json; charset=utf-8' );
+            echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+            die();
+
+       }
 
         public function apiUpdateProfile(){
             
