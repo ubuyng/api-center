@@ -1709,6 +1709,7 @@ class Api3Controller extends Controller
                     ->first();
 
                     
+                  if($pro){
                     if ($pro->image) {
                         $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
                     }else{
@@ -1728,6 +1729,7 @@ class Api3Controller extends Controller
                         );
                     }
                     
+                  }
                                 // foreach ($pros as $pro) {
                                 //     // getting the pro user details
                                    
