@@ -1803,7 +1803,7 @@ class Api3Controller extends Controller
 
 
         $pros = DB::table("services")
-        ->where('services.sub_category_id', '=', $sub->id)
+        ->where('services.sub_category_id', '=', $result->id)
         ->join('profiles', 'profiles.user_id', 'services.user_id')
         ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
                     ->orderBy('profiles.id', 'desc')->get();
