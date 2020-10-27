@@ -174,7 +174,7 @@ Route::group(['prefix' => 'api_v2'], function() {
 
         /* categories */
         Route::get('/cats/all_categories', 'Api3Controller@apiAllCategories');
-        Route::get('/cats/single_categories', 'Api3Controller@apiSingleCategories');
+        Route::get('/cats/single_categories/{cat_id?}', 'Api3Controller@apiSingleCategories');
         Route::get('/cats/single_cat/pros', 'Api3Controller@apiCatPros');
         Route::get('/cats/search_cat/{query?}', 'Api3Controller@apiSearchCats');
         
