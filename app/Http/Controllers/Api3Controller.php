@@ -1650,7 +1650,7 @@ class Api3Controller extends Controller
                         // getting the pro user details                       
 
                         $pro_projects = Project::where('pro_id', $pro->id)->count();
-                      
+                      dd($pro_projects);
                         if ($pro_projects >= 1) {
                             if ($pro->image) {
                                 $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
@@ -1675,7 +1675,7 @@ class Api3Controller extends Controller
                                 'pro_service' => $pro_service->name,
                                 'premium_pro' => 1,
                             );
-                            dd($row);
+                            
                         }
             
                     }
