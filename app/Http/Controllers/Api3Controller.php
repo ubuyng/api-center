@@ -1802,7 +1802,8 @@ class Api3Controller extends Controller
         $result = SubCategory::where('name','LIKE','%'.$query.'%')->first();
 
 
-        $pros = DB::table("services")
+        if($result){
+            $pros = DB::table("services")
         ->where('services.sub_category_id', '=', $result->id)
         ->join('profiles', 'profiles.user_id', 'services.user_id')
         ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
@@ -1829,7 +1830,7 @@ class Api3Controller extends Controller
     
                 
 
-                    $row["premium_pros"][] = array(
+                    $row["pros_search"][] = array(
                         'user_id' => $pro->id,
                         'pro_name' => $pro->first_name.' '.$pro->last_name,
                         'project_count' => $pro_projects,
@@ -1841,6 +1842,12 @@ class Api3Controller extends Controller
                 }
     
             }
+        }else{
+            $row["pros_search"][] = array(
+                'msg' => "No pros found",
+                'success' => 0,
+            );
+        }
 
             $set['UBUYAPI_V2'] = $row;
     
