@@ -1650,7 +1650,6 @@ class Api3Controller extends Controller
                         // getting the pro user details                       
 
                         $pro_projects = Project::where('pro_id', $pro->id)->count();
-                      dd($pro_projects);
                         if ($pro_projects >= 1) {
                             if ($pro->image) {
                                 $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
@@ -1679,6 +1678,15 @@ class Api3Controller extends Controller
                         }
             
                     }
+
+
+                       
+                    $set['UBUYAPI_V2'] = $row;
+            
+        
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
     }
 /* Here we start the api for safety toolkit 
 *
