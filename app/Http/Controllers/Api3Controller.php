@@ -1645,16 +1645,17 @@ class Api3Controller extends Controller
                         // getting the pro user details
                         $user = User::where('id', $pro->id)->first();
                        
-                        if ($user->image) {
-                            $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
-                        }else{
-            
-                            $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-                        }
+                       
                         
                         $pro_projects = Project::where('pro_id', $user->id)->count();
                       
                         if ($pro_projects >= 1) {
+                            if ($user->image) {
+                                $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
+                            }else{
+                
+                                $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                            }
                               // getting the pros first service
                         $pro_service = DB::table("services")
                         ->where('services.user_id', '=', $user->id)
@@ -1663,7 +1664,7 @@ class Api3Controller extends Controller
                         ->first();
             
                         dd($pro_service);
-                        
+
                             $row["invite_premium"][] = array(
                                 'user_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
