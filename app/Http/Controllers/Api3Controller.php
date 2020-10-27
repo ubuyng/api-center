@@ -1707,7 +1707,8 @@ class Api3Controller extends Controller
                     ->join('users', 'users.id', '=', 'ratings.pro_id')
                     ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
                     ->first();
-            
+
+                    dd($pros);
                     
                                 foreach ($pros as $pro) {
                                     // getting the pro user details
