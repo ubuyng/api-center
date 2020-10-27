@@ -1639,6 +1639,8 @@ class Api3Controller extends Controller
     public function apiAllCategories(){
         $cats = Category::get();
 
+        $row["top_categories"][] = $cats;
+
         $pros = DB::table("ratings")
         ->join('users', 'users.id', '=', 'ratings.pro_id')
         ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
@@ -1674,12 +1676,6 @@ class Api3Controller extends Controller
                                 'premium_pro' => 1,
                             );
                             
-                        }else{
-                        
-                            $row["invite_premium"][] = array(
-                                'user_id' => $pro->id,
-                                
-                            );
                         }
             
                     }
