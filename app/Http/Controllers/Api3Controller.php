@@ -1653,7 +1653,9 @@ class Api3Controller extends Controller
                         }
                         
                         $pro_projects = Project::where('pro_id', $user->id)->count();
-                        // getting the pros first service
+                      
+                        if ($pro_projects >= 1) {
+                              // getting the pros first service
                         $pro_service = DB::table("services")
                         ->where('services.user_id', '=', $user->id)
                         ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_category_id')
@@ -1661,7 +1663,7 @@ class Api3Controller extends Controller
                         ->first();
             
                         dd($pro_service);
-                        if ($pro_projects >= 1) {
+                        
                             $row["invite_premium"][] = array(
                                 'user_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
