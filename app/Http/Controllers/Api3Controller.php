@@ -1799,7 +1799,7 @@ class Api3Controller extends Controller
 
         $query = filter_input(INPUT_GET, 'query', FILTER_SANITIZE_STRING);
 
-        $result = SubCategory::where('name','LIKE','%'.$query.'%')->first();
+        $result = SubCategory::where('name','LIKE','%'.$query.'%')->get();
 
         dd($result);
 
