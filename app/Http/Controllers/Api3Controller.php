@@ -1700,37 +1700,35 @@ class Api3Controller extends Controller
                 $subs = SubCategory::where('category_id', $cat->id)->get();
 
                 foreach($subs as $sub){
-                    $pros = DB::table("services")
-                    ->where('services.sub_category_id', '=', $sub->id)
-                    ->join('profiles', 'profiles.user_id', 'services.user_id')
-                    ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
-                                ->orderBy('profiles.id', 'desc')->get();
+                    $pros = DB::table("ratings")
+                    ->join('users', 'users.id', '=', 'ratings.pro_id')
+                    ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
+                    ->orderBy('users.id', 'desc')->get();
             
                                 foreach ($pros as $pro) {
                                     // getting the pro user details
-                                    $user = User::where('id', $pro->id)->first();
                                    
-                                    if ($user->image) {
-                                        $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
+                                    if ($pro->image) {
+                                        $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
                                     }else{
                         
                                         $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
                                     }
                                     
-                                    $pro_projects = Project::where('pro_id', $user->id)->count();
+                                    $pro_projects = Project::where('pro_id', $pro->id)->count();
                         
                                     if ($pro_projects >= 1) {
                                         $row["invite_premium"][] = array(
-                                            'user_id' => $user->id,
-                                            'pro_name' => $user->first_name.' '.$user->last_name,
+                                            'user_id' => $pro->id,
+                                            'pro_name' => $pro->first_name.' '.$pro->last_name,
                                             'project_count' => $pro_projects,
                                             'profile_image' => $profile_image,
                                             'premium_pro' => 1,
                                         );
                                     }else {
                                         $row["invite_pro"][] = array(
-                                            'user_id' => $user->id,
-                                            'pro_name' => $user->first_name.' '.$user->last_name,
+                                            'user_id' => $pro->id,
+                                            'pro_name' => $pro->first_name.' '.$pro->last_name,
                                             'project_count' => $pro_projects,
                                             'profile_image' => $profile_image,
                                             'premium_pro' => 0,
