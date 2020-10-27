@@ -1696,63 +1696,48 @@ class Api3Controller extends Controller
 
             $cat = Category::where('id', $cat_id)->first();
 
-            if($cat){
-                $subs = DB::table("sub_categories")
-                ->where('sub_categories.category_id', '=', $cat->id)
-                ->join('services', 'services.sub_category_id', '=', 'sub_categories.id')
-                ->join('ratings', 'ratings.pro_id', '=', 'services.user_id')
-                ->join('users', 'users.id', '=', 'services.user_id')
-                ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
-                ->get();
+            $subs = SubCategory::where('category_id', $cat->id)->first();
+            $row["sub_categories"][] = $subs;
 
-                $result = array_unique($subs);
-                dd($result);
-
-                // $row["sub_categories"][] = $subs;
-
-                // foreach($subs as $sub){
-                //     $pro = DB::table("ratings")
-                //     ->join('services', 'services.user_id', '=', 'ratings.pro_id')
-                //     ->where('services.sub_category_id', '=', $sub->id)
-                //     ->join('users', 'users.id', '=', 'ratings.pro_id')
-                //     ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
-                //     ->get();
-
+            $pros = DB::table("ratings")
+            ->join('users', 'users.id', '=', 'ratings.pro_id')
+            ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
+            ->orderBy('users.id', 'desc')->get();
+            
+    
+                        foreach ($pros as $pro) {
+                            // getting the pro user details                       
+    
+                            $pro_projects = Project::where('pro_id', $pro->id)->count();
+                            if ($pro_projects >= 1) {
+                                if ($pro->image) {
+                                    $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
+                                }else{
                     
-                //   if($pro){
-                      
-                //     $result = array_unique($pro);
-                //     dd($result);
-                //     if ($pro->image) {
-                //         $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
-                //     }else{
-        
-                //         $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-                //     }
-                    
-                //     $pro_projects = Project::where('pro_id', $pro->id)->count();
-        
-                //     if ($pro_projects >= 1) {
-                //         $row["invite_premium"][] = array(
-                //             'user_id' => $pro->id,
-                //             'pro_name' => $pro->first_name.' '.$pro->last_name,
-                //             'project_count' => $pro_projects,
-                //             'profile_image' => $profile_image,
-                //             'premium_pro' => 1,
-                //         );
-                //     }
-                    
-                //   }
-                //                 // foreach ($pros as $pro) {
-                //                 //     // getting the pro user details
-                                   
-
-                                   
-                        
-                //                 // }
-                // }
-
-            }
+                                    $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                                }
+                                  // getting the pros first service
+                            $pro_service = DB::table("services")
+                            ->where('services.user_id', '=', $pro->id)
+                            ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_category_id')
+                            ->select('sub_categories.name')
+                            ->first();
+                
+                            
+    
+                                $row["invite_premium"][] = array(
+                                    'user_id' => $pro->id,
+                                    'pro_name' => $pro->first_name.' '.$pro->last_name,
+                                    'project_count' => $pro_projects,
+                                    'profile_image' => $profile_image,
+                                    'pro_service' => $pro_service->name,
+                                    'premium_pro' => 1,
+                                );
+                                
+                            }
+                
+                        }
+    
         }
 
         $set['UBUYAPI_V2'] = $row;
