@@ -1675,6 +1675,12 @@ class Api3Controller extends Controller
                                 'premium_pro' => 1,
                             );
                             
+                        }else{
+                        
+                            $row["invite_premium"][] = array(
+                                'user_id' => $pro->id,
+                                
+                            );
                         }
             
                     }
