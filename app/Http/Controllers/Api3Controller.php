@@ -1698,6 +1698,7 @@ class Api3Controller extends Controller
 
             if($cat){
                 $subs = SubCategory::where('category_id', $cat->id)->get();
+                $row["sub_categories"][] = $subs;
 
                 foreach($subs as $sub){
                     $pros = DB::table("ratings")
@@ -1727,17 +1728,9 @@ class Api3Controller extends Controller
                                             'profile_image' => $profile_image,
                                             'premium_pro' => 1,
                                         );
-                                    }else {
-                                        $row["invite_pro"][] = array(
-                                            'user_id' => $pro->id,
-                                            'pro_name' => $pro->first_name.' '.$pro->last_name,
-                                            'project_count' => $pro_projects,
-                                            'profile_image' => $profile_image,
-                                            'premium_pro' => 0,
-                                        );
                                     }
 
-                                    dd($row);
+                                   
                         
                                 }
                 }
@@ -1745,6 +1738,12 @@ class Api3Controller extends Controller
             }
         }
 
+        $set['UBUYAPI_V2'] = $row;
+            
+        
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
     }
 /* Here we start the api for safety toolkit 
 *
