@@ -1640,11 +1640,13 @@ class Api3Controller extends Controller
         $cats = Category::get();
 
         $pros = Profile::get();
+        dd($pros);
 
                     foreach ($pros as $pro) {
                         // getting the pro user details
                         $user = User::where('id', $pro->id)->first();
                        
+
                        
                         
                         $pro_projects = Project::where('pro_id', $user->id)->count();
