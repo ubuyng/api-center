@@ -1665,7 +1665,7 @@ class Api3Controller extends Controller
                         ->select('sub_categories.name')
                         ->first();
             
-                        dd($pro_service);
+                        
 
                             $row["invite_premium"][] = array(
                                 'user_id' => $pro->id,
@@ -1675,6 +1675,7 @@ class Api3Controller extends Controller
                                 'pro_service' => $pro_service->name,
                                 'premium_pro' => 1,
                             );
+                            dd($row);
                         }
             
                     }
