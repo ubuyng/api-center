@@ -453,7 +453,7 @@ class Api3Controller extends Controller
             $version_ = filter_input(INPUT_GET, 'version_', FILTER_SANITIZE_STRING);
 
             if($version_ == 0){
-                $project == Project::where('id', $project_id)->first();
+                $project = Project::where('id', $project_id)->first();
             }elseif($version_ == 1){
                 $project == NewProject::where('id', $project_id)->first();
             }
