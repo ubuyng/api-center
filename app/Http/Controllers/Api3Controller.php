@@ -1791,7 +1791,7 @@ class Api3Controller extends Controller
             $regular_pros = DB::table("users")
             ->where('users.verify_confirm', '=', 1)
             ->where('users.user_role', '=', 'pro')
-            ->where('users.image', '=', true)
+            ->where('users.image', '==', true)
             ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
             ->orderBy('users.id', 'desc')->get();
 
