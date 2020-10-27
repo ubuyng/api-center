@@ -1641,8 +1641,10 @@ class Api3Controller extends Controller
 
         $pros = DB::table("profiles")
         ->join('users', 'users.id', '=', 'profiles.user_id')
-        ->where('users.profile_approved', '=', 1)
+        ->where('users.verify_confirm', '=', 1)
+
         ->orderBy('users.id', 'desc')->get();
+        
         dd($pros);
 
                     foreach ($pros as $pro) {
