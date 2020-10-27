@@ -1708,6 +1708,7 @@ class Api3Controller extends Controller
                     ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
                     ->orderBy('users.id', 'desc')->get();
             
+                    dd($pros);
                                 foreach ($pros as $pro) {
                                     // getting the pro user details
                                    
