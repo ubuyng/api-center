@@ -1701,40 +1701,40 @@ class Api3Controller extends Controller
                 $row["sub_categories"][] = $subs;
 
                 foreach($subs as $sub){
-                    $pros = DB::table("ratings")
+                    $pro = DB::table("ratings")
                     ->join('services', 'services.user_id', '=', 'ratings.pro_id')
                     ->where('services.sub_category_id', '=', $sub->id)
                     ->join('users', 'users.id', '=', 'ratings.pro_id')
                     ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
                     ->first();
 
-                    dd($pros);
                     
-                                foreach ($pros as $pro) {
-                                    // getting the pro user details
+                    if ($pro->image) {
+                        $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
+                    }else{
+        
+                        $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                    }
+                    
+                    $pro_projects = Project::where('pro_id', $pro->id)->count();
+        
+                    if ($pro_projects >= 1) {
+                        $row["invite_premium"][] = array(
+                            'user_id' => $pro->id,
+                            'pro_name' => $pro->first_name.' '.$pro->last_name,
+                            'project_count' => $pro_projects,
+                            'profile_image' => $profile_image,
+                            'premium_pro' => 1,
+                        );
+                    }
+                    
+                                // foreach ($pros as $pro) {
+                                //     // getting the pro user details
                                    
-                                    if ($pro->image) {
-                                        $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
-                                    }else{
-                        
-                                        $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-                                    }
-                                    
-                                    $pro_projects = Project::where('pro_id', $pro->id)->count();
-                        
-                                    if ($pro_projects >= 1) {
-                                        $row["invite_premium"][] = array(
-                                            'user_id' => $pro->id,
-                                            'pro_name' => $pro->first_name.' '.$pro->last_name,
-                                            'project_count' => $pro_projects,
-                                            'profile_image' => $profile_image,
-                                            'premium_pro' => 1,
-                                        );
-                                    }
 
                                    
                         
-                                }
+                                // }
                 }
 
             }
