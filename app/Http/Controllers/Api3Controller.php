@@ -1807,14 +1807,16 @@ class Api3Controller extends Controller
             foreach($results as $result){
                 $pros = DB::table("services")
                 ->where('services.sub_category_id', '=', $result->id)
-                ->join('profiles', 'profiles.user_id', 'services.user_id')
-                ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
-                            ->orderBy('profiles.id', 'desc')->get();
+                ->join('users', 'users.id', 'services.user_id')
+                ->select('users.id as id', 'users.first_name', 'users.last_name', 'users.image')
+                            ->orderBy('users.id', 'desc')->get();
                 
+
         
                     foreach ($pros as $pro) {
                         // getting the pro user details                       
         
+                        
                         $pro_projects = Project::where('pro_id', $pro->id)->count();
                         if ($pro_projects >= 1) {
                             if ($pro->image) {
