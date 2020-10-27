@@ -1706,7 +1706,7 @@ class Api3Controller extends Controller
                     ->where('services.sub_category_id', '=', $sub->id)
                     ->join('users', 'users.id', '=', 'ratings.pro_id')
                     ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
-                    ->first();
+                    ->get();
 
                     
                   if($pro){
