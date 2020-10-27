@@ -1803,11 +1803,8 @@ class Api3Controller extends Controller
                 if ($pro_projects >= 1) {
                     if ($pro->image) {
                         $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
-                    }else{
-        
-                        $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-                    }
-                        // getting the pros first service
+
+                              // getting the pros first service
                 $pro_service = DB::table("services")
                 ->where('services.user_id', '=', $pro->id)
                 ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_category_id')
@@ -1824,6 +1821,8 @@ class Api3Controller extends Controller
                         'pro_service' => $pro_service->name,
                         'premium_pro' => 0,
                     );
+                    }
+                  
                     
                 }
     
