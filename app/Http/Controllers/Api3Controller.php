@@ -1642,18 +1642,13 @@ class Api3Controller extends Controller
         $pros = DB::table("profiles")
         ->join('users', 'users.id', '=', 'profiles.user_id')
         ->where('users.verify_confirm', '=', 1)
-
+        ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
         ->orderBy('users.id', 'desc')->get();
         
-        dd($pros);
 
                     foreach ($pros as $pro) {
-                        // getting the pro user details
-                        $user = User::where('id', $pro->id)->first();
-                       
+                        // getting the pro user details                       
 
-                       
-                        
                         $pro_projects = Project::where('pro_id', $user->id)->count();
                       
                         if ($pro_projects >= 1) {
