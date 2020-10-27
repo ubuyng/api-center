@@ -1710,27 +1710,27 @@ class Api3Controller extends Controller
 
                     
                   if($pro){
-                      if(count($pro->id) < 1){
-                        if ($pro->image) {
-                            $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
-                        }else{
-            
-                            $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-                        }
-                        
-                        $pro_projects = Project::where('pro_id', $pro->id)->count();
-            
-                        if ($pro_projects >= 1) {
-                            $row["invite_premium"][] = array(
-                                'user_id' => $pro->id,
-                                'pro_name' => $pro->first_name.' '.$pro->last_name,
-                                'project_count' => $pro_projects,
-                                'profile_image' => $profile_image,
-                                'premium_pro' => 1,
-                            );
-                        }
-                      }
+                      
+                    $result = array_unique($pro);
+                    dd($result);
+                    if ($pro->image) {
+                        $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
+                    }else{
+        
+                        $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                    }
                     
+                    $pro_projects = Project::where('pro_id', $pro->id)->count();
+        
+                    if ($pro_projects >= 1) {
+                        $row["invite_premium"][] = array(
+                            'user_id' => $pro->id,
+                            'pro_name' => $pro->first_name.' '.$pro->last_name,
+                            'project_count' => $pro_projects,
+                            'profile_image' => $profile_image,
+                            'premium_pro' => 1,
+                        );
+                    }
                     
                   }
                                 // foreach ($pros as $pro) {
