@@ -462,6 +462,7 @@ class Api3Controller extends Controller
 
             if($project){
                 $pro = User::where('id', $project->pro_id)->first();
+                dd($pro);
                 if ($pro->image) {
                     $pro_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$pro->image;
                 }else{
