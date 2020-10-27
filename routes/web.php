@@ -181,6 +181,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::Post('/post/debug/task', 'Api3Controller@debugSave');
         Route::Post('/post/edit/task', 'Api3Controller@saveEdit');
         Route::get('/single/project/v3/{project_id?}/{version_?}', 'Api3Controller@singleProjectSB');
+        Route::get('/single/archive/project/v3/{project_id?}/{version_?}', 'Api3Controller@singleArchiveProjectSB');
         Route::get('/reopen/project/{project_id?}/{version_?}', 'Api3Controller@reopenProject');
         Route::get('/single/bid/profile/{bid_id?}/{version_?}', 'Api3Controller@BidProfile');
         Route::Post('/post/cancel/task', 'Api3Controller@CancelTask');

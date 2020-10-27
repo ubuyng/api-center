@@ -381,6 +381,71 @@ class Api3Controller extends Controller
             echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
             die();
        }
+       public function singleArchiveProjectSB(){
+        $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
+        $version_ = filter_input(INPUT_GET, 'version_', FILTER_SANITIZE_STRING);
+
+        if($version_ == 0){
+
+            $project = Project::where('id', $project_id)->first();
+            if($project){
+
+                $projectBid = ProjectBid::where('project_id', $project_id)->get();
+            }
+            
+        }elseif($version_ == 1){
+            
+            $project = NewProject::where('id', $project_id)->first();
+            if($project){
+
+                $projectBid = NewProjectBid::where('project_id', $project_id)->get();
+            }
+            
+            
+        }
+        
+        
+        
+        $projectSkill = ProjectSkill::where('project_id', $project_id)->get();
+        // $row['project'] = $project;
+        $row['project_skill'] = $projectSkill;
+
+        /* loop for bids */
+        foreach($projectBid as $bid){
+            $bidder = User::where('id',$bid->user_id)->first();
+
+            $date = Carbon::parse($bid->created_at); // now date is a carbon instance
+
+            if ($bidder->image) {
+                $bidder_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bidder->image;
+            }else{
+                $bidder_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+            }
+
+            $row['project_bids'][] = array(
+                'bid_id' => $bid->id,
+                'pro_id' => $bidder->id,
+                'bid_message' => $bid->bid_message,
+                'bid_amount' => $bid->bid_amount,
+                'bid_status' => $bid->status,
+                'project_id' => $bid->project_id,
+                'created_at' => $date->diffForHumans(),
+                'pro_name' => $bidder->first_name.' '.$bidder->last_name,
+                'profile_photo' => $bidder_image,
+                'material_fee' => $bid->material_fee,
+                'service_fee' => $bid->service_fee,
+                'bid_type' => $bid->bid_type,
+                'version_' => $bid->version_,
+            );
+
+        }
+        
+        $set['UBUYAPI_V2']=$row;
+            
+            header( 'Content-Type: application/json; charset=utf-8' );
+            echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+            die();
+       }
 
 
 
