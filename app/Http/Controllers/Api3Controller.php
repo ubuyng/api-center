@@ -1799,50 +1799,53 @@ class Api3Controller extends Controller
 
         $query = filter_input(INPUT_GET, 'query', FILTER_SANITIZE_STRING);
 
-        $result = SubCategory::where('name','LIKE','%'.$query.'%')->get();
+        $results = SubCategory::where('name','LIKE','%'.$query.'%')->get();
 
-        dd($result);
 
-        if($result){
-            $pros = DB::table("services")
-        ->where('services.sub_category_id', '=', $result->id)
-        ->join('profiles', 'profiles.user_id', 'services.user_id')
-        ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
-                    ->orderBy('profiles.id', 'desc')->get();
-        
-
-            foreach ($pros as $pro) {
-                // getting the pro user details                       
-
-                $pro_projects = Project::where('pro_id', $pro->id)->count();
-                if ($pro_projects >= 1) {
-                    if ($pro->image) {
-                        $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
-                    }else{
-        
-                        $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-                    }
-                        // getting the pros first service
-                $pro_service = DB::table("services")
-                ->where('services.user_id', '=', $pro->id)
-                ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_category_id')
-                ->select('sub_categories.name')
-                ->first();
-    
+        if($results){
+            
+            foreach($results as $result){
+                $pros = DB::table("services")
+                ->where('services.sub_category_id', '=', $result->id)
+                ->join('profiles', 'profiles.user_id', 'services.user_id')
+                ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
+                            ->orderBy('profiles.id', 'desc')->get();
                 
-
-                    $row["pros_search"][] = array(
-                        'user_id' => $pro->id,
-                        'pro_name' => $pro->first_name.' '.$pro->last_name,
-                        'project_count' => $pro_projects,
-                        'profile_image' => $profile_image,
-                        'pro_service' => $pro_service->name,
-                        'premium_pro' => 1,
-                    );
-                    
-                }
-    
+        
+                    foreach ($pros as $pro) {
+                        // getting the pro user details                       
+        
+                        $pro_projects = Project::where('pro_id', $pro->id)->count();
+                        if ($pro_projects >= 1) {
+                            if ($pro->image) {
+                                $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
+                            }else{
+                
+                                $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                            }
+                                // getting the pros first service
+                        $pro_service = DB::table("services")
+                        ->where('services.user_id', '=', $pro->id)
+                        ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_category_id')
+                        ->select('sub_categories.name')
+                        ->first();
+            
+                        
+        
+                            $row["pros_search"][] = array(
+                                'user_id' => $pro->id,
+                                'pro_name' => $pro->first_name.' '.$pro->last_name,
+                                'project_count' => $pro_projects,
+                                'profile_image' => $profile_image,
+                                'pro_service' => $pro_service->name,
+                                'premium_pro' => 1,
+                            );
+                            
+                        }
+            
+                    }
             }
+
         }else{
             $row["pros_search"][] = array(
                 'msg' => "No pros found",
