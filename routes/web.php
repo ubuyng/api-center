@@ -175,7 +175,6 @@ Route::group(['prefix' => 'api_v2'], function() {
         /* categories */
         Route::get('/cats/all_categories', 'Api3Controller@apiAllCategories');
         Route::get('/cats/single_categories/{cat_id?}', 'Api3Controller@apiSingleCategories');
-        Route::get('/cats/single_cat/pros', 'Api3Controller@apiCatPros');
         Route::get('/cats/search_cat/{query?}', 'Api3Controller@apiSearchCats');
         
         /* projects */
@@ -201,6 +200,7 @@ Route::group(['prefix' => 'api_v2'], function() {
 
         /* getting pros lists */
         Route::get('/invite/pros/project/{project_id?}/{version_?}', 'Api3Controller@apiInvitePros');
+        Route::get('/all/pros/top/', 'Api3Controller@apiAllPros');
 
         Route::group(['prefix' => 'safetytoolkit'], function () {
             Route::get('project/save/{project_id?}/{bid_id?}', 'Api3Controller@SingleProjectSafety');

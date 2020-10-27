@@ -1747,6 +1747,94 @@ class Api3Controller extends Controller
         echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
         die();
     }
+
+    public function apiAllPros(){
+        $pros = DB::table("ratings")
+        ->join('users', 'users.id', '=', 'ratings.pro_id')
+        ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
+        ->orderBy('users.id', 'desc')->get();
+        
+
+            foreach ($pros as $pro) {
+                // getting the pro user details                       
+
+                $pro_projects = Project::where('pro_id', $pro->id)->count();
+                if ($pro_projects >= 1) {
+                    if ($pro->image) {
+                        $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
+                    }else{
+        
+                        $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                    }
+                        // getting the pros first service
+                $pro_service = DB::table("services")
+                ->where('services.user_id', '=', $pro->id)
+                ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_category_id')
+                ->select('sub_categories.name')
+                ->first();
+    
+                
+
+                    $row["premium_pros"][] = array(
+                        'user_id' => $pro->id,
+                        'pro_name' => $pro->first_name.' '.$pro->last_name,
+                        'project_count' => $pro_projects,
+                        'profile_image' => $profile_image,
+                        'pro_service' => $pro_service->name,
+                        'premium_pro' => 1,
+                    );
+                    
+                }
+    
+            }
+
+            $regular_pros = DB::table("users")
+            ->where('users.verify_confirm', '=', 1)
+            ->where('users.user_role', '=', 'pro')
+            ->where('users.image', '=', true)
+            ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
+            ->orderBy('users.id', 'desc')->get();
+
+
+            foreach ($regular_pros as $pro) {
+                // getting the pro user details                       
+
+                $pro_projects = Project::where('pro_id', $pro->id)->count();
+                if ($pro_projects >= 1) {
+                    if ($pro->image) {
+                        $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
+                    }else{
+        
+                        $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                    }
+                        // getting the pros first service
+                $pro_service = DB::table("services")
+                ->where('services.user_id', '=', $pro->id)
+                ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_category_id')
+                ->select('sub_categories.name')
+                ->first();
+    
+                
+
+                    $row["regular_pros"][] = array(
+                        'user_id' => $pro->id,
+                        'pro_name' => $pro->first_name.' '.$pro->last_name,
+                        'project_count' => $pro_projects,
+                        'profile_image' => $profile_image,
+                        'pro_service' => $pro_service->name,
+                        'premium_pro' => 0,
+                    );
+                    
+                }
+    
+            }
+            $set['UBUYAPI_V2'] = $row;
+    
+
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+    }
 /* Here we start the api for safety toolkit 
 *
 * This would have all callbacks for the safety toolkit which includes all reports and logs
