@@ -1697,50 +1697,57 @@ class Api3Controller extends Controller
             $cat = Category::where('id', $cat_id)->first();
 
             if($cat){
-                $subs = SubCategory::where('category_id', $cat->id)->get();
-                $row["sub_categories"][] = $subs;
+                $subs = DB::table("sub_categories")
+                ->where('sub_categories.category_id', '=', $cat->id)
+                ->join('services', 'services.sub_category_id', '=', 'sub_categories.id')
+                ->join('users', 'users.id', '=', 'services.user_id')
+                ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
+                ->get();
 
-                foreach($subs as $sub){
-                    $pro = DB::table("ratings")
-                    ->join('services', 'services.user_id', '=', 'ratings.pro_id')
-                    ->where('services.sub_category_id', '=', $sub->id)
-                    ->join('users', 'users.id', '=', 'ratings.pro_id')
-                    ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
-                    ->get();
+                dd($subs);
+                // $row["sub_categories"][] = $subs;
+
+                // foreach($subs as $sub){
+                //     $pro = DB::table("ratings")
+                //     ->join('services', 'services.user_id', '=', 'ratings.pro_id')
+                //     ->where('services.sub_category_id', '=', $sub->id)
+                //     ->join('users', 'users.id', '=', 'ratings.pro_id')
+                //     ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
+                //     ->get();
 
                     
-                  if($pro){
+                //   if($pro){
                       
-                    $result = array_unique($pro);
-                    dd($result);
-                    if ($pro->image) {
-                        $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
-                    }else{
+                //     $result = array_unique($pro);
+                //     dd($result);
+                //     if ($pro->image) {
+                //         $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
+                //     }else{
         
-                        $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-                    }
+                //         $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                //     }
                     
-                    $pro_projects = Project::where('pro_id', $pro->id)->count();
+                //     $pro_projects = Project::where('pro_id', $pro->id)->count();
         
-                    if ($pro_projects >= 1) {
-                        $row["invite_premium"][] = array(
-                            'user_id' => $pro->id,
-                            'pro_name' => $pro->first_name.' '.$pro->last_name,
-                            'project_count' => $pro_projects,
-                            'profile_image' => $profile_image,
-                            'premium_pro' => 1,
-                        );
-                    }
+                //     if ($pro_projects >= 1) {
+                //         $row["invite_premium"][] = array(
+                //             'user_id' => $pro->id,
+                //             'pro_name' => $pro->first_name.' '.$pro->last_name,
+                //             'project_count' => $pro_projects,
+                //             'profile_image' => $profile_image,
+                //             'premium_pro' => 1,
+                //         );
+                //     }
                     
-                  }
-                                // foreach ($pros as $pro) {
-                                //     // getting the pro user details
+                //   }
+                //                 // foreach ($pros as $pro) {
+                //                 //     // getting the pro user details
                                    
 
                                    
                         
-                                // }
-                }
+                //                 // }
+                // }
 
             }
         }
