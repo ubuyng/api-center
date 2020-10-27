@@ -171,6 +171,14 @@ Route::group(['prefix' => 'api_v2'], function() {
 
         // for debugging and migrate to api_v3
         Route::get('/post/cats_state', 'Api3Controller@apiCategoriesState');
+
+        /* categories */
+        Route::get('/cats/all_categories', 'Api3Controller@apiAllCategories');
+        Route::get('/cats/single_categories', 'Api3Controller@apiSingleCategories');
+        Route::get('/cats/single_cat/pros', 'Api3Controller@apiCatPros');
+        Route::get('/cats/search_cat/{query?}', 'Api3Controller@apiSearchCats');
+        
+        /* projects */
         Route::get('/pending_projects/{user_id?}', 'Api3Controller@apiPendingProjects');
         Route::get('/inprogress_projects/{user_id?}', 'Api3Controller@apiInProgressProjects');
         Route::get('/completed_projects/{user_id?}', 'Api3Controller@apiCompletedProjects');

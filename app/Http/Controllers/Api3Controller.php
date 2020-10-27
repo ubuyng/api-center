@@ -1635,6 +1635,50 @@ class Api3Controller extends Controller
 * This would have all callbacks for the safety toolkit which includes all reports and logs
 *
 */
+
+    public function apiAllCategories(){
+        $cats = Category::get();
+
+        $pros = Profile::get();
+
+                    foreach ($pros as $pro) {
+                        // getting the pro user details
+                        $user = User::where('id', $pro->id)->first();
+                       
+                        if ($user->image) {
+                            $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
+                        }else{
+            
+                            $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                        }
+                        
+                        $pro_projects = Project::where('pro_id', $user->id)->count();
+                        // getting the pros first service
+                        $pro_service = DB::table("services")
+                        ->where('services.user_id', '=', $user->id)
+                        ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_categories_id')
+                        ->select('sub_categories.name')
+                        ->first();
+            
+                        dd($pro_service);
+                        if ($pro_projects >= 1) {
+                            $row["invite_premium"][] = array(
+                                'user_id' => $user->id,
+                                'pro_name' => $user->first_name.' '.$user->last_name,
+                                'project_count' => $pro_projects,
+                                'profile_image' => $profile_image,
+                                'pro_service' => $pro_service->name,
+                                'premium_pro' => 1,
+                            );
+                        }
+            
+                    }
+    }
+/* Here we start the api for safety toolkit 
+*
+* This would have all callbacks for the safety toolkit which includes all reports and logs
+*
+*/
 // get a single project toolkit
         public function SingleProjectSafety()
         {
