@@ -1705,7 +1705,9 @@ class Api3Controller extends Controller
                 ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
                 ->get();
 
-                dd($subs);
+                $result = array_unique($subs);
+                dd($result);
+
                 // $row["sub_categories"][] = $subs;
 
                 // foreach($subs as $sub){
