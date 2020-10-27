@@ -1656,7 +1656,7 @@ class Api3Controller extends Controller
                         // getting the pros first service
                         $pro_service = DB::table("services")
                         ->where('services.user_id', '=', $user->id)
-                        ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_categories_id')
+                        ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_category_id')
                         ->select('sub_categories.name')
                         ->first();
             
