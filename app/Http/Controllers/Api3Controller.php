@@ -1700,6 +1700,7 @@ class Api3Controller extends Controller
                 $subs = DB::table("sub_categories")
                 ->where('sub_categories.category_id', '=', $cat->id)
                 ->join('services', 'services.sub_category_id', '=', 'sub_categories.id')
+                ->join('ratings', 'ratings.pro_id', '=', 'services.user_id')
                 ->join('users', 'users.id', '=', 'services.user_id')
                 ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
                 ->get();
