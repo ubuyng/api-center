@@ -1639,9 +1639,8 @@ class Api3Controller extends Controller
     public function apiAllCategories(){
         $cats = Category::get();
 
-        $pros = DB::table("profiles")
-        ->join('users', 'users.id', '=', 'profiles.user_id')
-        ->where('users.verify_confirm', '=', 1)
+        $pros = DB::table("ratings")
+        ->join('users', 'users.id', '=', 'ratings.pro_id')
         ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
         ->orderBy('users.id', 'desc')->get();
         
