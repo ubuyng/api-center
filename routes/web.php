@@ -201,6 +201,8 @@ Route::group(['prefix' => 'api_v2'], function() {
         /* getting pros lists */
         Route::get('/invite/pros/project/{project_id?}/{version_?}', 'Api3Controller@apiInvitePros');
         Route::get('/all/pros/top/', 'Api3Controller@apiAllPros');
+        Route::get('/all/search_pro/{query?}', 'Api3Controller@apiSearchPros');
+
 
         Route::group(['prefix' => 'safetytoolkit'], function () {
             Route::get('project/save/{project_id?}/{bid_id?}', 'Api3Controller@SingleProjectSafety');
