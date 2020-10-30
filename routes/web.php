@@ -228,7 +228,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         
         Route::group(['prefix' => 'profile'], function () {
             /* otp */
-            Route::get('/send/otp/{user_id?}', 'Api3Controller@SingleProjectSafety');
+            Route::get('/send/otp/{user_id?}', 'Api3Controller@apiOTPSend');
             Route::post('/post/check/otp/{user_id?}', 'Api3Controller@AlertProjectSafety');
             /* otp ends */
 
