@@ -3150,7 +3150,24 @@ public function CallAlertProjectSafety()
 
         $user = User::where('id', $user_id)->first();
 
-        // dd($user);
+        if ($user->image) {
+            $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
+        }else{
+
+            $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+        }
+
+        $upay = UpayTransaction::where('cus_id', $user_id)->where('status',1)->get();
+              
+        $balance = $upay->sum('amount');
+
+        $data = array(
+            'id' => $user->id,
+            'full_name' => $user->first_name.' '.$user->last_name,
+            'email' => $user->email,
+            'image' => $profile_image,
+            'upay_balance' => $balance,
+        );
         $set['UBUYAPI_V2'] = $user;
         header( 'Content-Type: application/json; charset=utf-8' );
         echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
