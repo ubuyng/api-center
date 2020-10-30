@@ -3150,11 +3150,11 @@ public function CallAlertProjectSafety()
 
         $user = User::where('id', $user_id)->first();
 
-        dd($user);
-        // $set['UBUYAPI_V2'] = $user;
-        // header( 'Content-Type: application/json; charset=utf-8' );
-        // echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
-        // die();
+        // dd($user);
+        $set['UBUYAPI_V2'] = $user;
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
 
 
     }
