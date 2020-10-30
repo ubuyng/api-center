@@ -3155,7 +3155,7 @@ public function CallAlertProjectSafety()
          
          $user = User::where('id', $user_id)->first();
          
-         $generated_ref = base64_encode(random_bytes(6));
+         $generated_ref =  mt_rand(100000, 999999);
         
          dd($generated_ref);
 
