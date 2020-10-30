@@ -168,10 +168,11 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::get('/my_projects/{user_id?}', 'Api2Controller@apiProjects');
         Route::get('/bids/{project_id?}', 'Api2Controller@apiProjectBids');
         Route::get('/notify/{user_id?}', 'Api2Controller@apiNotify');
-
+        
         // for debugging and migrate to api_v3
         Route::get('/post/cats_state', 'Api3Controller@apiCategoriesState');
-
+        /* notify */
+        Route::get('/notify/v3/{user_id?}', 'Api3Controller@apiNotify');
         /* categories */
         Route::get('/cats/all_categories', 'Api3Controller@apiAllCategories');
         Route::get('/cats/single_categories/{cat_id?}', 'Api3Controller@apiSingleCategories');
@@ -215,9 +216,31 @@ Route::group(['prefix' => 'api_v2'], function() {
                     Route::get('/user/open/{user_id?}', 'Api3Controller@DisputeUnResolved');
                     Route::post('/save/dispute/file', 'Api3Controller@saveDisputeFile');
                     Route::get('/get/cat/{user_id?}', 'Api3Controller@DisputeCatTask');
-
-           
         });
+
+        Route::group(['prefix' => 'payments'], function () {
+            Route::post('/log/save', 'Api3Controller@DisputeAddRecord');
+            Route::get('/post/cats_state', 'Api3Controller@apiCategoriesState');
+            Route::get('/user/open/{user_id?}', 'Api3Controller@DisputeUnResolved');
+            Route::post('/save/dispute/file', 'Api3Controller@saveDisputeFile');
+            Route::get('/get/cat/{user_id?}', 'Api3Controller@DisputeCatTask');
+        });
+        
+        Route::group(['prefix' => 'profile'], function () {
+            /* otp */
+            Route::get('s/end/otp/{user_id?}', 'Api3Controller@SingleProjectSafety');
+            Route::post('/post/check/otp/{user_id?}', 'Api3Controller@AlertProjectSafety');
+            /* otp ends */
+
+            /* account details starts */
+            Route::get('/user/profile/{user_id?}', 'Api3Controller@apiUserProfile');
+            Route::get('/user/update/profile/{user_id?}', 'Api3Controller@CallAlertProjectSafety');
+            Route::get('/user/change/password/{user_id?}', 'Api3Controller@CallAlertProjectSafety');
+        });
+
+
+
+
     });
 
     Route::group(['prefix' => 'auth'], function() {

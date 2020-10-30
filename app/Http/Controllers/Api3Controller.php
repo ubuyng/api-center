@@ -2927,9 +2927,7 @@ public function CallAlertProjectSafety()
     }
     public function apiCategories()
         {
-        
             $category = Category::get();
-
             $set['UBUYAPI_V2'] = $category;
             header( 'Content-Type: application/json; charset=utf-8' );
             echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
@@ -3146,6 +3144,19 @@ public function CallAlertProjectSafety()
         echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
         die();
      }
+    }
+    public function apiUserProfile(){
+        $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
+
+        $user = User::where('id', $user_id)->first();
+
+        dd($user);
+        // $set['UBUYAPI_V2'] = $user;
+        // header( 'Content-Type: application/json; charset=utf-8' );
+        // echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        // die();
+
+
     }
     public function apiClickOnPayment()
     {
