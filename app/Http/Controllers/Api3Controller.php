@@ -3145,6 +3145,21 @@ public function CallAlertProjectSafety()
         die();
      }
     }
+
+    /*
+     verification otp
+     */
+
+     public function apiOTPSend(){
+         $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
+         
+         $user = User::where('id', $user_id)->first();
+         
+         $generated_ref = base64_encode(random_bytes(6));
+        
+         dd($generated_ref);
+
+     }
     public function apiUserProfile(){
         $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
 
@@ -3153,7 +3168,6 @@ public function CallAlertProjectSafety()
         if ($user->image) {
             $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
         }else{
-
             $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
         }
 
