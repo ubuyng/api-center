@@ -225,6 +225,11 @@ Route::group(['prefix' => 'api_v2'], function() {
             Route::post('/save/dispute/file', 'Api3Controller@saveDisputeFile');
             Route::get('/get/cat/{user_id?}', 'Api3Controller@DisputeCatTask');
         });
+
+        Route::group(['prefix' => 'feedback'], function () {
+            Route::post('/log/save', 'Api3Controller@apiFeedback');
+            
+        });
         
         Route::group(['prefix' => 'profile'], function () {
             /* otp */

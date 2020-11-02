@@ -29,6 +29,7 @@ use App\ProGallery;
 use App\ResponseItem;
 use App\UpayTransaction;
 use App\AppFeedback;
+use App\Feedback;
 use App\ProjectFile;
 use App\NewProject;
 use App\Skill;
@@ -3301,7 +3302,6 @@ public function CallAlertProjectSafety()
                     'success' => 0,
                 );
             }           
-
         }else{
             $data = array(
                'msg' => "User not found",
@@ -3314,6 +3314,39 @@ public function CallAlertProjectSafety()
         die();
 
 
+    }
+    /* feedback */
+    public function apiFeedback(Request $request){
+        $user_id = $request->user_id;
+        $rate = $request->rate;
+        $feedback = $request->feedback;
+
+        $user = User::where('id', $user_id)->first();
+        if($user){
+            
+            $rating_data = [
+                'rating' => $rate,
+                'feedback' => $feedback
+            ];
+    
+             Feedback::where('id', '=', $user->id)->update($rating_data);
+    
+             $data = array(
+                'msg' => "rating saved",
+                'success' => 1,
+            );
+
+        }else{
+            $data = array(
+                'msg' => "User not found",
+                'success' => 0,
+            );
+        }
+
+        $set['UBUYAPI_V2'] = $data;
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
     }
     public function apiClickOnPayment()
     {
