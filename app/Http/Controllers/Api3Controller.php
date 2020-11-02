@@ -3325,6 +3325,7 @@ public function CallAlertProjectSafety()
         if($user){
             
             $rating_data = [
+                'user_id' => $user_id,
                 'rating' => $rate,
                 'feedback' => $feedback
             ];
