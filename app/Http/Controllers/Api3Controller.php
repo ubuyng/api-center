@@ -3164,7 +3164,7 @@ public function CallAlertProjectSafety()
          User::where('id', '=', $user->id)->update($otp_data);
 
          $data = array(
-            'msgid' => "Otp sent to registered number",
+            'msg' => "Otp sent to registered number",
             'otp' => $generated_ref,
             'success' => 1,
         );
@@ -3175,6 +3175,41 @@ public function CallAlertProjectSafety()
 
 
      }
+
+     public function apiOTPCheck(Request $request){
+       $user_id = $request->user_id;
+        $token = $request->token;
+
+         $user = User::where('id', $user_id)->first();
+         
+         if($token == $user->user_token){
+            $otp_data = [
+                'number_verify_code' => $token
+            ];
+    
+             User::where('id', '=', $user->id)->update($otp_data);
+    
+             $data = array(
+                'msg' => "Number Verified",
+                'success' => 1,
+            );
+
+         }else{
+            $data = array(
+                'msg' => "Token doesn't match",
+                'success' => 0,
+            );
+         }
+         
+         
+        $set['UBUYAPI_V2'] = $data;
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+
+
+     }
+
     public function apiUserProfile(){
         $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
 
