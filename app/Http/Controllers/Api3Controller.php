@@ -3241,7 +3241,7 @@ public function CallAlertProjectSafety()
 
     }
 
-    public function apiUpdateUserProfile(){
+    public function apiUpdateUserProfile(Request $request){
         $user_id = $request->user_id;
         $first_name = $request->first_name;
         $last_name = $request->last_name;
