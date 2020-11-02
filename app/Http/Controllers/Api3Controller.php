@@ -3157,7 +3157,22 @@ public function CallAlertProjectSafety()
          
          $generated_ref =  mt_rand(100000, 999999);
         
-         dd($generated_ref);
+         $botp_dataid_data = [
+            'user_token' => $generated_ref
+        ];
+
+         User::where('id', '=', $user->id)->update($otp_data);
+
+         $data = array(
+            'msgid' => "Otp sent to registered number",
+            'otp' => $generated_ref,
+            'success' => 1,
+        );
+        $set['UBUYAPI_V2'] = $data;
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+
 
      }
     public function apiUserProfile(){
