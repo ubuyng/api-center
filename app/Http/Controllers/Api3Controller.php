@@ -3157,7 +3157,7 @@ public function CallAlertProjectSafety()
          
          $generated_ref =  mt_rand(100000, 999999);
         
-         $botp_dataid_data = [
+         $otp_data = [
             'user_token' => $generated_ref
         ];
 
