@@ -29,7 +29,7 @@ use App\ProGallery;
 use App\ResponseItem;
 use App\UpayTransaction;
 use App\AppFeedback;
-use App\Feedback;
+use App\SurveyFeedback;
 use App\ProjectFile;
 use App\NewProject;
 use App\Skill;
