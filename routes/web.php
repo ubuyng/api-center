@@ -235,7 +235,7 @@ Route::group(['prefix' => 'api_v2'], function() {
             /* account details starts */
             Route::get('/user/profile/{user_id?}', 'Api3Controller@apiUserProfile');
             Route::post('/user/update/profile/', 'Api3Controller@apiUpdateUserProfile');
-            Route::get('/user/change/password/{user_id?}', 'Api3Controller@CallAlertProjectSafety');
+            Route::post('/user/change/password/', 'Api3Controller@apiUpdateUserPass');
         });
 
 

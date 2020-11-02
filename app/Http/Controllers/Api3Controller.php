@@ -3275,6 +3275,49 @@ public function CallAlertProjectSafety()
 
 
     }
+// password up
+    public function apiUpdateUserPass(Request $request){
+        $user_id = $request->user_id;
+        $old_password = $request->old_password;
+        $new_password = $request->new_password;
+
+        $user = User::where('id', $user_id)->first();
+
+        if($user){
+            $hashedPassword = $user->password;
+
+            if (Hash::check($old_password, $hashedPassword)) {
+                $user_data = [
+                    'password' => $new_password,
+                ];
+                User::where('id', '=', $user->id)->update($user_data);
+                $data = array(
+                    'msg' => "Password updated",
+                    'success' => 1,
+                );
+            }else{
+                $data = array(
+                    'msg' => "Password doesn't match",
+                    'success' => 0,
+                );
+            }
+   
+   
+           
+
+        }else{
+            $data = array(
+               'msg' => "User not found",
+               'success' => 0,
+           );
+        }
+        $set['UBUYAPI_V2'] = $data;
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+
+
+    }
     public function apiClickOnPayment()
     {
         $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
