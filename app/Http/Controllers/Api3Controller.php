@@ -3330,7 +3330,7 @@ public function CallAlertProjectSafety()
                 'feedback' => $feedback
             ];
     
-             Feedback::create($rating_data);
+            SurveyFeedback::create($rating_data);
     
              $data = array(
                 'msg' => "rating saved",
