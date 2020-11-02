@@ -3229,9 +3229,45 @@ public function CallAlertProjectSafety()
             'id' => $user->id,
             'full_name' => $user->first_name.' '.$user->last_name,
             'email' => $user->email,
+            'number' => $user->number,
             'image' => $profile_image,
             'upay_balance' => $balance,
         );
+        $set['UBUYAPI_V2'] = $data;
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+
+
+    }
+
+    public function apiUpdateUserProfile(){
+        $user_id = $request->user_id;
+        $first_name = $request->first_name;
+        $last_name = $request->last_name;
+
+        $user = User::where('id', $user_id)->first();
+
+        if($user){
+        
+            $user_data = [
+               'first_name' => $first_name,
+               'last_name' => $last_name
+           ];
+   
+            User::where('id', '=', $user->id)->update($user_data);
+   
+            $data = array(
+               'msg' => "Profile updated",
+               'success' => 1,
+           );
+
+        }else{
+            $data = array(
+               'msg' => "User not found",
+               'success' => 0,
+           );
+        }
         $set['UBUYAPI_V2'] = $data;
         header( 'Content-Type: application/json; charset=utf-8' );
         echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));

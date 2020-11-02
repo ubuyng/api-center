@@ -229,7 +229,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::group(['prefix' => 'profile'], function () {
             /* otp */
             Route::get('/send/otp/{user_id?}', 'Api3Controller@apiOTPSend');
-            Route::post('/post/check/otp/{user_id?}', 'Api3Controller@apiOTPCheck');
+            Route::post('/post/check/otp/', 'Api3Controller@apiOTPCheck');
             /* otp ends */
 
             /* account details starts */
