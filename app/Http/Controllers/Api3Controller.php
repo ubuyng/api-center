@@ -3325,12 +3325,12 @@ public function CallAlertProjectSafety()
         if($user){
             
             $rating_data = [
-                'user_id' => $user_id,
+                'user_id' => $rate,
                 'rating' => $rate,
                 'feedback' => $feedback
             ];
     
-             Feedback::where('id', '=', $user->id)->update($rating_data);
+             Feedback::create($rating_data);
     
              $data = array(
                 'msg' => "rating saved",
