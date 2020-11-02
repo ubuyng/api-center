@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Feedback extends Model
+class SurveyFeedback extends Model
 {
     public $fillable = [
         'user_id',
