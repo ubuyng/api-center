@@ -3286,28 +3286,21 @@ public function CallAlertProjectSafety()
         if($user){
             $hashedPassword = $user->password;
 
-            $user_data = [
-                'password' => Hash::make($new_password),
-            ];
-            User::where('id', '=', $user->id)->update($user_data);
-            // if (Hash::check($old_password, $hashedPassword)) {
-            //     $user_data = [
-            //         'password' => Hash::make($new_password),
-            //     ];
-            //     User::where('id', '=', $user->id)->update($user_data);
-            //     $data = array(
-            //         'msg' => "Password updated",
-            //         'success' => 1,
-            //     );
-            // }else{
-            //     $data = array(
-            //         'msg' => "Password doesn't match",
-            //         'success' => 0,
-            //     );
-            // }
-   
-   
-           
+            if (Hash::check($old_password, $hashedPassword)) {
+                $user_data = [
+                    'password' => Hash::make($new_password),
+                ];
+                User::where('id', '=', $user->id)->update($user_data);
+                $data = array(
+                    'msg' => "Password updated",
+                    'success' => 1,
+                );
+            }else{
+                $data = array(
+                    'msg' => "Password doesn't match",
+                    'success' => 0,
+                );
+            }           
 
         }else{
             $data = array(
