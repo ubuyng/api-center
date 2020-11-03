@@ -2842,6 +2842,62 @@ public function CallAlertProjectSafety()
         die();
     }
 
+    public function apiSubPros(){
+        $sub_id = filter_input(INPUT_GET, 'sub_id', FILTER_SANITIZE_STRING);
+
+     
+
+
+        // get the sub category the project belongs to
+        
+        $sub = SubCategory::where('id', $sub_id)->first();
+
+        $pros = DB::table("services")
+        ->where('services.sub_category_id', '=', $sub->id)
+        ->join('profiles', 'profiles.user_id', 'services.user_id')
+        ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
+                    ->orderBy('profiles.id', 'desc')->get();
+
+                    foreach ($pros as $pro) {
+                        // getting the pro user details
+                        $user = User::where('id', $pro->id)->first();
+                       
+                        if ($user->image) {
+                            $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
+                        }else{
+            
+                            $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                        }
+                        
+                        $pro_projects = Project::where('pro_id', $user->id)->count();
+            
+                        if ($pro_projects >= 1) {
+                            $row["invite_premium"][] = array(
+                                'user_id' => $user->id,
+                                'pro_name' => $user->first_name.' '.$user->last_name,
+                                'project_count' => $pro_projects,
+                                'profile_image' => $profile_image,
+                                'premium_pro' => 1,
+                            );
+                        }else {
+                            $row["invite_pro"][] = array(
+                                'user_id' => $user->id,
+                                'pro_name' => $user->first_name.' '.$user->last_name,
+                                'project_count' => $pro_projects,
+                                'profile_image' => $profile_image,
+                                'premium_pro' => 0,
+                            );
+                        }
+            
+                    }
+        // maths ends
+
+        $set['UBUYAPI_V2'] = $row;
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+    }
+
     /* PROS LIST API ENDS HERE */
 
     public function chattest()
