@@ -251,8 +251,8 @@ Route::group(['prefix' => 'api_v2'], function() {
     Route::group(['prefix' => 'v3/auth'], function() {
         Route::post('/login', 'UserController@authLogin3');
         Route::post('/forgetpass', 'UserController@forgetpass3');
-        Route::post('/user_register/{first_name?}/{last_name?}/{email?}/{password?}/{phone?}', 'UserController@authRegister3');
-        Route::get('/user_profile/{id?}', 'UserController@apiProfile3');
+        Route::post('/user_register', 'UserController@authRegister3');
+        Route::get('/user_profile/{user_id?}', 'UserController@apiProfile3');
 
     });
     Route::group(['prefix' => 'auth'], function() {

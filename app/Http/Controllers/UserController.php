@@ -873,8 +873,8 @@ public function forgetpass3(Request $request){
 public function apiProfile3()
 {
 
-    if (isset($_GET['id'])) {
-        $user_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
+    if (isset($_GET['user_id'])) {
+        $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
 
         $user = Auth::loginUsingId($user_id);
 
