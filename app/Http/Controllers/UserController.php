@@ -790,8 +790,235 @@ public function apiProfile2()
     }
 }
 
+         /* 
+   ** ======== API VERSION 3 SECTION STARTS HERE =======
+   **
+   */
+
+  public function authLogin3(Request $request){
+
+    $email = $request->email;
+    $password = $request->password;
+    $title = $email;
+    
+    $userauth = User::where('email', '=', $email)->first();
 
 
+    if (!$userauth) {
+        $set['UBUYAPI_V2'][]=array('msg' =>'Account not found','success'=>'0');
+    }else if($userauth){
+        $hashedPassword = $userauth->password;
+
+
+        if (Hash::check($password, $hashedPassword)) {
+            $user = $userauth->where('email', '=', $email)->select('id', 'first_name', 'last_name', 'image', 'email', 'number', 'number_verify_code', 'email_verify_code', 'user_role')->first();
+
+            if ($user->image) {
+                $user_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$user->image;
+            } else {
+                $user_image = null;
+            }
+            
+            $set['UBUYAPI_V2'][]=array(
+                'user_id' => $user->id,
+                'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'number' => $user->number,
+            'number' => $user->number,
+            'user_image' => $user_image,
+            'number_verify_code' => $user->number_verify_code,
+            'email_verify_code' => $user->email_verify_code,
+            'user_role' => $user->user_role,
+            'success' => '1');
+            
+        }else{
+            $set['UBUYAPI_V2'][]=array('msg' =>'wrong password','success'=>'0');
+        }
+    }
+    
+    header( 'Content-Type: application/json; charset=utf-8' );
+    echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+    die();
+
+  
+}
+// forget pass
+public function forgetpass3(Request $request){
+
+    $email = $request->email;
+        
+    $userauth = User::where('email', '=', $email)->first();
+
+
+    if (!$userauth) {
+        $set['UBUYAPI_V1'][]=array('msg' =>'Account not found, Please register','success'=>'0');
+    }else if($userauth){
+
+        \Mail::send(new PassChangeEmail($userauth));
+
+            $set['UBUYAPI_V1'][]=array(
+                'user_id' => $userauth->id,
+                 'success' => '1');
+   }
+    header( 'Content-Type: application/json; charset=utf-8' );
+    echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+    die();
+
+  
+}
+
+// getting users profile
+
+public function apiProfile3()
+{
+
+    if (isset($_GET['id'])) {
+        $user_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
+
+        $user = Auth::loginUsingId($user_id);
+
+        if (!$user) {
+            $set['UBUYAPI_V1'][]=array('msg' =>'Account not found','success'=>'0');
+        }else if($user){
+        // $projects = $user->projectsSubCat->get();
+
+        $projects = DB::table("projects")
+        ->join('sub_categories', 'projects.sub_category_id', '=', 'sub_categories.id')
+        ->where('projects.user_id', '=', $user_id)
+        ->select('projects.id', 'projects.user_id', 'projects.created_at', 'sub_categories.image', 'projects.sub_category_name', 'projects.sub_category_id','projects.address',  'projects.project_message')
+        ->orderBy('projects.id', 'desc')->get();
+        
+        
+
+        $allProjects =  $projects->count();
+        $set['UBUYAPI_V1'][]=array(
+            'user_id' => $user->id,
+            'first_name' => $user->first_name,
+        'last_name' => $user->last_name,
+        'email' => $user->email,
+        'number' => $user->number,
+        'number_verify_code' => $user->number_verify_code,
+        'email_verify_code' => $user->email_verify_code,
+        'user_role' => $user->user_role,
+        'user_project' => $allProjects,
+        'success' => '1');
+        // $set['UBUYAPI_V1'] = $projects;
+         }
+
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+    }
+}
+
+
+
+public function authRegister3(Request $request){
+
+   
+    if ($request->email) {
+        $first_name = $request->first_name;
+        $last_name = $request->last_name;
+        $phone = $request->phone;
+        $email = $request->email;
+        $password = $request->password;
+        
+        $userauth = User::where('email', '=', $email)->orWhere('number', '=', $phone)->first();
+
+        if($userauth){     
+            // echo "used";
+       
+            $set['UBUYAPI_V1'][]=array('msg' =>'This email or number is registered already','success'=>'0');
+        }
+        else if (!$userauth) {
+
+
+            $length = 5;
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+    
+    
+            $firstnameSlug = $first_name;
+            $lastnameSlug = $last_name;
+            $userslug = $firstnameSlug.$lastnameSlug;
+            $user_slug = str_slug($userslug, 'User', 'user_slug');
+    
+            $cou_code = $phone;
+    
+            if (strpos($cou_code, '+2340') !== false) {
+                $phone_no = preg_replace('/^\+?2340|\|2340|\D/', '', ($cou_code)); 
+                 $phone_no = .0.$phone_no;
+            }elseif (strpos($cou_code, '2340') !== false) {
+                $phone_no = preg_replace('/^\+?2340|\|2340|\D/', '', ($cou_code)); 
+                 $phone_no = .0.$phone_no;
+            }elseif (strpos($cou_code, '+234') !== false) {
+                $phone_no = preg_replace('/^\+?234|\|234|\D/', '', ($cou_code)); 
+                 $phone_no = .0.$phone_no;
+            }elseif (strpos($cou_code, '234') !== false) {
+                $phone_no = preg_replace('/^\+?234|\|234|\D/', '', ($cou_code)); 
+                 $phone_no = .0.$phone_no;
+            }else {
+                $phone_no = $cou_code;
+            }
+    
+            $fourdigitrandom = rand(1000,9999); 
+
+           $user  = User::create([
+                'uuid'          => $randomString.$lastnameSlug,
+                'first_name'    => $first_name,
+                'last_name'     => $last_name,
+                'user_slug'     => $user_slug,
+                'email'         => $email,
+                'accept_terms'  => 1,
+                'user_role'     => 'customer',
+                'number'        => $phone_no,
+                'password'      => Hash::make($password),
+                'profile_approved' => 0,
+                'licence_approved' => 0,
+                'enable_text_message' => 0,
+                'user_token' => $fourdigitrandom,
+
+            ]);
+    
+             Auth::login($user);
+            $user = auth()->user();
+    
+            // \Mail::send(new CusConfirmEmail);
+            // \Mail::send(new CusWelcomeEmail);
+    
+            $set['UBUYAPI_V1'][]=array(
+                'user_id' => $user->id,
+                'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'number' => $user->number,
+            'number_verify_code' => $user->number_verify_code,
+            'email_verify_code' => $user->email_verify_code,
+            'user_token' => $user->user_token,
+            'user_role' => $user->user_role,
+            'msg' => 'Welcome to ubuy, Please verifiy your contacts',
+            'success' => '1'
+        );
+
+            // $set['UBUYAPI_V1'][]=array('msg' =>'Lets do business','success'=>'0');
+
+        } 
+        
+    } else{
+        $set['UBUYAPI_V1'][]=array('msg' =>'An Error as occoured, please check your details and try again','success'=>'0');
+
+    }
+    header( 'Content-Type: application/json; charset=utf-8' );
+    echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+    die();
+
+  
+}
 
     /**
      * @param $id
