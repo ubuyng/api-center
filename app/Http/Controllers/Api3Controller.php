@@ -79,10 +79,10 @@ class Api3Controller extends Controller
 
                        foreach($recomend as $rec){
 
-                        $rec_data = array(
+                        $rec_data[] = array(
                             'id' => $rec->id,
                             'name' => $rec->name,
-                            'image' => 'https://ubuy.ng/uploads/'.$rec->image
+                            'image' => 'https://ubuy.ng/uploads/backend/'.$rec->image
                         );
                        }
    
