@@ -4194,6 +4194,145 @@ public function apiStoreMessage()
   
    }
  
+
+   public function v3Profile()
+   {
+    $pro_id = filter_input(INPUT_GET, 'pro_id', FILTER_SANITIZE_STRING);
+
+
+            $user = User::find($pro_id);
+            if ($user) {
+                $profile = Profile::where('user_id',$user->id)->first();
+        
+                $profile_image = null;
+        
+                if ($profile != null) {
+                      
+        
+        
+                    if ($profile_image == null) {
+                        // check if the pro has a user image instead
+                        $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
+                        if($profile_image == null)  {
+                            $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                        }
+                    }
+                    $task_done__v2 = ProjectBid::where('user_id', $user->id)
+                     ->where('bid_status', '=', 2)
+                     ->count();
+                    $task_done__v3 = NewProjectBid::where('user_id', $user->id)
+                     ->where('bid_status', '=', 2)
+                     ->count();
+
+                     $task_done = $task_done__v2 + $task_done__v3;
+                     $joined_Date = $date = Carbon::parse($user->created_at); // now date is a carbon instance
+                     /* here we check the verification of the pro */
+                     $email_checker = $user->email_verify_code;
+                     $number_checker =  $user->number_verify_code;
+                     $id_checker = $user->verify_confirm;
+                     
+                    //  declare email status
+                     if ($email_checker) {
+                         $email_check = 1;
+                     }else{
+                         $email_check = 0;
+                     }
+
+                    //  declare number status
+                     if ($number_checker) {
+                         $number_check = 1;
+                     }else{
+                         $number_check = 0;
+                     }
+
+                    //  declare id status
+                     if ($id_checker == 2) {
+                         $id_check = 1;
+                     }else{
+                         $id_check = 0;
+                     }
+
+                    //  check if all the 
+                    if($id_checker && $number_checker && $email_checker){
+                        $user_verified = 1;
+                    }else{
+                        $user_verified = 0;
+                    }
+
+                    /* now we declare the row data for the pros profile api */
+                    $row['pro_profile'][]=array(
+                                
+                        'pro_id' =>  $user->id,
+                        'pro_image' => $profile_image,
+                        'pro_name' =>  $profile->business_name,
+                        'pro_city' => $profile->pro_city,
+                        'task_done' => $task_done,
+                        'badge_email' => $email_check,
+                        'badge_number' => $number_check,
+                        'badge_id' => $id_check,
+                        'user_verified' => $user_verified,
+                        'pro_joined' => $date->diffForHumans(),
+                    ); 
+
+                    /* now we declare the row data for the pros services api*/
+                    $services = DB::table("services")
+                    ->where('services.user_id', '=', $user->id)
+                    ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_category_id')
+                    ->select('sub_categories.name', 'sub_categories.image', 'sub_categories.id as id')->get();
+
+                    foreach ($services as $service) {
+                        $row['pro_services'][] = array(
+                            'service_id' => $service->id,
+                            'service_name' => $service->name,
+                            'service_image' => 'https://ubuy.ng/uploads/backend/'.$service->image,
+                        );
+                    }
+                    
+
+                    /* now we declare the row data for the pros reviews api*/
+                    // $ratings = DB::table("ratings")
+                    // ->where('ratings.pro_id', '=', $user->id)
+                    // ->join('users', 'users.id', '=', 'ratings.cus_id')
+                    // ->select('ratings.comment', 'ratings.rate_title', 'ratings.id as id', 'ratings.cus_name', 'users.image')->get();
+
+                    // $row['pro_ratings'][] = $ratings;
+
+                    /* now we declare the row data for the pros portfolio api*/
+                    $portfolios = DB::table("pro_galleries")->where('pro_galleries.user_id', '=', $user->id)->get();
+
+                    foreach ($portfolios as $portfolio) {
+                        $comment_count = DB::table('gallery_comments')->where('feed_id', '=', $portfolio->id)->count();
+                        $likes_count = DB::table('gallery_likes')->where('feed_id', '=', $portfolio->id)->count();
+                        
+                        $row['pro_portfolio'][] = array(
+                            'portfolio_id' => $portfolio->id,
+                            'portfolio_title' => $portfolio->title,
+                            'portfolio_file' => 'https://ubuy.ng/uploads/images/galleries/'.$portfolio->file,
+                            'portfolio_likes' => $likes_count,
+                            'portfolio_comments' => $comment_count,
+                        );
+                    }
+
+                    $set['UBUYAPI_V2'] = $row;
+                    
+                    }else {
+                        $set['UBUYAPI_V2'][]=array('msg' =>'This is a customer account or this pro has not setup a business profile','success'=>'0');
+        
+                }
+             }else {
+                $set['UBUYAPI_V2'][]=array('msg' =>'This profile does not have a valid profile registered','success'=>'0');
+        
+             }
+        
+
+   
+
+     header( 'Content-Type: application/json; charset=utf-8' );
+     echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+     die();
+  
+   }
+ 
    
   // Save pro project files
 
