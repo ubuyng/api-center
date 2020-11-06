@@ -77,7 +77,7 @@ class Api3Controller extends Controller
                        ->orderBy('sub_categories.count', 'desc')->get()->take(7);
 
 
-                       foreach($recommed as $rec){
+                       foreach($recomend as $rec){
 
                         $rec_data = array(
                             'id' => $rec->id,
