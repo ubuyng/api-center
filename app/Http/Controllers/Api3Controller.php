@@ -66,7 +66,8 @@ class Api3Controller extends Controller
    ** ======== API VERSION 2 SECTION STARTS HERE =======
    **
    */
-       public function apiIndexV2()
+
+       public function apiIndex()
        {
            $title = "UBUY APP";
            $header_slide = AppHeader::get();
@@ -2871,17 +2872,18 @@ public function CallAlertProjectSafety()
                         
                         $pro_projects = Project::where('pro_id', $user->id)->count();
             
+                        
                         if ($pro_projects >= 1) {
-                            $row["invite_premium"][] = array(
-                                'user_id' => $user->id,
+                            $row["premium_pros"][] = array(
+                                'pro_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
-                                'project_count' => $pro_projects,
-                                'profile_image' => $profile_image,
+                                'task_done' => $pro_projects,
+                                'pro_image' => $profile_image,
                                 'premium_pro' => 1,
                             );
                         }else {
-                            $row["invite_pro"][] = array(
-                                'user_id' => $user->id,
+                            $row["trending_pro"][] = array(
+                                'pro_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
                                 'project_count' => $pro_projects,
                                 'profile_image' => $profile_image,

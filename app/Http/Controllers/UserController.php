@@ -859,12 +859,12 @@ public function forgetpass3(Request $request){
 
             $set['UBUYAPI_V1'][]=array(
                 'user_id' => $userauth->id,
+                'msg' =>'We sent a magic link to '.$email.'. Click on the link to continue',
                  'success' => '1');
    }
     header( 'Content-Type: application/json; charset=utf-8' );
     echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
     die();
-
   
 }
 
@@ -890,6 +890,13 @@ public function apiProfile3()
         ->orderBy('projects.id', 'desc')->get();
         
         
+        if ($user->image) {
+            $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
+        }else{
+
+            $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+        }
+
 
         $allProjects =  $projects->count();
         $set['UBUYAPI_V1'][]=array(
@@ -901,6 +908,7 @@ public function apiProfile3()
         'number_verify_code' => $user->number_verify_code,
         'email_verify_code' => $user->email_verify_code,
         'user_role' => $user->user_role,
+        'profile_image' => $profile_image,
         'user_project' => $allProjects,
         'success' => '1');
         // $set['UBUYAPI_V1'] = $projects;
