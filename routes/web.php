@@ -170,7 +170,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::get('/notify/{user_id?}', 'Api2Controller@apiNotify');
         
         // for debugging and migrate to api_v3
-        Route::get('/v3/home_feeds', 'Api2Controller@apiIndexV2');
+        Route::get('/v3/home_feeds', 'Api2Controller@apiIndex');
         Route::get('/post/cats_state', 'Api3Controller@apiCategoriesState');
         /* notify */
         Route::get('/notify/v3/{user_id?}', 'Api3Controller@apiNotify');
