@@ -4205,6 +4205,24 @@ public function apiStoreMessage()
   
    }
  
+   public function inviteTaskList(){
+    $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
+    $cus_user = User::find($user_id);
+
+    $cus_projects = DB::table("new_projects") 
+    ->where('new_projects.user_id', '=', $cus_user->id)
+    ->where('new_projects.status', '=', 1)
+    ->select('new_projects.id as project_id', 'new_projects.project_title')
+    ->orderBy('new_projects.id', 'desc')->get();
+    $row["cus_projects"][] = $cus_projects;
+
+    $set['UBUYAPI_V2'] = $row;
+
+    header( 'Content-Type: application/json; charset=utf-8' );
+    echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+    die();
+
+   }
 
    public function v3Profile()
    {

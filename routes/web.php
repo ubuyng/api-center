@@ -194,7 +194,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::get('/reopen/project/{project_id?}/{version_?}', 'Api3Controller@reopenProject');
         Route::get('/completed/project/{project_id?}/{version_?}', 'Api3Controller@completedProject');
         Route::get('/single/bid/profile/{bid_id?}/{version_?}', 'Api3Controller@BidProfile');
-        Route::get('/single/pros/profile/{pro_id?}/{user_id?}', 'Api3Controller@v3Profile');
+        Route::get('/cus/invite/tasks/{user_id?}', 'Api3Controller@inviteTaskList');
         Route::Post('/post/cancel/task', 'Api3Controller@CancelTask');
         Route::Post('/post/complete/task', 'Api3Controller@CompleteTask');
 
@@ -202,6 +202,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::Post('/post/pro/rating', 'Api3Controller@RatePro');
 
         /* getting pros lists */
+        Route::get('/single/pros/profile/{pro_id?}/{user_id?}', 'Api3Controller@v3Profile');
         Route::get('/invite/pros/project/{project_id?}/{version_?}', 'Api3Controller@apiInvitePros');
         Route::get('/pros/subcat/{sub_id?}', 'Api3Controller@apiSubPros');
         Route::get('/all/pros/top/', 'Api3Controller@apiAll Pros');
