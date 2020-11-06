@@ -119,11 +119,7 @@ class Api3Controller extends Controller
            $row['recommend']=$recomend;
            $category = Category::get();
            $row['category']=$category;
-           $row['design_web']=$design;
-           $row['business']=$business;
-           $row['personal']=$personal;
-           $row['home']=$home;
-   
+         
    
            // echo $recomend;
         //    $set['UBUYAPI_V2'] = $row;
