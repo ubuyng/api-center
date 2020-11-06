@@ -852,12 +852,12 @@ public function forgetpass3(Request $request){
 
 
     if (!$userauth) {
-        $set['UBUYAPI_V1'][]=array('msg' =>'Account not found, Please register','success'=>'0');
+        $set['UBUYAPI_V2'][]=array('msg' =>'Account not found, Please register','success'=>'0');
     }else if($userauth){
 
         \Mail::send(new PassChangeEmail($userauth));
 
-            $set['UBUYAPI_V1'][]=array(
+            $set['UBUYAPI_V2'][]=array(
                 'user_id' => $userauth->id,
                 'msg' =>'We sent a magic link to '.$email.'. Click on the link to continue',
                  'success' => '1');
@@ -879,7 +879,7 @@ public function apiProfile3()
         $user = Auth::loginUsingId($user_id);
 
         if (!$user) {
-            $set['UBUYAPI_V1'][]=array('msg' =>'Account not found','success'=>'0');
+            $set['UBUYAPI_V2'][]=array('msg' =>'Account not found','success'=>'0');
         }else if($user){
         // $projects = $user->projectsSubCat->get();
 
@@ -899,7 +899,7 @@ public function apiProfile3()
 
 
         $allProjects =  $projects->count();
-        $set['UBUYAPI_V1'][]=array(
+        $set['UBUYAPI_V2'][]=array(
             'user_id' => $user->id,
             'first_name' => $user->first_name,
         'last_name' => $user->last_name,
@@ -937,7 +937,7 @@ public function authRegister3(Request $request){
         if($userauth){     
             // echo "used";
        
-            $set['UBUYAPI_V1'][]=array('msg' =>'This email or number is registered already','success'=>'0');
+            $set['UBUYAPI_V2'][]=array('msg' =>'This email or number is registered already','success'=>'0');
         }
         else if (!$userauth) {
 
@@ -999,7 +999,7 @@ public function authRegister3(Request $request){
             // \Mail::send(new CusConfirmEmail);
             // \Mail::send(new CusWelcomeEmail);
     
-            $set['UBUYAPI_V1'][]=array(
+            $set['UBUYAPI_V2'][]=array(
                 'user_id' => $user->id,
                 'first_name' => $user->first_name,
             'last_name' => $user->last_name,
@@ -1013,12 +1013,12 @@ public function authRegister3(Request $request){
             'success' => '1'
         );
 
-            // $set['UBUYAPI_V1'][]=array('msg' =>'Lets do business','success'=>'0');
+            // $set['UBUYAPI_V2'][]=array('msg' =>'Lets do business','success'=>'0');
 
         } 
         
     } else{
-        $set['UBUYAPI_V1'][]=array('msg' =>'An Error as occoured, please check your details and try again','success'=>'0');
+        $set['UBUYAPI_V2'][]=array('msg' =>'An Error as occoured, please check your details and try again','success'=>'0');
 
     }
     header( 'Content-Type: application/json; charset=utf-8' );
