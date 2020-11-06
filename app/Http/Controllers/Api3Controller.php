@@ -73,7 +73,18 @@ class Api3Controller extends Controller
            $header_slide = AppHeader::get();
            $recomend = DB::table("sub_categories")
                        ->join('api_recommends', 'api_recommends.subcategory_id', '=', 'sub_categories.id')
+                       ->select('sub_categories.id as id', 'sub_categories.name', 'sub_categories.image')
                        ->orderBy('sub_categories.count', 'desc')->get()->take(7);
+
+
+                       foreach($recommed as $rec){
+
+                        $rec_data = array(
+                            'id' => $rec->id,
+                            'name' => $rec->name,
+                            'image' => 'https://ubuy.ng/uploads/'.$rec->image
+                        );
+                       }
    
            $pros = DB::table("ratings")
         ->join('users', 'users.id', '=', 'ratings.pro_id')
@@ -116,7 +127,7 @@ class Api3Controller extends Controller
 
        
            $row['header_slide']=$header_slide;
-           $row['recommend']=$recomend;
+           $row['recommend']=$rec_data;
            $category = Category::get();
            $row['category']=$category;
          
