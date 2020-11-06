@@ -4209,12 +4209,24 @@ public function apiStoreMessage()
    public function v3Profile()
    {
     $pro_id = filter_input(INPUT_GET, 'pro_id', FILTER_SANITIZE_STRING);
+    $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
 
 
             $user = User::find($pro_id);
             if ($user) {
                 $profile = Profile::where('user_id',$user->id)->first();
         
+                $cus_user = User::find($user_id);
+
+                $cus_projects = DB::table("new_projects") 
+                ->where('new_projects.user_id', '=', $cus_user->id)
+                ->where('new_projects.status', '=', 1)
+                ->select('new_projects.id as project_id', 'new_projects.project_title')
+                ->orderBy('new_projects.id', 'desc')->get();
+
+                $row["cus_projects"][] = $cus_projects;
+
+
                 $profile_image = null;
         
                 if ($profile != null) {
