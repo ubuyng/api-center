@@ -74,11 +74,46 @@ class Api3Controller extends Controller
            $recomend = DB::table("sub_categories")
                        ->join('api_recommends', 'api_recommends.subcategory_id', '=', 'sub_categories.id')
                        ->orderBy('sub_categories.count', 'desc')->get()->take(7);
-           $design = SubCategory::where('category_id','=', 8)->get()->take(7);
-           $business = SubCategory::where('category_id','=', 14)->get()->take(7);
-           $personal = SubCategory::where('category_id','=', 15)->get()->take(7);
-           $home = SubCategory::where('category_id','=', 1)->get()->take(7);
    
+           $pros = DB::table("ratings")
+        ->join('users', 'users.id', '=', 'ratings.pro_id')
+        ->select('users.id as id', 'users.image', 'users.first_name', 'users.last_name')
+        ->orderBy('users.id', 'desc')->get()->take(7);
+        
+
+            foreach ($pros as $pro) {
+                // getting the pro user details                       
+
+                $pro_projects = Project::where('pro_id', $pro->id)->count();
+                if ($pro_projects >= 1) {
+                    if ($pro->image) {
+                        $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$pro->image;
+                    }else{
+        
+                        $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                    }
+                        // getting the pros first service
+                $pro_service = DB::table("services")
+                ->where('services.user_id', '=', $pro->id)
+                ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_category_id')
+                ->select('sub_categories.name')
+                ->first();
+    
+                
+
+                    $row["top_pros"][] = array(
+                        'user_id' => $pro->id,
+                        'pro_name' => $pro->first_name.' '.$pro->last_name,
+                        'project_count' => $pro_projects,
+                        'profile_image' => $profile_image,
+                        'pro_service' => $pro_service->name,
+                        'premium_pro' => 1,
+                    );
+                    
+                }
+    
+            }
+
        
            $row['header_slide']=$header_slide;
            $row['recommend']=$recomend;
