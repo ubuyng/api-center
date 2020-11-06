@@ -104,8 +104,8 @@ class Api3Controller extends Controller
                     $row["top_pros"][] = array(
                         'user_id' => $pro->id,
                         'pro_name' => $pro->first_name.' '.$pro->last_name,
-                        'project_count' => $pro_projects,
-                        'profile_image' => $profile_image,
+                        'task_done' => $pro_projects,
+                        'pro_image' => $profile_image,
                         'pro_service' => $pro_service->name,
                         'premium_pro' => 1,
                     );
