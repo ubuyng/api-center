@@ -672,7 +672,7 @@ class Api3Controller extends Controller
                 $v3_projects = DB::table("new_projects") 
                 ->where('new_projects.user_id', '=', $user_id)
                 ->where('new_projects.status', '=', 1)
-                ->select('new_projects.id as project_id', 'new_projects.user_id as user_id',  'new_projects.project_message', 'new_projects.created_at', 'new_projects.sub_category_name','new_projects.status', 'new_projects.sub_category_id','new_projects.address', 'new_projects.budget', 'new_projects.project_title')
+                ->select('new_projects.id as project_id', 'new_projects.user_id as user_id',  'new_projects.project_message', 'new_projects.created_at', 'new_projects.sub_category_name','new_projects.status', 'new_projects.sub_category_id','new_projects.address', 'new_projects.budget', 'new_projects.project_title', 'new_projects.upay_type')
                 ->orderBy('new_projects.id', 'desc')->get();
                 
                 /* 
@@ -826,6 +826,7 @@ class Api3Controller extends Controller
                             'project_skill_2' => $project_skill_2,
                             'project_skill_3' => $project_skill_3,
                             'project_skill_4' => $project_skill_4,
+                            'upay_type' => $project->upay_type,
                             'p_version' => 1,
                             'created_at' => $date->diffForHumans(),
                         );
@@ -847,7 +848,7 @@ class Api3Controller extends Controller
 
              $v2_projects = DB::table("projects")
              ->where('projects.user_id', '=', $user_id)
-             ->select('projects.id as project_id', 'projects.user_id as user_id',  'projects.project_message', 'projects.created_at', 'projects.sub_category_name','projects.status', 'projects.sub_category_id','projects.address')
+             ->select('projects.id as project_id', 'projects.user_id as user_id',  'projects.project_message', 'projects.created_at', 'projects.sub_category_name','projects.status', 'projects.sub_category_id','projects.address', 'projects.upay_type')
              ->orderBy('projects.id', 'desc')->get();
 
              if($v2_projects->isEmpty()){
@@ -978,6 +979,7 @@ class Api3Controller extends Controller
                             'bidder_2_image' => $bidder_2_image,
                             'bidder_3_image' => $bidder_3_image,
                             'p_version' => 0,
+                            'upay_type' => $project->upay_type,
                             'created_at' => $date->diffForHumans(),
                          );
                          $row['v2_project_pending']=$v2_project_pending;
