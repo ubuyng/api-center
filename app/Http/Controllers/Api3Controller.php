@@ -124,11 +124,11 @@ class Api3Controller extends Controller
                 }
     
             }
-
+ 
        
            $row['header_slide']=$header_slide;
            $row['recommend']=$rec_data;
-           $category = Category::get();
+           $category = Category::get()->take(4);
            $row['category']=$category;
          
    
