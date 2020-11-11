@@ -2897,13 +2897,13 @@ public function CallAlertProjectSafety()
         
         $sub = SubCategory::where('id', $sub_id)->first();
 
-        $pros = DB::table("services")
-        ->where('services.sub_category_id', '=', $sub->id)
-        ->join('profiles', 'profiles.user_id', 'services.user_id')
-        ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
+                    $premium_pros = DB::table("services")
+                    ->where('services.sub_category_id', '=', $sub->id)
+                    ->join('profiles', 'profiles.user_id', 'services.user_id')
+                    ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
                     ->orderBy('profiles.id', 'desc')->get();
 
-                    foreach ($pros as $pro) {
+                    foreach ($premium_pros as $pro) {
                         // getting the pro user details
                         $user = User::where('id', $pro->id)->first();
                        
@@ -2930,6 +2930,33 @@ public function CallAlertProjectSafety()
                                 'premium_pro' => 1,
                             );
                         }else {
+                           $p_pros = array();
+                        }
+            
+                    }
+                    $trending_pros = DB::table("services")
+                    ->where('services.sub_category_id', '=', $sub->id)
+                    ->join('profiles', 'profiles.user_id', 'services.user_id')
+                    ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
+                    ->orderBy('profiles.id', 'desc')->get();
+
+                    foreach ($trending_pros as $pro) {
+                        // getting the pro user details
+                        $user = User::where('id', $pro->id)->first();
+                       
+                        if ($user->image) {
+                            $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
+                        }else{
+            
+                            $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                        }
+                        
+                        $pro_projects = Project::where('pro_id', $user->id)->count();
+            
+                       
+            
+                        
+                        if ($pro_projects <= 0) {
                             $t_pros = array(
                                 'pro_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
@@ -2938,6 +2965,8 @@ public function CallAlertProjectSafety()
                                 'pro_service' => $sub->name,
                                 'premium_pro' => 0,
                             );
+                        }else {
+                           $t_pros = array();
                         }
             
                     }
