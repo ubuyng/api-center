@@ -2929,8 +2929,6 @@ public function CallAlertProjectSafety()
                                 'pro_service' => $sub->name,
                                 'premium_pro' => 1,
                             );
-                        }else {
-                           $p_pros = array('msg' =>'No trending pros','success'=>'0');
                         }
             
                     }
@@ -2965,8 +2963,6 @@ public function CallAlertProjectSafety()
                                 'pro_service' => $sub->name,
                                 'premium_pro' => 0,
                             );
-                        }else {
-                           $t_pros = array('msg' =>'No trending pros','success'=>'0');
                         }
             
                     }
