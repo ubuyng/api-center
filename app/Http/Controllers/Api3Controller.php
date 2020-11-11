@@ -4296,7 +4296,7 @@ public function apiStoreMessage()
                      }
 
                     //  check if all the 
-                    if($id_checker && $number_checker && $email_checker){
+                    if($id_check == 1 && $number_check == 1 && $email_check == 1){
                         $user_verified = 1;
                     }else{
                         $user_verified = 0;
