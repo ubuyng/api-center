@@ -2936,9 +2936,9 @@ public function CallAlertProjectSafety()
                     }
                     $trending_pros = DB::table("services")
                     ->where('services.sub_category_id', '=', $sub->id)
-                    ->join('profiles', 'profiles.user_id', 'services.user_id')
-                    ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
-                    ->orderBy('profiles.id', 'desc')->get()->take(7);
+                    ->join('users', 'users.id', 'services.user_id')
+                    ->select('users.id as id', 'users.first_name', 'users.image', 'users.last_name')
+                    ->orderBy('users.id', 'desc')->get()->take(7);
 
                  dd($trending_pros);
                     foreach ($trending_pros as $tpro) {
