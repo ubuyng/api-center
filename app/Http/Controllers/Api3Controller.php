@@ -4314,6 +4314,7 @@ public function apiStoreMessage()
                         'badge_number' => $number_check,
                         'badge_id' => $id_check,
                         'user_verified' => $user_verified,
+                        'about_pro' => $profile->about_profile,
                         'pro_joined' => $date->diffForHumans(),
                     ); 
 
