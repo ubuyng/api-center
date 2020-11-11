@@ -2952,23 +2952,17 @@ public function CallAlertProjectSafety()
                             $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
                         }
                         
-                        $pro_projects = Project::where('pro_id', $user->id)->count();
             
                     //    dd($pro_projects);
             
-                        
-                        if ($pro_projects == 0) {
-                            $t_pros = array(
-                                'pro_id' => $user->id,
-                                'pro_name' => $user->first_name.' '.$user->last_name,
-                                'task_done' => $pro_projects,
-                                'pro_image' => $profile_image,
-                                'pro_service' => $sub->name,
-                                'premium_pro' => 0,
-                            );
-                        }else {
-                           $t_pros = array('msg' =>'No trending pros','success'=>'0');
-                        }
+                    $t_pros = array(
+                        'pro_id' => $user->id,
+                        'pro_name' => $user->first_name.' '.$user->last_name,
+                        'task_done' => $pro_projects,
+                        'pro_image' => $profile_image,
+                        'pro_service' => $sub->name,
+                        'premium_pro' => 0,
+                    );
             
                     }
         // maths ends
