@@ -2903,9 +2903,9 @@ public function CallAlertProjectSafety()
                     ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
                     ->orderBy('profiles.id', 'desc')->get();
 
-                    foreach ($premium_pros as $pro) {
+                    foreach ($premium_pros as $ppro) {
                         // getting the pro user details
-                        $user = User::where('id', $pro->id)->first();
+                        $user = User::where('id', $ppro->id)->first();
                        
                         if ($user->image) {
                             $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
@@ -2940,9 +2940,9 @@ public function CallAlertProjectSafety()
                     ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
                     ->orderBy('profiles.id', 'desc')->get();
 
-                    foreach ($trending_pros as $pro) {
+                    foreach ($trending_pros as $tpro) {
                         // getting the pro user details
-                        $user = User::where('id', $pro->id)->first();
+                        $user = User::where('id', $tpro->id)->first();
                        
                         if ($user->image) {
                             $profile_image = "https://ubuy.ng/uploads/images/profile_pics/".$user->image;
