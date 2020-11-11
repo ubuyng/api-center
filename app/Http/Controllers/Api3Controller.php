@@ -2929,7 +2929,7 @@ public function CallAlertProjectSafety()
                                 'premium_pro' => 1,
                             );
                         }else {
-                            $row["trending_pro"][] = array(
+                            $row["trending_pros"][] = array(
                                 'pro_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
                                 'project_count' => $pro_projects,
