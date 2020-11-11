@@ -2938,6 +2938,10 @@ public function CallAlertProjectSafety()
                                 'premium_pro' => 0,
                             );
                         }
+                        
+                        if ($pro_projects != 1) {
+                            $row["premium_pros"][] = null;
+                        }
             
                     }
         // maths ends
