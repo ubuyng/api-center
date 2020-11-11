@@ -2929,6 +2929,8 @@ public function CallAlertProjectSafety()
                                 'pro_service' => $sub->name,
                                 'premium_pro' => 1,
                             );
+                            $row["premium_pros"]= $p_pros;
+
                         }
             
                     }
@@ -2963,13 +2965,13 @@ public function CallAlertProjectSafety()
                                 'pro_service' => $sub->name,
                                 'premium_pro' => 0,
                             );
+                            $row["trending_pros"] = $t_pros;
+
                         }
             
                     }
         // maths ends
 
-        $row["premium_pros"]= $p_pros;
-        $row["trending_pros"] = $t_pros;
         $set['UBUYAPI_V2'] = $row;
         header( 'Content-Type: application/json; charset=utf-8' );
         echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
