@@ -2934,10 +2934,12 @@ public function CallAlertProjectSafety()
                         }
             
                     }
+
+
                     $trending_pros = DB::table("services")
                     ->where('services.sub_category_id', '=', $sub->id)
                     ->join('users', 'users.id', 'services.user_id')
-                    ->select('users.id as id', 'users.first_name', 'users.image', 'users.last_name')
+                    ->select('users.id as id', 'users.first_name', 'users.image', 'users.last_name', 'users.number')
                     ->orderBy('users.id', 'desc')->get()->take(7);
 
                  dd($trending_pros);
