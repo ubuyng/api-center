@@ -2954,10 +2954,10 @@ public function CallAlertProjectSafety()
                         
                         $pro_projects = Project::where('pro_id', $user->id)->count();
             
-                       dd($pro_projects);
+                    //    dd($pro_projects);
             
                         
-                        if ($pro_projects <= 0) {
+                        if ($pro_projects == 0) {
                             $t_pros = array(
                                 'pro_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
