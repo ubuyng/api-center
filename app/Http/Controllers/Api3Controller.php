@@ -2940,6 +2940,7 @@ public function CallAlertProjectSafety()
                     ->select('profiles.user_id as id', 'profiles.business_name', 'profiles.profile_photo')
                     ->orderBy('profiles.id', 'desc')->get();
 
+                    dd($trending_pros);
                     foreach ($trending_pros as $tpro) {
                         // getting the pro user details
                         $user = User::where('id', $tpro->id)->first();
