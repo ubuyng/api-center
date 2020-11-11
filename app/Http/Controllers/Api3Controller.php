@@ -2942,7 +2942,7 @@ public function CallAlertProjectSafety()
                     ->select('users.id as id', 'users.first_name', 'users.image', 'users.last_name', 'users.number')
                     ->orderBy('users.id', 'desc')->get()->take(7);
 
-                 dd($trending_pros);
+                //  dd($trending_pros);
                     foreach ($trending_pros as $tpro) {
                         // getting the pro user details
                         $user = User::where('id', $tpro->id)->first();
