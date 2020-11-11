@@ -2916,6 +2916,12 @@ public function CallAlertProjectSafety()
                         
                         $pro_projects = Project::where('pro_id', $user->id)->count();
             
+                        $pro_service = DB::table("services")
+                        ->where('services.user_id', '=', $pro->id)
+                        ->join('sub_categories', 'sub_categories.id', '=', 'services.sub_category_id')
+                        ->select('sub_categories.name')
+                        ->first();
+            
                         
                         if ($pro_projects >= 1) {
                             $row["premium_pros"][] = array(
@@ -2923,6 +2929,7 @@ public function CallAlertProjectSafety()
                                 'pro_name' => $user->first_name.' '.$user->last_name,
                                 'task_done' => $pro_projects,
                                 'pro_image' => $profile_image,
+                                'pro_service' => $pro_service->name,
                                 'premium_pro' => 1,
                             );
                         }else {
@@ -2931,6 +2938,7 @@ public function CallAlertProjectSafety()
                                 'pro_name' => $user->first_name.' '.$user->last_name,
                                 'project_count' => $pro_projects,
                                 'profile_image' => $profile_image,
+                                'pro_service' => $pro_service->name,
                                 'premium_pro' => 0,
                             );
                         }
