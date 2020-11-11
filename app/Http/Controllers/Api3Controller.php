@@ -2920,7 +2920,7 @@ public function CallAlertProjectSafety()
             
                         
                         if ($pro_projects >= 1) {
-                            $row["premium_pros"] = array(
+                            $p_pros = array(
                                 
                                 'pro_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
@@ -2930,7 +2930,7 @@ public function CallAlertProjectSafety()
                                 'premium_pro' => 1,
                             );
                         }else {
-                            $row["trending_pros"] = array(
+                            $t_pros = array(
                                 'pro_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
                                 'task_done' => $pro_projects,
@@ -2943,8 +2943,8 @@ public function CallAlertProjectSafety()
                     }
         // maths ends
 
-        $row["premium_pros"] = array();
-        $row["trending_pros"] = array();
+        $row["premium_pros"] = $p_pros;
+        $row["trending_pros"] = $t_pros;
         $set['UBUYAPI_V2'] = $row;
         header( 'Content-Type: application/json; charset=utf-8' );
         echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
