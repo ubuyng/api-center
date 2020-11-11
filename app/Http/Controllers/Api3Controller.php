@@ -2932,7 +2932,7 @@ public function CallAlertProjectSafety()
                             $row["trending_pros"][] = array(
                                 'pro_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
-                                'project_count' => $pro_projects,
+                                'task_done' => $pro_projects,
                                 'pro_image' => $profile_image,
                                 'pro_service' => $sub->name,
                                 'premium_pro' => 0,
