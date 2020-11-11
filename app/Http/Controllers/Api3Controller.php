@@ -2933,7 +2933,7 @@ public function CallAlertProjectSafety()
                                 'pro_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
                                 'project_count' => $pro_projects,
-                                'profile_image' => $profile_image,
+                                'pro_image' => $profile_image,
                                 'pro_service' => $sub->name,
                                 'premium_pro' => 0,
                             );
