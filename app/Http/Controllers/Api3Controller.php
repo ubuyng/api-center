@@ -2953,21 +2953,15 @@ public function CallAlertProjectSafety()
                         }
                         
                         $pro_projects = Project::where('pro_id', $user->id)->count();
-            
-            
-                        
-                        if ($pro_projects <= 0) {
-                            $t_pros[] = array(
-                                'pro_id' => $user->id,
-                                'pro_name' => $user->first_name.' '.$user->last_name,
-                                'task_done' => $pro_projects,
-                                'pro_image' => $profile_image,
-                                'pro_service' => $sub->name,
-                                'premium_pro' => 0,
-                            );
-                            $row["trending_pros"] = $t_pros;
-
-                        }
+                        $t_pros[] = array(
+                            'pro_id' => $user->id,
+                            'pro_name' => $user->first_name.' '.$user->last_name,
+                            'task_done' => $pro_projects,
+                            'pro_image' => $profile_image,
+                            'pro_service' => $sub->name,
+                            'premium_pro' => 0,
+                        );
+                        $row["trending_pros"] = $t_pros;
             
                     }
         // maths ends
