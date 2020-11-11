@@ -2920,7 +2920,7 @@ public function CallAlertProjectSafety()
             
                         
                         if ($pro_projects >= 1) {
-                            $p_pros = array(
+                            $p_pros[] = array(
                                 
                                 'pro_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
@@ -2952,23 +2952,28 @@ public function CallAlertProjectSafety()
                             $profile_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
                         }
                         
+                        $pro_projects = Project::where('pro_id', $user->id)->count();
             
-                    //    dd($pro_projects);
             
-                    $t_pros = array(
-                        'pro_id' => $user->id,
-                        'pro_name' => $user->first_name.' '.$user->last_name,
-                        'task_done' => $pro_projects,
-                        'pro_image' => $profile_image,
-                        'pro_service' => $sub->name,
-                        'premium_pro' => 0,
-                    );
+                        
+                        if ($pro_projects <= 0) {
+                            $t_pros[] = array(
+                                'pro_id' => $user->id,
+                                'pro_name' => $user->first_name.' '.$user->last_name,
+                                'task_done' => $pro_projects,
+                                'pro_image' => $profile_image,
+                                'pro_service' => $sub->name,
+                                'premium_pro' => 0,
+                            );
+                        }else {
+                           $t_pros = array('msg' =>'No trending pros','success'=>'0');
+                        }
             
                     }
         // maths ends
 
-        $row["premium_pros"][]= $p_pros;
-        $row["trending_pros"][] = $t_pros;
+        $row["premium_pros"]= $p_pros;
+        $row["trending_pros"] = $t_pros;
         $set['UBUYAPI_V2'] = $row;
         header( 'Content-Type: application/json; charset=utf-8' );
         echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
