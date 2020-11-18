@@ -1779,7 +1779,6 @@ class Api3Controller extends Controller
                                     'pro_service' => $pro_service->name,
                                     'premium_pro' => 1,
                                 );
-                                
                             }
                 
                         }
