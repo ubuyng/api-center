@@ -1716,7 +1716,7 @@ class Api3Controller extends Controller
                             $row["invite_premium"][] = array(
                                 'user_id' => $pro->id,
                                 'pro_name' => $pro->first_name.' '.$pro->last_name,
-                                'project_count' => $pro_projects,
+                                'task_done' => $pro_projects,
                                 'pro_image' => $profile_image,
                                 'pro_service' => $pro_service->name,
                                 'premium_pro' => 1,
@@ -1774,7 +1774,7 @@ class Api3Controller extends Controller
                                 $row["invite_premium"][] = array(
                                     'user_id' => $pro->id,
                                     'pro_name' => $pro->first_name.' '.$pro->last_name,
-                                    'project_count' => $pro_projects,
+                                    'task_done' => $pro_projects,
                                     'pro_image' => $profile_image,
                                     'pro_service' => $pro_service->name,
                                     'premium_pro' => 1,
@@ -1823,7 +1823,7 @@ class Api3Controller extends Controller
                     $row["premium_pros"][] = array(
                         'user_id' => $pro->id,
                         'pro_name' => $pro->first_name.' '.$pro->last_name,
-                        'project_count' => $pro_projects,
+                        'task_done' => $pro_projects,
                         'pro_image' => $profile_image,
                         'pro_service' => $pro_service->name,
                         'premium_pro' => 1,
@@ -1882,7 +1882,7 @@ class Api3Controller extends Controller
                             $row["pros_search"][] = array(
                                 'user_id' => $pro->id,
                                 'pro_name' => $pro->first_name.' '.$pro->last_name,
-                                'project_count' => $pro_projects,
+                                'task_done' => $pro_projects,
                                 'pro_image' => $profile_image,
                                 'pro_service' => $pro_service->name,
                                 'premium_pro' => 1,
@@ -2821,7 +2821,7 @@ public function CallAlertProjectSafety()
                 $row["invite_premium"][] = array(
                     'user_id' => $user->id,
                     'pro_name' => $user->first_name.' '.$user->last_name,
-                    'project_count' => $pro_projects,
+                    'task_done' => $pro_projects,
                     'pro_image' => $profile_image,
                     'premium_pro' => 1,
                 );
@@ -2829,7 +2829,7 @@ public function CallAlertProjectSafety()
                 $row["invite_pro"][] = array(
                     'user_id' => $user->id,
                     'pro_name' => $user->first_name.' '.$user->last_name,
-                    'project_count' => $pro_projects,
+                    'task_done' => $pro_projects,
                     'pro_image' => $profile_image,
                     'premium_pro' => 0,
                 );
@@ -2862,7 +2862,7 @@ public function CallAlertProjectSafety()
                             $row["invite_premium"][] = array(
                                 'user_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
-                                'project_count' => $pro_projects,
+                                'task_done' => $pro_projects,
                                 'pro_image' => $profile_image,
                                 'premium_pro' => 1,
                             );
@@ -2870,7 +2870,7 @@ public function CallAlertProjectSafety()
                             $row["invite_pro"][] = array(
                                 'user_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
-                                'project_count' => $pro_projects,
+                                'task_done' => $pro_projects,
                                 'pro_image' => $profile_image,
                                 'premium_pro' => 0,
                             );
