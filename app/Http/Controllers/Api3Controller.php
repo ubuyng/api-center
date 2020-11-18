@@ -1717,7 +1717,7 @@ class Api3Controller extends Controller
                                 'user_id' => $pro->id,
                                 'pro_name' => $pro->first_name.' '.$pro->last_name,
                                 'project_count' => $pro_projects,
-                                'profile_image' => $profile_image,
+                                'pro_image' => $profile_image,
                                 'pro_service' => $pro_service->name,
                                 'premium_pro' => 1,
                             );
@@ -1775,7 +1775,7 @@ class Api3Controller extends Controller
                                     'user_id' => $pro->id,
                                     'pro_name' => $pro->first_name.' '.$pro->last_name,
                                     'project_count' => $pro_projects,
-                                    'profile_image' => $profile_image,
+                                    'pro_image' => $profile_image,
                                     'pro_service' => $pro_service->name,
                                     'premium_pro' => 1,
                                 );
@@ -1825,7 +1825,7 @@ class Api3Controller extends Controller
                         'user_id' => $pro->id,
                         'pro_name' => $pro->first_name.' '.$pro->last_name,
                         'project_count' => $pro_projects,
-                        'profile_image' => $profile_image,
+                        'pro_image' => $profile_image,
                         'pro_service' => $pro_service->name,
                         'premium_pro' => 1,
                     );
@@ -1884,7 +1884,7 @@ class Api3Controller extends Controller
                                 'user_id' => $pro->id,
                                 'pro_name' => $pro->first_name.' '.$pro->last_name,
                                 'project_count' => $pro_projects,
-                                'profile_image' => $profile_image,
+                                'pro_image' => $profile_image,
                                 'pro_service' => $pro_service->name,
                                 'premium_pro' => 1,
                             );
@@ -2823,7 +2823,7 @@ public function CallAlertProjectSafety()
                     'user_id' => $user->id,
                     'pro_name' => $user->first_name.' '.$user->last_name,
                     'project_count' => $pro_projects,
-                    'profile_image' => $profile_image,
+                    'pro_image' => $profile_image,
                     'premium_pro' => 1,
                 );
             }else {
@@ -2831,7 +2831,7 @@ public function CallAlertProjectSafety()
                     'user_id' => $user->id,
                     'pro_name' => $user->first_name.' '.$user->last_name,
                     'project_count' => $pro_projects,
-                    'profile_image' => $profile_image,
+                    'pro_image' => $profile_image,
                     'premium_pro' => 0,
                 );
             }
@@ -2864,7 +2864,7 @@ public function CallAlertProjectSafety()
                                 'user_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
                                 'project_count' => $pro_projects,
-                                'profile_image' => $profile_image,
+                                'pro_image' => $profile_image,
                                 'premium_pro' => 1,
                             );
                         }else {
@@ -2872,7 +2872,7 @@ public function CallAlertProjectSafety()
                                 'user_id' => $user->id,
                                 'pro_name' => $user->first_name.' '.$user->last_name,
                                 'project_count' => $pro_projects,
-                                'profile_image' => $profile_image,
+                                'pro_image' => $profile_image,
                                 'premium_pro' => 0,
                             );
                         }
