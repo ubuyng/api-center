@@ -205,7 +205,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::get('/single/pros/profile/{pro_id?}/{user_id?}', 'Api3Controller@v3Profile');
         Route::get('/invite/pros/project/{project_id?}/{version_?}', 'Api3Controller@apiInvitePros');
         Route::get('/pros/subcat/{sub_id?}', 'Api3Controller@apiSubPros');
-        Route::get('/all/pros/top/', 'Api3Controller@apiAll Pros');
+        Route::get('/all/pros/top/', 'Api3Controller@apiAllPros');
         Route::get('/all/search_pro/{query?}', 'Api3Controller@apiSearchPros');
 
 
