@@ -113,7 +113,7 @@ class Api3Controller extends Controller
                 
 
                     $row["top_pros"][] = array(
-                        'user_id' => $pro->id,
+                        'pro_id' => $pro->id,
                         'pro_name' => $pro->first_name.' '.$pro->last_name,
                         'task_done' => $pro_projects,
                         'pro_image' => $profile_image,
@@ -1691,8 +1691,7 @@ class Api3Controller extends Controller
                  'name' => $cat->name,
                  'image' =>'https://ubuy.ng/uploads/backend/'.$cat->image
              );
-         };
-
+         }
 
         $pros = DB::table("ratings")
         ->join('users', 'users.id', '=', 'ratings.pro_id')
@@ -1721,7 +1720,7 @@ class Api3Controller extends Controller
                         
 
                             $row["invite_premium"][] = array(
-                                'user_id' => $pro->id,
+                                'pro_id' => $pro->id,
                                 'pro_name' => $pro->first_name.' '.$pro->last_name,
                                 'task_done' => $pro_projects,
                                 'pro_image' => $profile_image,
@@ -1779,7 +1778,7 @@ class Api3Controller extends Controller
                             
     
                                 $row["invite_premium"][] = array(
-                                    'user_id' => $pro->id,
+                                    'pro_id' => $pro->id,
                                     'pro_name' => $pro->first_name.' '.$pro->last_name,
                                     'task_done' => $pro_projects,
                                     'pro_image' => $profile_image,
@@ -1828,7 +1827,7 @@ class Api3Controller extends Controller
                 
 
                     $row["premium_pros"][] = array(
-                        'user_id' => $pro->id,
+                        'pro_id' => $pro->id,
                         'pro_name' => $pro->first_name.' '.$pro->last_name,
                         'task_done' => $pro_projects,
                         'pro_image' => $profile_image,
@@ -1887,7 +1886,7 @@ class Api3Controller extends Controller
                         
         
                             $row["pros_search"][] = array(
-                                'user_id' => $pro->id,
+                                'pro_id' => $pro->id,
                                 'pro_name' => $pro->first_name.' '.$pro->last_name,
                                 'task_done' => $pro_projects,
                                 'pro_image' => $profile_image,
