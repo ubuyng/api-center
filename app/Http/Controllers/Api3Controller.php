@@ -1685,7 +1685,14 @@ class Api3Controller extends Controller
     public function apiAllCategories(){
         $cats = Category::get();
 
-        $row["top_categories"][] = $cats;
+         foreach ($cats as $cat) {
+             $row["top_categories"][] = array(
+                 'id' => $cat->id,
+                 'name' => $cat->name,
+                 'image' =>'https://ubuy.ng/uploads/backend/'.$cat->image
+             );
+         };
+
 
         $pros = DB::table("ratings")
         ->join('users', 'users.id', '=', 'ratings.pro_id')
