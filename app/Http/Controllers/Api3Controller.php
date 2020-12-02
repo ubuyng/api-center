@@ -1073,6 +1073,7 @@ class Api3Controller extends Controller
                                 'selected_pro_image' => $selected_pro_image,
                                 'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
                                 'p_version' => 1,
+                                'bid_id' => $bid_id,
                                 'started_at' => $started_date->diffForHumans(),
                                 'deadline_at' => $deadline_date->diffForHumans(),
                             );
@@ -1152,6 +1153,7 @@ class Api3Controller extends Controller
                             'selected_pro_image' => $selected_pro_image,
                             'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
                             'p_version' => 0,
+                            'bid_id' => $bid_id,
                             'started_at' => $started_date->diffForHumans(),
                             'deadline_at' => $deadline_date->diffForHumans(),
                         );
@@ -1246,6 +1248,7 @@ class Api3Controller extends Controller
                             'selected_pro_image' => $selected_pro_image,
                             'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
                             'p_version' => 1,
+                            'bid_id' => $bid_id,
                             'started_at' => $started_date->diffForHumans(),
                             'deadline_at' => $deadline_date->diffForHumans(),
                         );
@@ -1331,6 +1334,7 @@ class Api3Controller extends Controller
                         'selected_pro_image' => $selected_pro_image,
                         'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
                         'p_version' => 0,
+                        'bid_id' => $bid_id,
                         'started_at' => $started_date->diffForHumans(),
                         'deadline_at' => $deadline_date->diffForHumans(),
                     );
@@ -2018,7 +2022,7 @@ public function CallAlertProjectSafety()
 
         $has_disputes = Dispute::where('disputed_by', $user_id)->where('project_id', $project_id)->where('status', 0)->first();
         
-        if(!$has_disputes){
+        if($has_disputes = null){
 
             $project = NewProject::where('id', $project_id)->first();
             $bid = NewProjectBid::where('project_id', $project->id)->where('user_id', $project->pro_id)->first();
@@ -2101,6 +2105,40 @@ public function CallAlertProjectSafety()
         $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
 
         $disputes = Dispute::where('disputed_by', $user_id)->where('status', 0)->get();
+        
+        if($disputes){
+            foreach($disputes as $dispute){
+                $date = Carbon::parse($dispute->created_at); // now date is a carbon instance
+                        $project = NewProject::where('id', $dispute->project_id)->first();
+                        $cat = DisputeCategory::where('id', $dispute->category_id)->first();
+                $row["open_disputes"][] = array(
+                    'id' =>          $dispute->id,
+                    'dispute_des' => $dispute->description,
+                    'dispute_cat' => $cat->name,
+                    'dispute_task'=> $project->project_title,
+                    'dispute_ref' => $dispute->project_ref_id,
+                    'dispute_status' => $dispute->status,
+                    'dispute_date'=> $date->diffForHumans(),
+                   
+                );
+            }
+        }else{
+            $set['UBUYAPI_V2'][]=array(
+                'msg' =>'No Disputes found',
+                'success'=>'0'
+            );
+        }
+        
+        $set['UBUYAPI_V2'] = $row;
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+    
+    }
+    public function DisputeResolved(){
+        $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
+
+        $disputes = Dispute::where('disputed_by', $user_id)->where('status', 1)->get();
         
         if($disputes){
             foreach($disputes as $dispute){
