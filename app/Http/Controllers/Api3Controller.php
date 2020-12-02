@@ -1073,7 +1073,7 @@ class Api3Controller extends Controller
                                 'selected_pro_image' => $selected_pro_image,
                                 'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
                                 'p_version' => 1,
-                                'bid_id' => $bid_id,
+                                'bid_id' => $selected_pro->bid_id,
                                 'started_at' => $started_date->diffForHumans(),
                                 'deadline_at' => $deadline_date->diffForHumans(),
                             );
@@ -1153,7 +1153,7 @@ class Api3Controller extends Controller
                             'selected_pro_image' => $selected_pro_image,
                             'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
                             'p_version' => 0,
-                            'bid_id' => $bid_id,
+                            'bid_id' => $selected_pro->bid_id,
                             'started_at' => $started_date->diffForHumans(),
                             'deadline_at' => $deadline_date->diffForHumans(),
                         );
@@ -1248,7 +1248,7 @@ class Api3Controller extends Controller
                             'selected_pro_image' => $selected_pro_image,
                             'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
                             'p_version' => 1,
-                            'bid_id' => $bid_id,
+                            'bid_id' => $selected_pro->bid_id,
                             'started_at' => $started_date->diffForHumans(),
                             'deadline_at' => $deadline_date->diffForHumans(),
                         );
@@ -1334,7 +1334,7 @@ class Api3Controller extends Controller
                         'selected_pro_image' => $selected_pro_image,
                         'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
                         'p_version' => 0,
-                        'bid_id' => $bid_id,
+                        'bid_id' => $selected_pro->bid_id,
                         'started_at' => $started_date->diffForHumans(),
                         'deadline_at' => $deadline_date->diffForHumans(),
                     );
