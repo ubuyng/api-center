@@ -2078,7 +2078,7 @@ public function CallAlertProjectSafety()
 
 
     
-        $projects = NewProject::where('user_id', $user_id)->where('status','=>', '2')->get();
+        $projects = NewProject::where('user_id', $user_id)->where('status','>', '1')->get();
 
         if($projects){
             
