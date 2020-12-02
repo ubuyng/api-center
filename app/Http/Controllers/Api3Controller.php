@@ -2022,8 +2022,17 @@ public function CallAlertProjectSafety()
 
         $has_disputes = Dispute::where('disputed_by', $user_id)->where('project_id', $project_id)->where('status', 0)->first();
         
-        if($has_disputes = null){
+        if($has_disputes){
 
+         
+  
+            $set['UBUYAPI_V2'][]=array(
+                'msg' => "You've opened a previous dispute for this task.",
+                 'success'=>'0'
+                );  
+
+        }else{
+             
             $project = NewProject::where('id', $project_id)->first();
             $bid = NewProjectBid::where('project_id', $project->id)->where('user_id', $project->pro_id)->first();
             $bid_id = $bid->id;
@@ -2045,14 +2054,7 @@ public function CallAlertProjectSafety()
                
 
             $set['UBUYAPI_V2'][]= $dispute;
-  
-        }else{
-             
             
-            $set['UBUYAPI_V2'][]=array(
-                'msg' => "You've opened a previous dispute for this task.",
-                 'success'=>'0'
-                );   
         }
 
         header( 'Content-Type: application/json; charset=utf-8' );
