@@ -1051,12 +1051,12 @@ class Api3Controller extends Controller
                 );
 
              }
-
+             $set['UBUYAPI_V2'] = $row;
                                                                                                                                                                         
          } 
 
 
-         $set['UBUYAPI_V2'] = $row;
+         
             }
             
             header( 'Content-Type: application/json; charset=utf-8' );
