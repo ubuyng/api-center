@@ -977,7 +977,7 @@ class Api3Controller extends Controller
                     ->where('new_projects.status', '=', 3)
                     ->orderBy('new_projects.id', 'desc')->get();
 
-                    if($v3_projects){
+                    if($v3_projects != null){
                         foreach($v3_projects as $project){
 
                             /* now we get the latest 3 bids for the data */
