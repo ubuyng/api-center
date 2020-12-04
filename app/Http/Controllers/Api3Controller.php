@@ -362,27 +362,12 @@ class Api3Controller extends Controller
 
        public function singleProjectSB(){
         $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
-        $version_ = filter_input(INPUT_GET, 'version_', FILTER_SANITIZE_STRING);
 
-        if($version_ == 0){
-
-            $project = Project::where('id', $project_id)->first();
-            if($project){
-
-                $projectBid = ProjectBid::where('project_id', $project_id)->get();
-            }
-            
-        }elseif($version_ == 1){
-            
-            $project = NewProject::where('id', $project_id)->first();
+        $project = NewProject::where('id', $project_id)->first();
             if($project){
 
                 $projectBid = NewProjectBid::where('project_id', $project_id)->get();
             }
-            
-            
-        }
-        
         
         
         $projectSkill = ProjectSkill::where('project_id', $project_id)->get();
@@ -414,7 +399,6 @@ class Api3Controller extends Controller
                 'material_fee' => $bid->material_fee,
                 'service_fee' => $bid->service_fee,
                 'bid_type' => $bid->bid_type,
-                'version_' => $bid->version_,
             );
 
         }
@@ -427,26 +411,11 @@ class Api3Controller extends Controller
        }
        public function singleArchiveProjectSB(){
         $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
-        $version_ = filter_input(INPUT_GET, 'version_', FILTER_SANITIZE_STRING);
 
-        if($version_ == 0){
-
-            $project = Project::where('id', $project_id)->first();
+        $project = NewProject::where('id', $project_id)->first();
             if($project){
-
-                $projectBid = ProjectBid::where('project_id', $project_id)->get();
-            }
-            
-        }elseif($version_ == 1){
-            
-            $project = NewProject::where('id', $project_id)->first();
-            if($project){
-
                 $projectBid = NewProjectBid::where('project_id', $project_id)->get();
             }
-            
-            
-        }
         
         
         
@@ -494,13 +463,8 @@ class Api3Controller extends Controller
 
        public function completedProject(){
             $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
-            $version_ = filter_input(INPUT_GET, 'version_', FILTER_SANITIZE_STRING);
-
-            if($version_ == 0){
-                $project = Project::where('id', $project_id)->first();
-            }elseif($version_ == 1){
-                $project = NewProject::where('id', $project_id)->first();
-            }
+           
+            $project = NewProject::where('id', $project_id)->first();
 
            
 
