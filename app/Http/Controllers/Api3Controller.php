@@ -977,6 +977,8 @@ class Api3Controller extends Controller
                     ->where('new_projects.status', '=', 3)
                     ->orderBy('new_projects.id', 'desc')->get();
 
+                    $project_count = count($v3_projects);
+                    dd($project_count);
                     if($v3_projects != null){
                         foreach($v3_projects as $project){
 
@@ -1039,7 +1041,7 @@ class Api3Controller extends Controller
                         //     'msg' =>'No v3 projects found',
                         //     'success'=>'0'
                         // );
-                        dd("TEster");
+                      
                     }
 
                 }
