@@ -964,7 +964,17 @@ class Api3Controller extends Controller
 
     public function apiCompletedProjects()
         {
-            dd("tester");
+            if (isset($_GET['user_id'])) {
+                $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
+
+                $user = Auth::loginUsingId($user_id);
+
+                if (!$user) {
+                    $row['v3_project_completed'][]=array('msg' =>'Account not found','success'=>'0');
+                }else if($user){
+                dd($user);
+                }
+            }
         }
  
         
