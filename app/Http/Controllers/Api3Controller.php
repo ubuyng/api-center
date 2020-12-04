@@ -1207,7 +1207,7 @@ class Api3Controller extends Controller
                     $date = Carbon::parse($project->created_at); // now date is a carbon instance
             
                     // converting all data to json format
-                    $v3_project_pending[]=array(
+                    $v3_project_archived[]=array(
                         'project_id' => $project->project_id,
                         'sub_category_id' => $project->sub_category_id,
                         'user_id' => $project->user_id,
@@ -1228,10 +1228,10 @@ class Api3Controller extends Controller
                         
                         'created_at' => $date->diffForHumans(),
                     );
-                    $row['v3_project_pending']=$v3_project_pending;
+                    $row['v3_project_archived']=$v3_project_archived;
             }                                                                                                                                                               
         } else{
-            $set['UBUYAPI_V2'][]=array(
+           $row['v3_project_archived']=array(
                 'msg' =>'No v3 projects found',
                 'success'=>'0'
             );
