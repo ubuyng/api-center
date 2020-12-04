@@ -1034,7 +1034,7 @@ class Api3Controller extends Controller
         
                            
                         }  
-                    }else{
+                    } elseif($v3_projects->isEmpty()){
                         // $row['v3_project_completed']=array(
                         //     'msg' =>'No v3 projects found',
                         //     'success'=>'0'
