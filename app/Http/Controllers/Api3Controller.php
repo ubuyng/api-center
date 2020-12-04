@@ -979,7 +979,7 @@ class Api3Controller extends Controller
                     ->orderBy('new_projects.id', 'desc')->get();
 
                     $project_count = count($v3_projects);
-                    if($project_count => 1){
+                    if($project_count >= 1){
                         foreach($v3_projects as $project){
 
                             /* now we get the latest 3 bids for the data */
