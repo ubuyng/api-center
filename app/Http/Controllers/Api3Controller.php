@@ -827,7 +827,7 @@ class Api3Controller extends Controller
                             'project_skill_3' => $project_skill_3,
                             'project_skill_4' => $project_skill_4,
                             'upay_type' => $project->upay_type,
-                            'p_version' => 1,
+                            
                             'created_at' => $date->diffForHumans(),
                         );
                         $row['v3_project_pending']=$v3_project_pending;
@@ -926,7 +926,7 @@ class Api3Controller extends Controller
                                 'task_status' => $project->status,
                                 'selected_pro_image' => $selected_pro_image,
                                 'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
-                                'p_version' => 1,
+                                
                                 'bid_id' => $selected_pro->bid_id,
                                 'started_at' => $started_date->diffForHumans(),
                                 'deadline_at' => $deadline_date->diffForHumans(),
@@ -1024,7 +1024,7 @@ class Api3Controller extends Controller
                                     'task_status' => $project->status,
                                     'selected_pro_image' => $selected_pro_image,
                                     'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
-                                    'p_version' => 1,
+                                    
                                     'bid_id' => $selected_pro->bid_id,
                                     'started_at' => $started_date->diffForHumans(),
                                     'deadline_at' => $deadline_date->diffForHumans(),
@@ -1045,10 +1045,10 @@ class Api3Controller extends Controller
                 }
             }
 
-            $set['UBUYAPI_V2'] = $row;
-            header( 'Content-Type: application/json; charset=utf-8' );
-            echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
-            die();
+            // $set['UBUYAPI_V2'] = $row;
+            // header( 'Content-Type: application/json; charset=utf-8' );
+            // echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+            // die();
         }
  
         
@@ -1222,7 +1222,7 @@ class Api3Controller extends Controller
                         'project_skill_2' => $project_skill_2,
                         'project_skill_3' => $project_skill_3,
                         'project_skill_4' => $project_skill_4,
-                        'p_version' => 1,
+                        
                         'created_at' => $date->diffForHumans(),
                     );
                     $row['v3_project_pending']=$v3_project_pending;
