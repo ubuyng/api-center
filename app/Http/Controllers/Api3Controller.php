@@ -1035,10 +1035,11 @@ class Api3Controller extends Controller
                            
                         }  
                     }else{
-                        $row['v3_project_completed']=array(
-                            'msg' =>'No v3 projects found',
-                            'success'=>'0'
-                        );
+                        // $row['v3_project_completed']=array(
+                        //     'msg' =>'No v3 projects found',
+                        //     'success'=>'0'
+                        // );
+                        dd("TEster");
                     }
 
                 }
