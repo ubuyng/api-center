@@ -877,8 +877,7 @@ class Api3Controller extends Controller
                 here we check if v3 projects are on db and display them else 
                 we set v3_checker to null
                  */
-                $project_count = count($v3_projects);
-                dd($project_count);
+                
 
                 if($v3_projects){
                     $v3_checker = null;
@@ -980,8 +979,7 @@ class Api3Controller extends Controller
                     ->orderBy('new_projects.id', 'desc')->get();
 
                     $project_count = count($v3_projects);
-                    dd($project_count);
-                    if($v3_projects != null){
+                    if($project_count => 1){
                         foreach($v3_projects as $project){
 
                             /* now we get the latest 3 bids for the data */
@@ -1038,21 +1036,21 @@ class Api3Controller extends Controller
         
                            
                         }  
-                    } elseif($v3_projects->isEmpty()){
-                        // $row['v3_project_completed']=array(
-                        //     'msg' =>'No v3 projects found',
-                        //     'success'=>'0'
-                        // );
+                    } else{
+                        $row['v3_project_completed']=array(
+                            'msg' =>'No v3 projects found',
+                            'success'=>'0'
+                        );
                       
                     }
 
                 }
             }
 
-            // $set['UBUYAPI_V2'] = $row;
-            // header( 'Content-Type: application/json; charset=utf-8' );
-            // echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
-            // die();
+            $set['UBUYAPI_V2'] = $row;
+            header( 'Content-Type: application/json; charset=utf-8' );
+            echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+            die();
         }
  
         
