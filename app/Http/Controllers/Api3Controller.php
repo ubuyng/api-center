@@ -972,9 +972,14 @@ class Api3Controller extends Controller
                 if (!$user) {
                     $row['v3_project_completed'][]=array('msg' =>'Account not found','success'=>'0');
                 }else if($user){
-                dd($user);
+                    $row['v3_project_completed']=$user;
                 }
             }
+
+            $set['UBUYAPI_V2'] = $row;
+            header( 'Content-Type: application/json; charset=utf-8' );
+            echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+            die();
         }
  
         
