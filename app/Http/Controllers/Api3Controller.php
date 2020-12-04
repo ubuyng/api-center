@@ -1077,8 +1077,9 @@ class Api3Controller extends Controller
             here we check if v3 projects are on db and display them else 
             we set v4_checker to null
              */
+            $project_count = count($v3_projects);
 
-         if($v3_projects){
+         if($project_count >= 1){
             $v3_checker = null;
             foreach($v3_projects as $project){
                 // counting bids in project here
@@ -1228,13 +1229,8 @@ class Api3Controller extends Controller
                         'created_at' => $date->diffForHumans(),
                     );
                     $row['v3_project_pending']=$v3_project_pending;
-               
-
-               
-                $set['UBUYAPI_V2'] = $row;
             }                                                                                                                                                               
-        } elseif($v3_projects->isEmpty()){
-            $v3_checker = null;
+        } else{
             $set['UBUYAPI_V2'][]=array(
                 'msg' =>'No v3 projects found',
                 'success'=>'0'
@@ -1242,132 +1238,6 @@ class Api3Controller extends Controller
 
          }
 
-
-         $v2_projects = DB::table("projects")
-         ->where('projects.user_id', '=', $user_id)
-         ->where('projects.status', '=', 4)
-         ->select('projects.id as project_id', 'projects.user_id as user_id',  'projects.project_message', 'projects.created_at', 'projects.sub_category_name','projects.status', 'projects.sub_category_id','projects.address')
-         ->orderBy('projects.id', 'desc')->get();
-
-         if($v2_projects->isEmpty()){
-             $v2_checker = null;
-            $set['UBUYAPI_V2'][]=array('msg' =>'No v2 projects found','success'=>'0');
-
-
-         }
-     else if($v2_projects){
-
-        $v2_checker = true;
-         foreach($v2_projects as $project){
-             // counting bids in project here
-             $bids = ProjectBid::where('project_id','=', $project->project_id)->get();
-
-             /* now we get the latest 3 bids for the data */
-
-             $bid_1 = DB::table("project_bids")
-             ->where('project_bids.project_id', '=', $project->project_id)
-             ->join('users', 'users.id', '=', 'project_bids.user_id')
-             ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
-             ->skip(0)->first();
-
-             $bid_2 = DB::table("project_bids")
-             ->where('project_bids.project_id', '=', $project->project_id)
-             ->join('users', 'users.id', '=', 'project_bids.user_id')
-             ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
-             ->skip(1)->first();
-
-             $bid_3 = DB::table("project_bids")
-             ->where('project_bids.project_id', '=', $project->project_id)
-             ->join('users', 'users.id', '=', 'project_bids.user_id')
-             ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id',  'project_bids.bid_message', 'project_bids.bid_amount', 'users.image as profile_photo', 'project_bids.bid_status', 'project_bids.project_id')
-             ->skip(2)->first();
-
-
-             if ($bid_1) {
-                  
-                 if ($bid_1->profile_photo) {
-                     $bidder_1_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_1->profile_photo;
-                 }else{
-                     $bidder_1_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-                 }
-             }else{
-                 $bidder_1_image = null;
-             }
-             if ($bid_2) {
-                  
-                 if ($bid_2->profile_photo) {
-                     $bidder_2_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_2->profile_photo;
-                 }else{
-                     $bidder_2_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-                 }
-             }else{
-                 $bidder_2_image = null;
-             }
-             if ($bid_3) {
-                  
-                 if ($bid_3->profile_photo) {
-                     $bidder_3_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid_3->profile_photo;
-                 }else{
-                     $bidder_3_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
-                 }
-             }else{
-                 $bidder_3_image = null;
-             }
-
-
-             $bid_count = count($bids);
-
-              /* chek bid status */
-              if ($bid_count == 0) {
-                 //  awaiting bids
-                 $bid_status = 0;
-             }elseif ($bid_count >= 1 && $project->status == 2) {
-                 // selected pro
-                 $bid_status = 4;
-             }elseif ($bid_count >= 1 && $project->status != 3) {
-                 // receiving bids
-                 $bid_status = 1;
-             }elseif ($bid_count >= 1 && $project->status == 3) {
-                 // completed project
-                 $bid_status = 2;
-             }elseif ($bid_count >= 0 && $project->status == 4) {
-                 // paused project
-                 $bid_status = 3;
-             }
-
-             /* checking project status */
-             // check if the project is older than 30 days
-             $mainDate = new \DateTime($project->created_at);
-             $now = new \DateTime();
-             if($mainDate->diff($now)->days > 30 && $project->status != 3) {
-                 // expired and not completed
-                 $project_progress = 2;
-             }
-            
-
-             // using carbon to make date readable
-                 $date = Carbon::parse($project->created_at); // now date is a carbon instance
-         
-                 $v2_project_pending[]=array(
-                    'project_id' => $project->project_id,
-                    'sub_category_id' => $project->sub_category_id,
-                    'user_id' => $project->user_id,
-                    'sub_category_name' => $project->sub_category_name,
-                    'address' => $project->address,
-                    'bid_count' => $bid_count,
-                    'brief' => $project->project_message,
-                    'bid_status' => $bid_status,
-                    'bidder_1_image' => $bidder_1_image,
-                    'bidder_2_image' => $bidder_2_image,
-                    'bidder_3_image' => $bidder_3_image,
-                    'p_version' => 0,
-                    'created_at' => $date->diffForHumans(),
-                 );
-                 $row['v2_project_pending']=$v2_project_pending;
-            
-             
-         }                                                                                                                                                               
-     } 
 
 
         }
