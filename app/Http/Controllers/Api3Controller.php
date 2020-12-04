@@ -977,7 +977,12 @@ class Api3Controller extends Controller
                     ->where('new_projects.status', '=', 3)
                     ->orderBy('new_projects.id', 'desc')->get();
 
-                    dd($v3_projects);
+                    if($v3_projects){
+                        $row['v3_project_completed'][]=array('msg' =>'has projects');
+                    }else{
+                        $row['v3_project_completed'][]=array('msg' =>'no projects');
+                    }
+
                 }
             }
 
