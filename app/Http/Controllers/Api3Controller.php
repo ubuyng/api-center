@@ -877,6 +877,8 @@ class Api3Controller extends Controller
                 here we check if v3 projects are on db and display them else 
                 we set v3_checker to null
                  */
+                $project_count = count($v3_projects);
+                dd($project_count);
 
                 if($v3_projects){
                     $v3_checker = null;
