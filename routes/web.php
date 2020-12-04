@@ -189,11 +189,11 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::get('/deleteDraft/{project_id?}/{skill_title?}', 'Api3Controller@deleteProjectSkill');
         Route::Post('/post/debug/task', 'Api3Controller@debugSave');
         Route::Post('/post/edit/task', 'Api3Controller@saveEdit');
-        Route::get('/single/project/v3/{project_id?}/{version_?}', 'Api3Controller@singleProjectSB');
-        Route::get('/single/archive/project/v3/{project_id?}/{version_?}', 'Api3Controller@singleArchiveProjectSB');
-        Route::get('/reopen/project/{project_id?}/{version_?}', 'Api3Controller@reopenProject');
-        Route::get('/completed/project/{project_id?}/{version_?}', 'Api3Controller@completedProject');
-        Route::get('/single/bid/profile/{bid_id?}/{version_?}', 'Api3Controller@BidProfile');
+        Route::get('/single/project/v3/{project_id?}', 'Api3Controller@singleProjectSB');
+        Route::get('/single/archive/project/v3/{project_id?}', 'Api3Controller@singleArchiveProjectSB');
+        Route::get('/reopen/project/{project_id?}', 'Api3Controller@reopenProject');
+        Route::get('/completed/project/{project_id?}', 'Api3Controller@completedProject');
+        Route::get('/single/bid/profile/{bid_id?}', 'Api3Controller@BidProfile');
         Route::get('/cus/invite/tasks/{user_id?}', 'Api3Controller@inviteTaskList');
         Route::Post('/post/cancel/task', 'Api3Controller@CancelTask');
         Route::Post('/post/complete/task', 'Api3Controller@CompleteTask');

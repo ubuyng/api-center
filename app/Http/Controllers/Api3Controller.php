@@ -448,7 +448,6 @@ class Api3Controller extends Controller
                 'material_fee' => $bid->material_fee,
                 'service_fee' => $bid->service_fee,
                 'bid_type' => $bid->bid_type,
-                'version_' => $bid->version_,
             );
 
         }
@@ -2231,13 +2230,9 @@ public function CallAlertProjectSafety()
 
         $project_id = $request->project_id;
         $user_id = $request->user_id;
-        $version_ = $request->version_;
 
-        if ($version_ == 0) {
-            $project = Project::find($project_id);
-        } elseif($version_ == 1) {
-            $project = NewProject::find($project_id);
-        }
+        
+        $project = NewProject::find($project_id);
         
         $status = 4;
         $project->update(['status' => $status]);
@@ -2250,13 +2245,8 @@ public function CallAlertProjectSafety()
 
     public function reopenProject(){
         $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
-        $version_ = filter_input(INPUT_GET, 'version_', FILTER_SANITIZE_STRING);
 
-        if ($version_ == 0) {
-            $project = Project::where('id', $project_id)->first();
-        }elseif($version_ == 1){
-            $project = Project::where('id', $project_id)->first();
-        }
+        $project = NewProject::where('id', $project_id)->first();
 
         $created_at = Carbon::today()->toDateTimeString();
         $status = 1;
@@ -2275,13 +2265,9 @@ public function CallAlertProjectSafety()
 
         $project_id = $request->project_id;
         $user_id = $request->user_id;
-        $version_ = $request->version_;
 
-        if ($version_ == 0) {
-            $project = Project::find($project_id);
-        } elseif($version_ == 1) {
-            $project = NewProject::find($project_id);
-        }
+       
+        $project = NewProject::find($project_id);
         
         $status = 3;
         $project->update(['status' => $status]);
@@ -2348,17 +2334,9 @@ public function CallAlertProjectSafety()
 
     public function apiInvitePros(){
         $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
-        $version_ = filter_input(INPUT_GET, 'version_', FILTER_SANITIZE_STRING);
 
-        // check the versions and make api calls
-        if ($version_ == 0) {
-            
-            // check if the project exists
-            $project = Project::where('id', $project_id)->first();
-            
-        }elseif ($version_ == 1) {
-            $project = NewProject::where('id', $project_id)->first();
-        }
+       
+        $project = NewProject::where('id', $project_id)->first();
 
 
         // get the sub category the project belongs to
@@ -3669,15 +3647,8 @@ public function apiStoreMessage()
    public function BidProfile()
    {
     $bid_id = filter_input(INPUT_GET, 'bid_id', FILTER_SANITIZE_STRING);
-    $version_ = filter_input(INPUT_GET, 'version_', FILTER_SANITIZE_STRING);
 
-    if($version_ == 0){
-
-        $bid = ProjectBid::where('id', $bid_id)->first();
-    }elseif($version_ == 1){
-        
-        $bid = NewProjectBid::where('id', $bid_id)->first();
-    }
+    $bid = NewProjectBid::where('id', $bid_id)->first();
 
         if ($bid) {
             $user = User::find($bid->user_id);
