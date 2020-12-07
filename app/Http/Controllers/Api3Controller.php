@@ -2705,7 +2705,7 @@ public function CallAlertProjectSafety()
                 $project_title = $project->project_title;
                 $project_brief = $project->project_message;
 
-                $start_date = new DateTime();
+                $start_date = now();
                $project_deadline = date("y-m-d HH:mi:ss", strtotime("$start_date +$bid->bid_duration"));
 
                dd($project_deadline);
