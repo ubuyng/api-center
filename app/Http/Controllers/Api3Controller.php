@@ -2747,7 +2747,7 @@ public function CallAlertProjectSafety()
                     'tex_ref' =>  $generated_ref.'_'.$project->sub_category_name,
                     'transact_amount' => $amount,
                     'transact_percent' => $percent,
-                    'transact_fee' => $transact_fee,
+                    'transact_fee' => $transact_fee."+ ₦100",
                     'transact_total' => $transact_total,
                     'transact_flutter_total' => $transact_total,
                     'transact_duration' => $bid->bid_duration.' days',
