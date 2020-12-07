@@ -2738,9 +2738,9 @@ public function CallAlertProjectSafety()
                 $ref[]=array(
                     'project_id' => $project->id,
                     'project_title' => $project_title,
-                    'project_brief' => $project_brief,
+                    'brief' => $project_brief,
                     'project_deadline' => $project_deadline,
-                    'selected_pro_image' => $selected_pro_image,
+                    'pro_image' => $selected_pro_image,
                     'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
                     'task_done' => $task_counter,
                     'bid_amount' => $bid->bid_amount,
