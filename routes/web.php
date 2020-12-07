@@ -224,13 +224,7 @@ Route::group(['prefix' => 'api_v2'], function() {
                     Route::get('/get/cat/{user_id?}', 'Api3Controller@DisputeCatTask');
         });
 
-        Route::group(['prefix' => 'payments'], function () {
-            Route::post('/log/save', 'Api3Controller@DisputeAddRecord');
-            Route::get('/post/cats_state', 'Api3Controller@apiCategoriesState');
-            Route::get('/user/open/{user_id?}', 'Api3Controller@DisputeUnResolved');
-            Route::post('/save/dispute/file', 'Api3Controller@saveDisputeFile');
-            Route::get('/get/cat/{user_id?}', 'Api3Controller@DisputeCatTask');
-        });
+      
 
         Route::group(['prefix' => 'feedback'], function () {
             Route::post('/log/save', 'Api3Controller@apiFeedback');

@@ -2697,27 +2697,38 @@ public function CallAlertProjectSafety()
             $bid_id = filter_input(INPUT_GET, 'bid_id', FILTER_SANITIZE_STRING);
 
 
-            $bid = ProjectBid::where('id', $bid_id)->first();
+            $bid = NewProjectBid::where('id', $bid_id)->first();
             if ($bid) {
-                $project = Project::where('id', $bid->project_id)->first();
-                $amount = $bid->bid_amount;
-                $percent = "2.5";
-                $transact_fee = ($percent/100)*$amount + 100;
-                $transact_total = $amount + $transact_fee;
+                $project = NewProject::where('id', $bid->project_id)->first();
+
+                /* here is the logic for project details */
+                $project_title = $project->project_title;
+                $project_brief = $project->project_message;
+
+                $start_date = new DateTime();
+               $project_deadline = date("y-m-d HH:mi:ss", strtotime("$start_date +$bid->bid_duration"));
+
+               dd($project_deadline);
+                /* here is the logic for bid details */
+                /* here is the logic for payment */
+                // $amount = $bid->bid_amount;
+                // $percent = "2.5";
+                // $transact_fee = ($percent/100)*$amount + 100;
+                // $transact_total = $amount + $transact_fee;
                 
 
-                $generated_ref = base64_encode(random_bytes(10));
-                $ref[]=array(
-                    'tex_ref' =>  $generated_ref.'_'.$project->sub_category_name,
-                    'transact_amount' => '₦'.$amount,
-                    'transact_percent' => $percent,
-                    'transact_fee' => '₦'.$transact_fee,
-                    'transact_total' => '₦'.$transact_total,
-                    'transact_flutter_total' => $transact_total,
-                    'transact_duration' => $bid->bid_duration.' days',
-                    'upay_type' => $project->upay_type,
+                // $generated_ref = base64_encode(random_bytes(10));
+                // $ref[]=array(
+                //     'tex_ref' =>  $generated_ref.'_'.$project->sub_category_name,
+                //     'transact_amount' => '₦'.$amount,
+                //     'transact_percent' => $percent,
+                //     'transact_fee' => '₦'.$transact_fee,
+                //     'transact_total' => '₦'.$transact_total,
+                //     'transact_flutter_total' => $transact_total,
+                //     'transact_duration' => $bid->bid_duration.' days',
+                //     'upay_type' => $project->upay_type,
 
-                );
+                // );
             } else {
                 # code...
             }
