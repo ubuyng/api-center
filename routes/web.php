@@ -250,7 +250,12 @@ Route::group(['prefix' => 'api_v2'], function() {
         });
 
 
-
+        Route::group(['prefix' => 'config'], function() {
+            Route::get('/upay/generated_ref/{bid_id?}', 'Api3Controller@apitxRef');    
+            Route::get('/upay/history/{user_id?}', 'Api3Controller@apiUpay');    
+            Route::get('/upay/clickpayment/{user_id?}/{project?}/{amount?}/{pro_name?}', 'Api3Controller@apiClickOnPayment');    
+        });
+    
 
     });
 
@@ -318,12 +323,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::get('/input/{user_id?}/{message?}', 'Api2Controller@submitFeedback');     
 
     });
-    Route::group(['prefix' => 'config'], function() {
-        Route::get('/upay/generated_ref/{bid_id?}', 'Api2Controller@apitxRef');    
-        Route::get('/upay/history/{user_id?}', 'Api2Controller@apiUpay');    
-        Route::get('/upay/clickpayment/{user_id?}/{project?}/{amount?}/{pro_name?}', 'Api2Controller@apiClickOnPayment');    
-    });
-
+ 
 
   
 
