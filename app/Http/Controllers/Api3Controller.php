@@ -2706,7 +2706,7 @@ public function CallAlertProjectSafety()
                 $project_brief = $project->project_message;
 
                 $start_date = now();
-               $project_deadline = date("y-m-d HH:mi:ss", strtotime("$start_date +$bid->bid_duration"));
+               $project_deadline = date("d-m-y", strtotime("$start_date +$bid->bid_duration"));
 
                 /* here is the logic for bid details */
                 $selected_pro = DB::table("new_project_bids")
