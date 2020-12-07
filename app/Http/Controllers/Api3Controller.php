@@ -2108,7 +2108,7 @@ public function CallAlertProjectSafety()
                 $bid = ProjectBid::where('id','=', $bid_id)->first();
                 $bid->update(['bid_status' => 1]);
 
-            $$bid = DB::table("project_bids")
+            $bid = DB::table("project_bids")
             ->where('project_bids.id', '=', $bid->id)
             ->join('profiles', 'project_bids.user_id', '=', 'profiles.user_id')
             ->join('users', 'project_bids.user_id', '=', 'users.id')
@@ -2116,24 +2116,24 @@ public function CallAlertProjectSafety()
             ->first();
 
 
-            $date = Carbon::parse($$bid->created_at); // now date is a carbon instance
+            $date = Carbon::parse($bid->created_at); // now date is a carbon instance
 
             /* Profiles photo checker and links */
-            if ($$bid->profile_photo != null ) {
-                $profile_url = 'https://ubuy.ng/uploads/images/profile_pics/'.$$bid->profile_photo;
-            } elseif($$bid->profile_photo == null && $$bid->image != null)  {
-                $profile_url = 'https://ubuy.ng/uploads/images/profile_pics/'.$$bid->image;
+            if ($bid->profile_photo != null ) {
+                $profile_url = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid->profile_photo;
+            } elseif($bid->profile_photo == null && $bid->image != null)  {
+                $profile_url = 'https://ubuy.ng/uploads/images/profile_pics/'.$bid->image;
             }else {
                 $profile_url = null;
 
             }
 
-            $task_done_1  = $$bid->project_done;
+            $task_done_1  = $bid->project_done;
 
-            $task_done_2 =  count(Project::where('pro_id','=', $$bid->pro_id)->get());
+            $task_done_2 =  count(Project::where('pro_id','=', $bid->pro_id)->get());
         
     
-             $rating_checker = Rating::where('pro_id','=', $$bid->pro_id)->select('rating')->get();
+             $rating_checker = Rating::where('pro_id','=', $bid->pro_id)->select('rating')->get();
              if ($rating_checker) {
                  $pro_rating = $rating_checker->avg('rating');
              } elseif ($rating_checker == null) {
@@ -2145,29 +2145,29 @@ public function CallAlertProjectSafety()
             $task_counter = $task_done_1+$task_done_2;
 
             $all_bids[]=array(
-                'bid_id' => $$bid->bid_id,
-                'bid_message' => $$bid->bid_message,
-                'bid_amount' => '₦'.$$bid->bid_amount,
+                'bid_id' => $bid->bid_id,
+                'bid_message' => $bid->bid_message,
+                'bid_amount' => '₦'.$bid->bid_amount,
                 'profile_photo' => $profile_url,
-                'pro_name' => $$bid->business_name,
-                'bid_status' => $$bid->bid_status,
-                'pro_id' => $$bid->pro_id,
-                'cus_id' => $$bid->cus_id,
-                'pro_city' => $$bid->pro_city,
-                'project_id' => $$bid->project_id,
+                'pro_name' => $bid->business_name,
+                'bid_status' => $bid->bid_status,
+                'pro_id' => $bid->pro_id,
+                'cus_id' => $bid->cus_id,
+                'pro_city' => $bid->pro_city,
+                'project_id' => $bid->project_id,
                 'task_done' => $task_counter,
                 'pro_rating' => $pro_rating,
                 'created_at' => $date->diffForHumans(),
             );
 
-            $bid_track_checker = TaskTracker::where('bid_id','=', $$bid->bid_id)->where('track_type','=', 'bid_opened')->first();
+            $bid_track_checker = TaskTracker::where('bid_id','=', $bid->bid_id)->where('track_type','=', 'bid_opened')->first();
 
           if (!$bid_track_checker) {
-            $track_message =  'you opened  ' . $$bid->business_name. ' bid';
+            $track_message =  'you opened  ' . $bid->business_name. ' bid';
             $tracker = [
-                'user_id' => $$bid->cus_id,
-                'project_id' => $$bid->project_id,
-                'bid_id' => $$bid->bid_id,
+                'user_id' => $bid->cus_id,
+                'project_id' => $bid->project_id,
+                'bid_id' => $bid->bid_id,
                 'track_type' => "bid_opened",
                 'message' => $track_message,
             ];
@@ -2708,27 +2708,51 @@ public function CallAlertProjectSafety()
                 $start_date = now();
                $project_deadline = date("y-m-d HH:mi:ss", strtotime("$start_date +$bid->bid_duration"));
 
-               dd($project_deadline);
                 /* here is the logic for bid details */
+                $selected_pro = DB::table("new_project_bids")
+                ->where('new_project_bids.project_id', '=', $project->id)
+                ->join('users', 'users.id', '=', 'new_project_bids.user_id')
+                ->select('new_project_bids.id as bid_id', 'new_project_bids.user_id as pro_id',  'new_project_bids.bid_message', 'new_project_bids.bid_duration', 'new_project_bids.bid_amount', 'users.image as profile_photo', 'users.first_name', 'users.last_name', 'new_project_bids.bid_status', 'new_project_bids.project_id')
+                ->first();
+
+                if ($selected_pro->profile_photo) {
+                    $selected_pro_image = 'https://ubuy.ng/uploads/images/profile_pics/'.$selected_pro->profile_photo;
+                }else{
+                    $selected_pro_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
+                }
+
+                $task_done_1  = count(NewProject::where('pro_id','=', $bid->pro_id)->get());
+
+                $task_done_2 =  count(Project::where('pro_id','=', $bid->pro_id)->get());
+                $task_counter = $task_done_1+$task_done_2;
+
+
                 /* here is the logic for payment */
-                // $amount = $bid->bid_amount;
-                // $percent = "2.5";
-                // $transact_fee = ($percent/100)*$amount + 100;
-                // $transact_total = $amount + $transact_fee;
+                $amount = $bid->bid_amount;
+                $percent = "2.5";
+                $transact_fee = ($percent/100)*$amount + 100;
+                $transact_total = $amount + $transact_fee;
                 
 
-                // $generated_ref = base64_encode(random_bytes(10));
-                // $ref[]=array(
-                //     'tex_ref' =>  $generated_ref.'_'.$project->sub_category_name,
-                //     'transact_amount' => '₦'.$amount,
-                //     'transact_percent' => $percent,
-                //     'transact_fee' => '₦'.$transact_fee,
-                //     'transact_total' => '₦'.$transact_total,
-                //     'transact_flutter_total' => $transact_total,
-                //     'transact_duration' => $bid->bid_duration.' days',
-                //     'upay_type' => $project->upay_type,
+                $generated_ref = base64_encode(random_bytes(10));
+                $ref[]=array(
+                    'project_id' => $projecct->id,
+                    'project_title' => $project_title,
+                    'project_brief' => $project_brief,
+                    'selected_pro_image' => $selected_pro_image,
+                    'pro_name' => $selected_pro->first_name.' '.$selected_pro->last_name,
+                    'task_done' => $task_counter,
+                    'bid_amount' => $bid->bid_amount,
+                    'tex_ref' =>  $generated_ref.'_'.$project->sub_category_name,
+                    'transact_amount' => '₦'.$amount,
+                    'transact_percent' => $percent,
+                    'transact_fee' => '₦'.$transact_fee,
+                    'transact_total' => '₦'.$transact_total,
+                    'transact_flutter_total' => $transact_total,
+                    'transact_duration' => $bid->bid_duration.' days',
+                    'upay_type' => $project->upay_type,
 
-                // );
+                );
             } else {
                 # code...
             }
