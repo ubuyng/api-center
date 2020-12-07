@@ -294,9 +294,8 @@ class Api3Controller extends Controller
            $task_title = $request->task_title;
            $des = $request->des;
            $budget = $request->budget;
+           $project_id = $request->project_id;
     
-           $sub_id = $request->sub_id;
-
 
             $has_project = NewProject::where('id', $project_id)->first();
             
