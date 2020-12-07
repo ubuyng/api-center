@@ -2736,7 +2736,7 @@ public function CallAlertProjectSafety()
 
                 $generated_ref = base64_encode(random_bytes(10));
                 $ref[]=array(
-                    'project_id' => $projecct->id,
+                    'project_id' => $project->id,
                     'project_title' => $project_title,
                     'project_brief' => $project_brief,
                     'selected_pro_image' => $selected_pro_image,
