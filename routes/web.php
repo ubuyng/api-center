@@ -188,6 +188,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::get('/savedraft/qtask/{user_id?}/{project_title?}/{skill_id?}', 'Api3Controller@SaveDraftDebug');
         Route::get('/deleteDraft/{project_id?}/{skill_title?}', 'Api3Controller@deleteProjectSkill');
         Route::Post('/post/debug/task', 'Api3Controller@debugSave');
+        Route::Post('/post/update/task/posting', 'Api3Controller@savePostUpdate');
         Route::Post('/post/edit/task', 'Api3Controller@saveEdit');
         Route::get('/single/project/v3/{project_id?}', 'Api3Controller@singleProjectSB');
         Route::get('/single/archive/project/v3/{project_id?}', 'Api3Controller@singleArchiveProjectSB');

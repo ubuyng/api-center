@@ -294,6 +294,53 @@ class Api3Controller extends Controller
            $task_title = $request->task_title;
            $des = $request->des;
            $budget = $request->budget;
+    
+           $sub_id = $request->sub_id;
+
+
+            $has_project = NewProject::where('id', $project_id)->first();
+            
+           if($has_project){
+            $project_data = [
+                'project_title' => $task_title,
+                'project_message' => $des,
+                'budget' => $budget,
+            ];
+
+            $project_id = $has_project->id;
+
+            NewProject::where('id', $project_id)->update($project_data);
+
+            $set['UBUYAPI_V2'][]=array(
+                'user_id' =>$user_id,
+                'project_id' =>$project_id,
+                'success'=>'1',
+                'msg'=>'Task Updated'
+            );
+           }else{
+               $set['UBUYAPI_V2'][]= array(
+                'msg' => "Error updating task please fill all forms"
+               );
+           }
+
+
+          
+
+                header( 'Content-Type: application/json; charset=utf-8' );
+                echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+                die();
+
+       }
+       public function savePostUpdate(Request $request)
+       {
+           /* our variables to store */
+           $user_id = $request->user_id;
+        //    get user data
+           $user = User::find($user_id)->first();
+    
+           $task_title = $request->task_title;
+           $des = $request->des;
+           $budget = $request->budget;
            $cat_id = $request->cat_id;
            $project_id = $request->project_id;
     
@@ -790,7 +837,6 @@ class Api3Controller extends Controller
                             'project_skill_3' => $project_skill_3,
                             'project_skill_4' => $project_skill_4,
                             'upay_type' => $project->upay_type,
-                            
                             'created_at' => $date->diffForHumans(),
                         );
                         $row['v3_project_pending']=$v3_project_pending;
@@ -1852,7 +1898,7 @@ public function CallAlertProjectSafety()
             if (isset($_GET['project_id'])) {
                 $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
 
-                $project = Project::where('id','=', $project_id)->first();
+                $project = NewProject::where('id','=', $project_id)->first();
  
 
                 if (!$project) {
@@ -1860,12 +1906,12 @@ public function CallAlertProjectSafety()
                 }else if($project){
                 // $projects = $user->projectsSubCat->get();
 
-                $project_bids = DB::table("project_bids")
-                ->where('project_bids.project_id', '=', $project->id)
-                ->join('profiles', 'project_bids.user_id', '=', 'profiles.user_id')
-                ->join('users', 'project_bids.user_id', '=', 'users.id')
-                ->select('project_bids.id as bid_id', 'project_bids.user_id as pro_id','profiles.profile_photo', 'users.image', 'project_bids.cus_id as cus_id','profiles.business_name', 'project_bids.created_at', 'project_bids.bid_amount', 'project_bids.bid_message','project_bids.bid_status', 'project_bids.cus_id')
-                ->orderBy('project_bids.id', 'desc')->get();
+                $project_bids = DB::table("new_project_bids")
+                ->where('new_project_bids.project_id', '=', $project->id)
+                ->join('profiles', 'new_project_bids.user_id', '=', 'profiles.user_id')
+                ->join('users', 'new_project_bids.user_id', '=', 'users.id')
+                ->select('new_project_bids.id as bid_id', 'new_project_bids.user_id as pro_id','profiles.profile_photo', 'users.image', 'new_project_bids.cus_id as cus_id','profiles.business_name', 'new_project_bids.created_at', 'new_project_bids.bid_amount', 'new_project_bids.bid_message','new_project_bids.bid_status', 'new_project_bids.cus_id')
+                ->orderBy('new_project_bids.id', 'desc')->get();
 
                 if($project_bids->isEmpty()){
                     $set['UBUYAPI_V2'] = null;
