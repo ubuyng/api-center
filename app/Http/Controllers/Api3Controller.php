@@ -2729,7 +2729,7 @@ public function CallAlertProjectSafety()
 
                 /* here is the logic for payment */
                 $amount = $bid->bid_amount;
-                $percent = "2.5";
+                $percent = "2.5 + ₦100";
                 $transact_fee = ($percent/100)*$amount + 100;
                 $transact_total = $amount + $transact_fee;
                 
@@ -2747,7 +2747,7 @@ public function CallAlertProjectSafety()
                     'tex_ref' =>  $generated_ref.'_'.$project->sub_category_name,
                     'transact_amount' => $amount,
                     'transact_percent' => $percent,
-                    'transact_fee' => $transact_fee."+ ₦100",
+                    'transact_fee' => $transact_fee,
                     'transact_total' => $transact_total,
                     'transact_flutter_total' => $transact_total,
                     'transact_duration' => $bid->bid_duration.' days',
