@@ -2721,9 +2721,9 @@ public function CallAlertProjectSafety()
                     $selected_pro_image = 'https://ubuy.ng/mvp_ui/images/icons/chat_user_icon.png';
                 }
 
-                $task_done_1  = count(NewProject::where('pro_id','=', $bid->pro_id)->get());
+                $task_done_1  = count(NewProject::where('pro_id','=', $bid->user_id)->get());
 
-                $task_done_2 =  count(Project::where('pro_id','=', $bid->pro_id)->get());
+                $task_done_2 =  count(Project::where('pro_id','=', $bid->user_id)->get());
                 $task_counter = $task_done_1+$task_done_2;
 
 
