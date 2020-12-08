@@ -3511,7 +3511,7 @@ public function proPortfolio()
                 $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
 
                 $user = Auth::loginUsingId($user_id);
-
+ 
                 if (!$user) {
                     $set['UBUYAPI_V2'][]=array('msg' =>'Account not found','success'=>'0');
                 }else if($user){
@@ -3524,6 +3524,8 @@ public function proPortfolio()
                 ->join('profiles', 'project_bids.user_id', '=', 'profiles.user_id')
                 ->select('projects.id', 'project_bids.id AS bid_id',  'project_bids.user_id AS bidder_id', 'profiles.profile_photo AS bidder_image', 'projects.sub_category_name', 'project_bids.bid_message', 'project_bids.bid_amount', 'profiles.business_name', 'project_bids.created_at')
                ->get();
+
+               dd($bids);
 
                 if($bids->isEmpty()){
                     $set['UBUYAPI_V2'] = $user->email;
