@@ -3525,33 +3525,33 @@ public function proPortfolio()
                 ->select('projects.id', 'project_bids.id AS bid_id',  'project_bids.user_id AS bidder_id', 'profiles.profile_photo AS bidder_image', 'projects.sub_category_name', 'project_bids.bid_message', 'project_bids.bid_amount', 'profiles.business_name', 'project_bids.created_at')
                ->get();
 
-               dd($bids);
+               dd($bids); 
 
-                if($bids->isEmpty()){
-                    $set['UBUYAPI_V2'] = $user->email;
-                }
-            else if($bids){
-                    // $set['UBUYAPI_V2'] = $bids;
+            //     if($bids->isEmpty()){
+            //         $set['UBUYAPI_V2'] = $user->email;
+            //     }
+            // else if($bids){
+            //         // $set['UBUYAPI_V2'] = $bids;
 
-                foreach($bids as $bid){
-                        $date = Carbon::parse($bid->created_at); // now date is a carbon instance
+            //     foreach($bids as $bid){
+            //             $date = Carbon::parse($bid->created_at); // now date is a carbon instance
 
-                        $bid_amount = "₦".$bid->bid_amount;
-                    $set['UBUYAPI_V2'][]=array(
+            //             $bid_amount = "₦".$bid->bid_amount;
+            //         $set['UBUYAPI_V2'][]=array(
                         
-                    'project_id' => $bid->id,
-                    'bid_id' => $bid->bid_id,
-                    'bidder_id' => $bid->bidder_id,
-                    'project_title' => $bid->sub_category_name,
-                    'bid_message' => $bid->bid_message,
-                    'bid_amount' => $bid_amount,
-                    'bidder_image' => $bid->bidder_image,
-                    'bidder_name' => $bid->business_name,
-                    'created_at' => $date->diffForHumans(),
-                    // 'created_at' => $project->created_at,
-                    );
-                }
-            } 
+            //         'project_id' => $bid->id,
+            //         'bid_id' => $bid->bid_id,
+            //         'bidder_id' => $bid->bidder_id,
+            //         'project_title' => $bid->sub_category_name,
+            //         'bid_message' => $bid->bid_message,
+            //         'bid_amount' => $bid_amount,
+            //         'bidder_image' => $bid->bidder_image,
+            //         'bidder_name' => $bid->business_name,
+            //         'created_at' => $date->diffForHumans(),
+            //         // 'created_at' => $project->created_at,
+            //         );
+            //     }
+            // } 
 
         
 
