@@ -208,7 +208,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::get('/pros/subcat/{sub_id?}', 'Api3Controller@apiSubPros');
         Route::get('/all/pros/top/', 'Api3Controller@apiAllPros');
         Route::get('/all/search_pro/{query?}', 'Api3Controller@apiSearchPros');
-
+ 
 
         Route::group(['prefix' => 'safetytoolkit'], function () {
             Route::get('project/save/{project_id?}/{bid_id?}', 'Api3Controller@SingleProjectSafety');
@@ -224,7 +224,15 @@ Route::group(['prefix' => 'api_v2'], function() {
                     Route::get('/get/cat/{user_id?}', 'Api3Controller@DisputeCatTask');
         });
 
-      
+        // chat api
+
+        Route::group(['prefix' => 'inbox'], function() {
+            Route::get('/all/{user_id?}', 'Api3Controller@apiInbox');
+            Route::get('/project/{user_id?}/{project_id?}', 'Api3Controller@apiQuickChat');
+            Route::get('/singlechat/{user_id?}/{bid_id?}', 'Api3Controller@apiChat');
+            Route::get('/storemessage/{sender_id?}/{bid_id?}/{project_id?}/{message?}/{receiver_id?}', 'Api3Controller@apiStoreMessage');
+    
+        });
 
         Route::group(['prefix' => 'feedback'], function () {
             Route::post('/log/save', 'Api3Controller@apiFeedback');
@@ -290,13 +298,7 @@ Route::group(['prefix' => 'api_v2'], function() {
 
 
     });
-    Route::group(['prefix' => 'inbox'], function() {
-        Route::get('/all/{user_id?}', 'Api2Controller@apiInbox');
-        Route::get('/project/{user_id?}/{project_id?}', 'Api2Controller@apiQuickChat');
-        Route::get('/singlechat/{user_id?}/{bid_id?}', 'Api2Controller@apiChat');
-        Route::get('/storemessage/{sender_id?}/{bid_id?}/{project_id?}/{message?}/{receiver_id?}', 'Api2Controller@apiStoreMessage');
-
-    });
+   
 
 
     Route::group(['prefix' => 'profile'], function() {
