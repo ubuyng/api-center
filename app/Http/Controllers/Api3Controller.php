@@ -3590,6 +3590,7 @@ public function proPortfolio()
               
                  $chats = Message::where('bid_id',$bid_id)
                               ->where('sender_id',$user->id)
+                              ->where('project_id',832)
                               ->where('receiver_id',$auth_id)
                               ->Orwhere('sender_id',$auth_id)
                               ->where('receiver_id',$user->id)
