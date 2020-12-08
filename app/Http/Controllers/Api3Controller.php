@@ -3517,7 +3517,7 @@ public function proPortfolio()
                 }else if($user){
                 // $projects = $user->projectsSubCat->get();
 
-                $bids = DB::table("project_bids")
+                $bids = DB::table("new_project_bids")
                 ->where('project_bids.cus_id','=', $user->id)
                 ->join('projects', 'project_bids.project_id', '=', 'projects.id')
                 ->where('projects.id','=', $project_id)
