@@ -3613,7 +3613,7 @@ public function proPortfolio()
 
                             }
 
-                    $set['UBUYAPI_V2']["bid_chats"]=array(
+                    $set['UBUYAPI_V2']["bid_chats"][]=array(
                         
 
                             'chatter_sender' => 0,
@@ -3628,7 +3628,7 @@ public function proPortfolio()
 
                             }
 
-                    $set['UBUYAPI_V2']["bid_chats"]=array(
+                    $set['UBUYAPI_V2']["bid_chats"][]=array(
                        
                         'chatter_sender' => 1,
                         'chatter_message' =>  $chat->message,
