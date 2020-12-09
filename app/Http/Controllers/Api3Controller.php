@@ -3683,7 +3683,7 @@ public function proPortfolio()
                               ->where('is_cus_seen', 0)
                               ->Orwhere('sender_id',$auth_id)
                               ->where('receiver_id',$user->id)
-                              ->where('is_cus_seen', $auth_id)
+                              ->where('is_cus_seen', 0)
                               ->get();
 
                 if($chats->isEmpty()){
