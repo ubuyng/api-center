@@ -3761,14 +3761,14 @@ public function storeMessage(Request $request){
     return back();
 }
 
-public function apiStoreMessage()
+public function apiStoreMessage(Request $request)
 {
     
-    $message = filter_input(INPUT_GET, 'message', FILTER_SANITIZE_STRING);
-    $sender_id = filter_input(INPUT_GET, 'sender_id', FILTER_SANITIZE_STRING);
-    $receiver_id = filter_input(INPUT_GET, 'receiver_id', FILTER_SANITIZE_STRING);
-    $bid_id = filter_input(INPUT_GET, 'bid_id', FILTER_SANITIZE_STRING);
-    $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_STRING);
+    $message = $request->message;
+    $sender_id =  $request->sender_id;
+    $receiver_id =  $request->receiver_id;
+    $bid_id =  $request->bid_id;
+    $project_id =  $request->project_id;
     
     $chat = new Message;
     $chat->message = $message;
@@ -3777,6 +3777,15 @@ public function apiStoreMessage()
     $chat->bid_id = $bid_id;
     $chat->project_id = $project_id;
     $chat->save();
+
+    $response[]=array(
+        'msg' => 'Message sent',
+        'success' => '1'
+    );
+    $set['UBUYAPI_V2'] = $response;
+    header( 'Content-Type: application/json; charset=utf-8' );
+    echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+    die();
 }
 
    public function apiSearchCat()
