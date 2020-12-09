@@ -3655,6 +3655,87 @@ public function proPortfolio()
         die();
     }
 }
+        public function apiChatChecker()
+        {
+        
+            if (isset($_GET['bid_id'])) {
+                $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
+                $bid_id = filter_input(INPUT_GET, 'bid_id', FILTER_SANITIZE_STRING);
+
+                $bid = DB::table('project_bids')->where('id',$bid_id)->first();
+                $user = DB::table('users')->where('id',$bid->user_id)->first();
+                $profile = DB::table('profiles')->where('user_id',$bid->user_id)->first();
+
+                $user->first_name;
+                $auth_user = Auth::loginUsingId($user_id);
+                 $auth_id=$auth_user->id;
+
+                if (!$auth_user) {
+                    $set['UBUYAPI_V2'][]=array('msg' =>'Account not found','success'=>'0');
+                }else if($auth_user){
+                // $projects = $user->projectsSubCat->get();
+
+              
+                 $chats = Message::where('bid_id',$bid_id)
+                              ->where('sender_id',$user->id)
+                              ->where('sender_id',$user->id)
+                              ->where('is_pro_seen', 0)
+                              ->where('receiver_id',$auth_id)
+                              ->Orwhere('sender_id',$auth_id)
+                              ->where('receiver_id',$user->id)
+                              ->get();
+
+                if($chats->isEmpty()){
+                    $set['UBUYAPI_V2'] = $user->email;
+                }
+            else if($chats){
+                    // $set['UBUYAPI_V2'] = $chats;
+
+                    foreach($chats as $chat){
+                        $date = Carbon::parse($chat->created_at); // now date is a carbon instance
+                
+                        if($chat->sender_id != $auth_id){
+                            if ($profile->profile_photo) {
+                                $chat_image = 'https://beta.ubuy.ng/uploads/images/profile_pics/'.$profile->profile_photo;
+                            } else{
+                                $chat_image = 'https://placehold.it/50/55C1E7/fff&text='. mb_substr($profile->business_name , 0, 1);
+                            }
+
+                            $set['UBUYAPI_V2'][]=array(
+                                
+                                    'chatter_id' =>  $chat->id,
+                                    'chatter_sender' => 0,
+                                    'chatter_message' =>  $chat->message,
+                                    'chatter_image' => $chat_image,
+                                    'chatter_time' => $date->diffForHumans(),
+                                );
+                        } else{
+                            if ($profile->profile_photo) {
+                                $chat_image = 'https://beta.ubuy.ng/uploads/images/profile_pics/'.$auth_user->image;
+                            } else{
+                                $chat_image = 'https://placehold.it/50/55C1E7/fff&text='. mb_substr($auth_user->last_name , 0, 1);
+
+                            }
+
+                            $set['UBUYAPI_V2'][]=array(
+                                'chatter_id' =>  $chat->id,
+                                'chatter_sender' => 1,
+                                'chatter_message' =>  $chat->message,
+                                'chatter_image' => $chat_image,
+                                'chatter_time' => $date->diffForHumans(),
+                                );
+                        }
+                   
+                }
+
+            } 
+        }
+        
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+    }
+}
 
 public function storeMessage(Request $request){
     $chat = new Message;

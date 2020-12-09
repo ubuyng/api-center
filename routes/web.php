@@ -230,6 +230,7 @@ Route::group(['prefix' => 'api_v2'], function() {
             Route::get('/all/{user_id?}', 'Api3Controller@apiInbox');
             Route::get('/project/{user_id?}/{project_id?}', 'Api3Controller@apiQuickChat');
             Route::get('/singlechat/{user_id?}/{bid_id?}', 'Api3Controller@apiChat');
+            Route::get('/chat/checker/{user_id?}/{bid_id?}', 'Api3Controller@apiChatChecker');
             Route::get('/storemessage/{sender_id?}/{bid_id?}/{project_id?}/{message?}/{receiver_id?}', 'Api3Controller@apiStoreMessage');
     
         });
