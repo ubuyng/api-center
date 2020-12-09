@@ -199,6 +199,7 @@ Route::group(['prefix' => 'api_v2'], function() {
         Route::Post('/post/cancel/task', 'Api3Controller@CancelTask');
         Route::Post('/post/complete/task', 'Api3Controller@CompleteTask');
 
+
         /* rating api starts now */
         Route::Post('/post/pro/rating', 'Api3Controller@RatePro');
 
@@ -232,7 +233,8 @@ Route::group(['prefix' => 'api_v2'], function() {
             Route::get('/singlechat/{user_id?}/{bid_id?}', 'Api3Controller@apiChat');
             Route::get('/chat/checker/{user_id?}/{bid_id?}', 'Api3Controller@apiChatChecker');
             Route::post('/storemessage', 'Api3Controller@apiStoreMessage');
-    
+            Route::post('/upload/image', 'Api3Controller@saveProjectFile');
+
         });
 
         Route::group(['prefix' => 'feedback'], function () {
