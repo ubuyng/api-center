@@ -3615,11 +3615,10 @@ public function proPortfolio()
 
                     $set['UBUYAPI_V2']["bid_chats"]=array(
                         
-                            'chatter_id' =>  $chat->id,
+
                             'chatter_sender' => 0,
                             'chatter_message' =>  $chat->message,
-                            'chatter_image' => $chat_image,
-                            'chatter_time' => $date->diffForHumans(),
+                           
                         );
                         } else{
                             if ($profile->profile_photo) {
@@ -3630,11 +3629,10 @@ public function proPortfolio()
                             }
 
                     $set['UBUYAPI_V2']["bid_chats"]=array(
-                        'chatter_id' =>  $chat->id,
+                       
                         'chatter_sender' => 1,
                         'chatter_message' =>  $chat->message,
-                        'chatter_image' => $chat_image,
-                        'chatter_time' => $date->diffForHumans(),
+                       
                         );
                         }
                    
