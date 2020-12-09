@@ -3590,7 +3590,6 @@ public function proPortfolio()
               
                  $chats = Message::where('bid_id',$bid_id)
                               ->where('sender_id',$user->id)
-                              ->where('sender_id',$user->id)
                               ->where('receiver_id',$auth_id)
                               ->Orwhere('sender_id',$auth_id)
                               ->where('receiver_id',$user->id)
@@ -3677,7 +3676,6 @@ public function proPortfolio()
 
               
                  $chats = Message::where('bid_id',$bid_id)
-                              ->where('sender_id',$user->id)
                               ->where('sender_id',$user->id)
                               ->where('is_pro_seen', 0)
                               ->where('receiver_id',$auth_id)
