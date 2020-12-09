@@ -439,6 +439,7 @@ class Api3Controller extends Controller
                 'bid_amount' => $bid->bid_amount,
                 'bid_status' => $bid->status,
                 'project_id' => $bid->project_id,
+                'chat_active' => $bid->chat_active,
                 'created_at' => $date->diffForHumans(),
                 'pro_name' => $bidder->first_name.' '.$bidder->last_name,
                 'profile_photo' => $bidder_image,
@@ -3612,7 +3613,7 @@ public function proPortfolio()
 
                             }
 
-                    $set['UBUYAPI_V2'][]=array(
+                    $set['UBUYAPI_V2']["bid_chats"]=array(
                         
                             'chatter_id' =>  $chat->id,
                             'chatter_sender' => 0,
@@ -3628,7 +3629,7 @@ public function proPortfolio()
 
                             }
 
-                    $set['UBUYAPI_V2'][]=array(
+                    $set['UBUYAPI_V2']["bid_chats"]=array(
                         'chatter_id' =>  $chat->id,
                         'chatter_sender' => 1,
                         'chatter_message' =>  $chat->message,
@@ -3902,6 +3903,7 @@ public function apiStoreMessage(Request $request)
                         'pro_image' => $profile_image,
                         'pro_name' =>  $profile->business_name,
                         'pro_city' => $profile->pro_city,
+                        'chat_active' => $bid->chat_active,
                         'task_done' => $task_done,
                         'badge_email' => $email_check,
                         'badge_number' => $number_check,
