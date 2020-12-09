@@ -3588,12 +3588,13 @@ public function proPortfolio()
                 // $projects = $user->projectsSubCat->get();
 
               
-                 $chats = Message::where('bid_id',$bid_id)
-                              ->where('sender_id',$user->id)
-                              ->where('receiver_id',$auth_id)
-                              ->Orwhere('sender_id',$auth_id)
-                              ->where('receiver_id',$user->id)
-                              ->get();
+                $chats = Message::where('bid_id',$bid->id)
+                ->where('sender_id',$user->id)
+                ->where('receiver_id',$auth_id)
+                ->Orwhere('sender_id',$auth_id)
+                ->where('receiver_id',$user->id)
+                ->where('bid_id',$bid->id)
+                ->get();;
 
                 if($chats->isEmpty()){
                     $set['UBUYAPI_V2'] = $user->email;
