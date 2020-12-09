@@ -3829,6 +3829,19 @@ public function apiStoreMessage(Request $request)
  
    }
 
+   public function apiChatActivator(){
+    $bid_id = filter_input(INPUT_GET, 'bid_id', FILTER_SANITIZE_STRING);
+    $bid = NewProjectBid::where('id', $bid_id);
+
+    $activator = [
+        'chat_active' => 1,
+    ];
+
+
+    NewProjectBid::where('bid_id', $bid_id)->where->update($activator);
+
+
+   }
 
    public function BidProfile()
    {
