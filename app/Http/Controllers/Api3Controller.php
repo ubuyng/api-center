@@ -3655,7 +3655,7 @@ public function proPortfolio()
 }
    
 public function cuspaid(){
-    $cus = Project::where('status', 3)->select('cus_name', 'phone_number');
+    $cus = Project::where('status', '=', 3)->select('cus_name', 'phone_number');
     $set['UBUYAPI_V2'][] = $cus; 
     header( 'Content-Type: application/json; charset=utf-8' );
     echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
