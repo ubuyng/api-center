@@ -163,6 +163,8 @@ Route::group(['prefix' => 'api_v2'], function() {
     */
     // customers routes begins here
     Route::group(['prefix' => 'customers'], function() {
+        Route::get('customer_aid', 'Api2Controller@cuspaid');
+        
         Route::get('home_feeds', 'Api2Controller@apiIndexV2');
         Route::get('categories', 'Api2Controller@apiCategories');
         Route::get('/my_projects/{user_id?}', 'Api2Controller@apiProjects');
