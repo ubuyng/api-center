@@ -3704,7 +3704,7 @@ public function cuspaid(){
                         if($chat->sender_id != $auth_id){
                            
 
-                    $set['UBUYAPI_V2'][]=array(
+                    $set['UBUYAPI_V2']=array(
                         
                             'chatter_sender' => 0,
                             'chatter_message' =>  $chat->message,
