@@ -3750,8 +3750,7 @@ public function cuspaid(){
                               ->update(['is_cus_seen' => 1]);
 
             
-                              Message::where('id',$chat->id)
-                              ->update();
+                            
             // echo $bids;
             // $set['UBUYAPI_V2'] = $projects;
         }
