@@ -3702,37 +3702,14 @@ public function cuspaid(){
                         $date = Carbon::parse($chat->created_at); // now date is a carbon instance
                 
                         if($chat->sender_id != $auth_id){
-                            if ($profile->profile_photo) {
-                                $chat_image = 'https://beta.ubuy.ng/uploads/images/profile_pics/'.$profile->profile_photo;
-                            } else{
-                                $chat_image = 'https://placehold.it/50/55C1E7/fff&text='. mb_substr($profile->business_name , 0, 1);
-
-                            }
+                           
 
                     $set['UBUYAPI_V2'][]=array(
                         
-                            'chatter_id' =>  $chat->id,
                             'chatter_sender' => 0,
                             'chatter_message' =>  $chat->message,
-                            'chatter_image' => $chat_image,
-                            'chatter_time' => $date->diffForHumans(),
                         );
-                        } else{
-                            if ($profile->profile_photo) {
-                                $chat_image = 'https://beta.ubuy.ng/uploads/images/profile_pics/'.$auth_user->image;
-                            } else{
-                                $chat_image = 'https://placehold.it/50/55C1E7/fff&text='. mb_substr($auth_user->last_name , 0, 1);
-
-                            }
-
-                    $set['UBUYAPI_V2'][]=array(
-                        'chatter_id' =>  $chat->id,
-                        'chatter_sender' => 1,
-                        'chatter_message' =>  $chat->message,
-                        'chatter_image' => $chat_image,
-                        'chatter_time' => $date->diffForHumans(),
-                        );
-                        }
+                        } 
                    
                 }
 
