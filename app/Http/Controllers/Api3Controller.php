@@ -3698,8 +3698,7 @@ public function cuspaid(){
                                 'chatter_message' =>  $chat->message,
                                
                             );
-                            Message::where('id',$chat->id)
-                                ->update(['is_cus_seen' => 1]);
+                           
                         } 
                    
                 }
@@ -3712,6 +3711,45 @@ public function cuspaid(){
 
             // echo $bids;
             // $set['UBUYAPI_V2'] = $projects;
+        }
+        
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        die();
+    }
+}
+   
+        public function apiChatSeen()
+        {
+        
+            if (isset($_GET['bid_id'])) {
+                $user_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_STRING);
+                $bid_id = filter_input(INPUT_GET, 'bid_id', FILTER_SANITIZE_STRING);
+
+                $bid = DB::table('project_bids')->where('id',$bid_id)->first();
+                $user = DB::table('users')->where('id',$bid->user_id)->first();
+                $profile = DB::table('profiles')->where('user_id',$bid->user_id)->first();
+
+                $user->first_name;
+                $auth_user = Auth::loginUsingId($user_id);
+                 $auth_id=$auth_user->id;
+
+                if (!$auth_user) {
+                    $set['UBUYAPI_V2'][]=array('msg' =>'Account not found','success'=>'0');
+                }else if($auth_user){
+                // $projects = $user->projectsSubCat->get();
+
+              
+                 $chats = Message::where('bid_id',$bid_id)
+                              ->where('sender_id',$user->id)
+                              ->where('receiver_id',$auth_id)
+                              ->where('is_cus_seen', 0)
+                              ->Orwhere('sender_id',$auth_id)
+                              ->where('receiver_id',$user->id)
+                              ->where('is_cus_seen', 0)
+                              ->update(['is_cus_seen' => 1]);
+
+            
         }
         
         header( 'Content-Type: application/json; charset=utf-8' );
