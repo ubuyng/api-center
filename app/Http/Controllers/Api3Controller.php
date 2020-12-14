@@ -3701,6 +3701,9 @@ public function cuspaid(){
                                 'chatter_message' =>  $chat->message,
                                
                             );
+                            Message::where('receiver_id',$user_id)
+                                ->where('sender_id', $bid->user_id)
+                                ->update(['is_cus_seen' => 1]);
                         } 
                    
                 }
