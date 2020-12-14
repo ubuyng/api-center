@@ -3682,10 +3682,7 @@ public function cuspaid(){
                               ->where('is_cus_seen', 0)
                               ->get();
 
-                if($chats->isEmpty()){
-                    $set['UBUYAPI_V2'] = $user->email;
-                }
-            else if($chats){
+              if($chats){
                     // $set['UBUYAPI_V2'] = $chats;
 
                     foreach($chats as $chat){
