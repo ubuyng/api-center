@@ -3668,8 +3668,9 @@ public function cuspaid(){
                  $auth_id=$auth_user->id;
 
                 if (!$auth_user) {
-                    $set['UBUYAPI_V2'][]=array('msg' =>'Account not found','success'=>'0');
-                }else if($auth_user){
+                    echo("account not permited");
+
+                                }else if($auth_user){
                 // $projects = $user->projectsSubCat->get();
 
               
@@ -3713,9 +3714,6 @@ public function cuspaid(){
             // $set['UBUYAPI_V2'] = $projects;
         }
         
-        header( 'Content-Type: application/json; charset=utf-8' );
-        echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
-        die();
     }
 }
    
