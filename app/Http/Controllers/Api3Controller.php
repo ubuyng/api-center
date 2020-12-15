@@ -3645,7 +3645,13 @@ public function proPortfolio()
 }
    
 public function cuspaid(){
-    $cus = Project::where('status', '=', 3)->select('cus_name', 'phone_number')->get();
+
+    $cus = DB::table("projects")
+                    ->where('projects.status', '=', 3)
+                    ->join('users', 'users.id', '=', 'projects.pro_id')
+                    ->select('projects.cus_name', 'projects.phone_number', 'users.first_name as pro_name', 'users.number as pro_number')->get();
+
+
     $set['UBUYAPI_V2'][] = $cus; 
     header( 'Content-Type: application/json; charset=utf-8' );
     echo $val= str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
