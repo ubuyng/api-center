@@ -805,7 +805,7 @@ public function apiProfile2()
 
 
     if (!$userauth) {
-        $set['UBUYAPI_V2'][]=array('msg' =>'Account not found','success'=>'0');
+        $set['UBUYAPI_V2'][]=array('msg' =>'The email and password that you entered did not match our records. Please double-check and try again.','success'=>'0');
     }else if($userauth){
         $hashedPassword = $userauth->password;
 
@@ -833,7 +833,7 @@ public function apiProfile2()
             'success' => '1');
             
         }else{
-            $set['UBUYAPI_V2'][]=array('msg' =>'wrong password','success'=>'0');
+            $set['UBUYAPI_V2'][]=array('msg' =>'The email and password that you entered did not match our records. Please double-check and try again.','success'=>'0');
         }
     }
     
